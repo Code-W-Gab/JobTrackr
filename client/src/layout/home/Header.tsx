@@ -1,4 +1,5 @@
 import { Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return(
@@ -17,8 +18,8 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="hover:text-indigo-700 cursor-pointer text-gray-600 text-sm font-medium">Login</button>
-        <button className="bg-indigo-600 text-white text-sm font-medium px-4 py-1.5 rounded-lg hover:bg-indigo-500">Get Started</button>
+        <Link to="/auth/login" className="hover:text-indigo-700 cursor-pointer text-gray-600 text-sm font-medium">Login</Link>
+        <Link to="/auth/register" className="bg-indigo-600 text-white text-sm font-medium px-4 py-1.5 rounded-lg hover:bg-indigo-500">Get Started</Link>
       </div>
     </header>
   )
