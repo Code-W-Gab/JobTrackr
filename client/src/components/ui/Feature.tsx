@@ -10,9 +10,9 @@ export default function Feature(){
     { title: "Smart Notifications", description: "Get timely alerts for interviews, deadlines, and status updates right when you need them.", bgColor: "bg-indigo-100", color: "text-indigo-600", icon: BellRing },
   ]
   return(
-    <main className="pb-16 px-30 grid grid-cols-3 gap-8">
+    <main className="pb-16 px-30 grid grid-cols-3 gap-6">
       {features.map((feature, index) => (
-        <div key={index} className="space-y-3 bg-white rounded-xl py-4 px-5 border border-gray-200 shadow-md transition-transform duration-300 ease-out hover:-translate-y-1">
+        <div key={index} className="space-y-3 bg-white rounded-xl py-4 px-5 border border-gray-200 transition-transform duration-300 ease-out hover:-translate-y-1">
           <div className={`${feature.bgColor} rounded-lg p-2 inline-flex`}>
             <feature.icon size={18} className={feature.color} />
           </div>

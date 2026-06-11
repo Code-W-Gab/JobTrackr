@@ -1,7 +1,11 @@
-import Feature from "../../components/ui/Feature";
+import CTASection from "../../components/ui/CTASection";
+import FaqSection from "../../components/ui/FaqSection";
 import FeatureSection from "../../components/ui/FeatureSection";
 import HeroSection from "../../components/ui/HeroSection";
+import PricingSection from "../../components/ui/PricingSection";
 import StatsSection from "../../components/ui/StatsSection";
+import TestimonialSection from "../../components/ui/TestimonialSection";
+import Footer from "./Footer";
 import Header from "./Header";
 
 export default function HomeLayout() {
@@ -10,12 +14,16 @@ export default function HomeLayout() {
       <Header/>
       <div className="min-h-screen bg-gray-100 mt-10">
         <HeroSection/>
-        <div className="mt-12 bg-violet-600">
+        <div className="mt-12 bg-indigo-600">
           <StatsSection/>
         </div>
         <FeatureSection/>
-        <Feature/>
+        <TestimonialSection/>
+        <PricingSection/>
+        <FaqSection/>
+        <CTASection/>
       </div>
+      <Footer/>
     </main>
   )
 }
