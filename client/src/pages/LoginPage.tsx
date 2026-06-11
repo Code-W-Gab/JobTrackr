@@ -1,7 +1,9 @@
+import LoginLayout from "../layout/auth/LoginLayout";
+
 export default function LoginPage() {
   return(
     <main>
-      Login Page
+      <LoginLayout/>
     </main>
   )
 }
