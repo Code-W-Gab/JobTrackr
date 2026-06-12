@@ -1,7 +1,13 @@
-import { Zap } from "lucide-react";
+import { Zap, Check } from "lucide-react";
 import BackToMenuBtn from "../../common/BackToMenuBtn";
 
 export default function RegisterInfo() {
+  const infoItems = [
+    "Track application across all platforms",
+    "Get smart interview reminders",
+    "Visualize your progress with analytics",
+    "Land your dream job"
+  ];
 
   return(
     <main className="bg-indigo-700 p-10 flex flex-col justify-between">
@@ -15,29 +21,21 @@ export default function RegisterInfo() {
         </div>
 
         <div className="text-white">
-          <h1 className="text-3xl font-bold">Your career journey,</h1>
-          <h1 className="text-3xl font-bold">organized beautifully.</h1>
-          <p className="text-gray-300 mt-4">Track applications, schedule interviews, and land your job - all in one place.</p>
+          <h1 className="text-3xl font-bold">Start your journey,</h1>
+          <h1 className="text-3xl font-bold">to success today.</h1>
+          <p className="text-gray-300 mt-4">Join thousands of job seekers who are organizing their search and landing jobs faster.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="text-white p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-          <h1 className="text-lg font-semibold">5,000+</h1>
-          <p className="text-xs text-gray-300">Application Tracked</p>
-        </div>
-        <div className="text-white p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-          <h1 className="text-lg font-semibold">1,000+</h1>
-          <p className="text-xs text-gray-300">Active users</p>
-        </div>
-        <div className="text-white p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-          <h1 className="text-lg font-semibold">95%</h1>
-          <p className="text-xs text-gray-300">Satisfaction Rate</p>
-        </div>
-        <div className="text-white p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-          <h1 className="text-lg font-semibold">3x</h1>
-          <p className="text-xs text-gray-300">Faster Job Search</p>
-        </div>
+      <div className="space-y-3">
+        {infoItems.map((item, index) => (
+          <div key={index} className="flex items-center gap-2 text-white text-sm">
+            <div className="text-white bg-indigo-500 rounded-full flex items-center gap-2 w-max p-1">
+              <Check size={12}/>
+            </div>
+            <p>{item}</p>
+          </div>
+        ))}
       </div>
     </main>
   )
