@@ -1,4 +1,5 @@
 import { CircleCheckBig } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Pricing(){
   return(
@@ -27,7 +28,9 @@ export default function Pricing(){
             <span className="text-xs text-gray-600">Basic analytics</span>
           </li>
         </ul>
-        <button className="mt-4 w-full bg-indigo-600 text-white text-sm font-semibold py-2 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Get Started</button>
+        <Link to="/auth/register">
+          <button className="mt-4 w-full bg-indigo-600 text-white text-sm font-semibold py-2 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Get Started</button>
+        </Link>
       </div>
 
       <div className="space-y-3 py-4 px-5 rounded-xl bg-indigo-600 border border-indigo-200">
@@ -59,7 +62,9 @@ export default function Pricing(){
             <span className="text-xs text-gray-300">Priority support</span>
           </li>
         </ul>
-        <button className="mt-4 w-full bg-white text-indigo-600 text-sm font-semibold py-2 rounded-xl hover:bg-indigo-100 transition-colors duration-300">Start Pro Trial</button>
+        <Link to="/auth/register">
+          <button className="mt-4 w-full bg-white text-indigo-600 text-sm font-semibold py-2 rounded-xl hover:bg-indigo-100 transition-colors duration-300">Start Pro Trial</button>
+        </Link>
       </div>
 
       <div className="space-y-3 py-4 px-5 rounded-xl bg-white border border-gray-200">
@@ -90,7 +95,9 @@ export default function Pricing(){
             <span className="text-xs text-gray-600">Dedicated support</span>
           </li>
         </ul>
-        <button className="mt-4 w-full bg-indigo-600 text-white text-sm font-semibold py-2 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Contact Sales</button>
+        <Link to="/auth/register">
+          <button className="mt-4 w-full bg-indigo-600 text-white text-sm font-semibold py-2 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Contact Sales</button>
+        </Link>
       </div>
 
     </main>
