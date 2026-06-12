@@ -1,7 +1,7 @@
 import Body from '../layout/dashboard/Body';
 import DashboardLayout from '../layout/dashboard/DashboardLayout';
 
-export default function DashboardPage() {
+export default function KanbanViewPage() {
   return(
     <main>
       <DashboardLayout>
