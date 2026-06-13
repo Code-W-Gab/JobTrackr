@@ -1,11 +1,11 @@
-import Body from '../layout/dashboard/Body';
+import Applications from '../components/ui/dashboard/Applications';
 import DashboardLayout from '../layout/dashboard/DashboardLayout';
 
 export default function ApplicationPage() {
   return(
     <main>
       <DashboardLayout>
-        <Body/>
+        <Applications/>
       </DashboardLayout>
     </main>
   )
