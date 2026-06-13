@@ -15,7 +15,7 @@ export default function Header() {
           <Bell size={16} className="text-gray-600"/>
         </div>
         <AddJob name="Add Job"/>
-        <Profile initials="SC"/>
+        <Profile initials="GC"/>
       </div>
     </header>
   )

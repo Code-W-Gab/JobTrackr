@@ -1,11 +1,11 @@
-import Body from '../layout/dashboard/Body';
+import Dashboard from '../components/ui/dashboard/Dashboard';
 import DashboardLayout from '../layout/dashboard/DashboardLayout';
 
 export default function DashboardPage() {
   return(
     <main>
       <DashboardLayout>
-        <Body/>
+        <Dashboard/>
       </DashboardLayout>
     </main>
   )

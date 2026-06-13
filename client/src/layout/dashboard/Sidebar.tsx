@@ -36,10 +36,10 @@ export default function Sidebar(){
       <div className='border-t border-indigo-100 py-3 px-4'>
         <Logout/>
         <div className='flex items-center gap-2 px-1 mt-2'>
-          <Profile initials='SC'/>
+          <Profile initials='GC'/>
           <div>
-            <h3 className='text-xs font-semibold'>Sarah Chen</h3>
-            <p className='text-[10px] text-gray-500'>sarah@example.com</p>
+            <h3 className='text-xs font-semibold'>Gabriel Concepcion</h3>
+            <p className='text-[10px] text-gray-500'>gab@example.com</p>
           </div>
         </div>
       </div>
