@@ -15,7 +15,7 @@ export default function Sidebar(){
     
   ]
   return(
-    <aside className="flex flex-col justify-between w-55 bg-white ">
+    <aside className="flex flex-col justify-between w-55 bg-white">
       <nav className='py-3 px-4'>
         {navOption.map((nav, index) => {
           const active = location.pathname === nav.to;
