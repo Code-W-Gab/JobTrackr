@@ -2,8 +2,8 @@ import { Zap } from 'lucide-react';
 
 export default function Brand() {
   return(
-    <main className='bg-white border-r border-indigo-100 w-55 p-3'>
-      <div className="flex items-center gap-2 ">
+    <main className='bg-white w-55'>
+      <div className="flex items-center gap-2 px-4">
         <div className="bg-indigo-600 text-white rounded-lg p-1.5">
           <Zap size={16}/>
         </div>

@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
 
       {/* Bottom Row: Content Area */}
-      <div className="flex min-h-0 overflow-hidden">
+      <div className="flex overflow-hidden">
         <Sidebar/>
         {children}
       </div>
