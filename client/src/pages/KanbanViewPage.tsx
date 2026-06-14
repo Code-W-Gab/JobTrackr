@@ -1,11 +1,11 @@
-import Body from '../layout/dashboard/Body';
+import Kanban from '../components/ui/dashboard/Kanban';
 import DashboardLayout from '../layout/dashboard/DashboardLayout';
 
 export default function KanbanViewPage() {
   return(
     <main>
       <DashboardLayout>
-        <Body/>
+        <Kanban/>
       </DashboardLayout>
     </main>
   )
