@@ -1,6 +1,30 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { login } from "../../../service/authService";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Login(){
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Call login API here
+    
+    login(email, password)
+      .then(res => {
+        console.log('Login successful:', res.data);
+        navigate('/dashboard')
+        toast.success("Login successfully")
+      })
+      .catch(err => {
+        console.log(err)
+        toast.error("Login Failed")
+      })
+  }
+  
   return(
     <main className="bg-white flex items-center justify-center p-8">
       <div className="w-full max-w-sm">
@@ -20,14 +44,28 @@ export default function Login(){
             <span className="bg-white px-2 text-gray-500 text-xs">Or continue with email</span>
           </div>
         </div>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
-            <input type="email" id="email" placeholder="example@gmail.com" className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="example@gmail.com" 
+              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div>
             <label htmlFor="password" className="block text-xs font-medium text-gray-700">Password</label>
-            <input type="password" id="password" placeholder="••••••••" className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="••••••••" 
+              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 text-xs text-gray-600">
