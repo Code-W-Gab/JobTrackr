@@ -2,6 +2,7 @@ import authSchema from "../models/authSchema";
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { validationResult } from "express-validator";
 
 interface IUser {
   fullName: string;
@@ -13,6 +14,10 @@ interface IUser {
 const authController = {
   async Register (req: Request<{}, {}, IUser>, res: Response) {
     try {
+      // Validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) return res.status(404).json({ errors: errors.array() })
+        
       const { fullName, email, password, confirmPassword } = req.body;
       const userExists = await authSchema.findOne({ email });
 
