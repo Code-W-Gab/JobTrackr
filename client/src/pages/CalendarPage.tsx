@@ -1,11 +1,11 @@
-import Body from '../layout/dashboard/Body';
+import Calendar from '../components/ui/dashboard/Calendar';
 import DashboardLayout from '../layout/dashboard/DashboardLayout';
 
 export default function CalendarPage() {
   return(
     <main>
       <DashboardLayout>
-        <Body/>
+        <Calendar/>
       </DashboardLayout>
     </main>
   )
