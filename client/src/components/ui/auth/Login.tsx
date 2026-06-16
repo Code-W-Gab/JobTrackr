@@ -11,7 +11,11 @@ export default function Login(){
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Call login API here
+    
+    if (!email || !password) {
+      toast.error("Please fill all fields")
+      return
+    }
     
     login(email, password)
       .then(res => {
@@ -24,7 +28,7 @@ export default function Login(){
         toast.error("Login Failed")
       })
   }
-  
+
   return(
     <main className="bg-white flex items-center justify-center p-8">
       <div className="w-full max-w-sm">
@@ -67,11 +71,7 @@ export default function Login(){
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-xs text-gray-600">
-              <input type="checkbox" className="size-3 text-indigo-600 focus:ring-indigo-600 border-gray-300 rounded"/>
-              Remember me
-            </label>
+          <div className="flex justify-end">
             <div className="text-xs text-indigo-600 text-right mt-1">
               <Link to="/auth/forgot-password" className="text-indigo-600 hover:text-indigo-500 font-medium">Forgot password?</Link >
             </div>

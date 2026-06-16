@@ -3,16 +3,10 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
-
-interface IUser {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { loginDTO, registerDTO } from "../types/authTypes";
 
 const authController = {
-  async Register (req: Request<{}, {}, IUser>, res: Response) {
+  async Register (req: Request<{}, {}, registerDTO>, res: Response) {
     try {
       // Validation
       const errors = validationResult(req);
@@ -53,7 +47,7 @@ const authController = {
     }
   },
 
-  async Login(req: Request, res: Response){
+  async Login(req: Request<{}, {}, loginDTO>, res: Response){
     try {
       // Validation
       const errors = validationResult(req)

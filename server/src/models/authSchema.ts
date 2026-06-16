@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
+import { IUser } from "../types/authTypes";
 
-interface IUser {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 const authSchema = new mongoose.Schema<IUser>({
   fullName: {
