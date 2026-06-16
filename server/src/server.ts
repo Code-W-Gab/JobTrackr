@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
-dotenv.config();
-import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import express, { Request, Response } from 'express';
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
-import cookieParser from 'cookie-parser';
-import { Request, Response } from 'express';
+import applicationRoutes from './routes/applicationRoutes';
+dotenv.config();
 
 const app = express();
 
@@ -18,10 +18,8 @@ app.use(cors({
 
 connectDB()
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World Baby!');
-})
 app.use('/api/auth', authRoutes)
+app.use('/api/application', applicationRoutes)
 
 const PORT = process.env.PORT || 8080;
 

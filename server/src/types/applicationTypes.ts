@@ -44,7 +44,7 @@ export interface IApplication {
 
 export type createApplicationDTO = IApplication
 
-export type updateApplication = Partial<IApplication>
+export type updateApplicationDTO = Partial<IApplication>
 
 export interface IdParams {
   id: string

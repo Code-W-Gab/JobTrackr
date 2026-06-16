@@ -1,20 +1,15 @@
 import jwt from 'jsonwebtoken';
-import { 
-  Response, 
-  Request, 
-  NextFunction 
-} from 'express';
+import { RequestHandler } from "express";
 
-export interface AuthRequest
-  extends Request {
-  userId?: string;
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
 }
 
-export const protect = (
-  req: AuthRequest, 
-  res: Response, 
-  next: NextFunction
-) => {
+export const protect: RequestHandler = (req, res, next) => {
   try {
     const token = req.cookies.token;
     if(!token) return res.status(401).json({
@@ -24,9 +19,7 @@ export const protect = (
     const decoded = jwt.verify(
       token, 
       process.env.JWT_SECRET!
-    ) as {
-      id: string;
-    };
+    ) as { id: string };
 
     req.userId = decoded.id
     
