@@ -1,7 +1,7 @@
-import { X } from "lucide-react"
-import { useState } from "react"
-import { createApplication } from "../../service/applicationService";
-import type { IApplication, Platform, JobType, Status, LocationType } from "../../types/applicationTypes";
+import { X } from "lucide-react";
+import { useState } from "react";
+import { useApplications } from "../../hook/useApplication";
+import type { JobType, LocationType, Platform, Status } from "../../types/applicationTypes";
 
 interface AddApplicationModalProps {
   onClose?: () => void
@@ -19,8 +19,9 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
   const [locationType, setLocationType] = useState<LocationType>("On-Site")
   const [status, setStatus] = useState<Status>("Wishlist")
   const [notes, setNotes] = useState<string>("")
+  const { handleCreateApplication } = useApplications()
 
-  const formData: IApplication = {
+  const formData = {
     companyName,
     jobTitle,
     jobURL,
@@ -34,25 +35,6 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
     notes
   }
 
-
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault()
-
-    createApplication(formData)
-    .then(res => {
-      if(res.data.success){
-        alert("Application created successfully!")
-      }
-    })
-    .catch(err => {
-      console.error(err)
-      alert("Failed to create application. Please try again.")
-    })
-
-  }
-
-
-
   return(
     <main className="bg-white w-140 rounded-xl">
       <div className="flex items-center justify-between p-4 border-b border-gray-300">
@@ -61,7 +43,10 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
           <X size={18} />
         </button>
       </div>
-      <form className="p-4 overflow-y-auto max-h-120" onSubmit={handleSubmit}>
+      <form className="p-4 overflow-y-auto max-h-120" onSubmit={(e) => {
+        e.preventDefault();
+        handleCreateApplication(formData)
+      }}>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className="block text-xs font-medium text-gray-700">Company Name</label>

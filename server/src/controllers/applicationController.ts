@@ -65,7 +65,7 @@ export const getApplication: RequestHandler = async (req, res) => {
     res.status(200).json({
       success: true,
       data: application,
-      message: "Application retrieve successfully"
+      message: "Application retrieved successfully"
     })
   } catch (error) {
     res.status(500).json({

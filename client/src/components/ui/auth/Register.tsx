@@ -1,38 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { register } from "../../../service/authService";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import type { IRegister } from '../../../types/authTypes';
+import { useAuth } from "../../../hook/useAuth";
 
 export default function Register(){
   const [fullName, setFullName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-
-    if (!fullName || !email || !password || !confirmPassword) {
-      toast.error("Please fill all fields")
-      return
-    }
-
-    const registerData: IRegister = {
-      fullName,
-      email,
-      password,
-      confirmPassword
-    };
-
-    register(registerData)
-      .then(res => {
-        navigate('/auth/login')
-        toast.success("Registration successful")
-      }).catch(err => console.log(err))
-   }
+  const { handleRegisterSubmit } = useAuth()
+  
+  const registerData = {
+    fullName,
+    email,
+    password,
+    confirmPassword
+  }
 
   return(
     <main className="bg-white flex items-center justify-center p-8">
@@ -53,7 +35,10 @@ export default function Register(){
             <span className="bg-white px-2 text-gray-500 text-xs">Or continue with email</span>
           </div>
         </div>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={(e) => {
+          e.preventDefault();
+          handleRegisterSubmit(registerData)
+        }}>
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Full Name</label>
             <input 

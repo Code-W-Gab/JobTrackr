@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import type { IApplication } from "../types/applicationTypes";
-import { getApplications } from "../service/applicationService";
+import { createApplication, getApplications } from "../service/applicationService";
+import toast from "react-hot-toast";
 
 export const useApplications = () => {
   const [applications, setApplications] = useState<IApplication[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Get/Retrieved Data
   const fetchApplication = async (): Promise<void> => {
     try {
       setLoading(true)
@@ -15,6 +17,9 @@ export const useApplications = () => {
       setError(null)
     } catch (error) {
       setError("Failed to fetch applications")
+      if (error instanceof Error) {
+        console.error("Error fetching applications:", error.message)
+      }
     } finally {
       setLoading(false)
     }
@@ -24,7 +29,17 @@ export const useApplications = () => {
     fetchApplication()
   }, [])
 
+  // Handle Create Application
+  const handleCreateApplication = async (formData: IApplication): Promise<void> => {
+    try {
+      await createApplication(formData)
+      fetchApplication()
+      toast.success("Application created successfully!")
+    } catch (error) {
+      toast.error("Failed to create application")
+      console.log(error)
+    }
+  }
 
-  return { applications, loading, error, fetchApplication }
+  return { loading, error, applications, fetchApplication, handleCreateApplication }
 }
-

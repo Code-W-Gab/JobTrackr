@@ -1,39 +1,16 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../../../service/authService";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import type { ILogin } from '../../../types/authTypes';
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../hook/useAuth";
 
 export default function Login(){
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigate = useNavigate();
-  
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-    
-    if (!email || !password) {
-      toast.error("Please fill all fields")
-      return
-    }
-    
-    const loginData: ILogin = {
-      email,
-      password
-    };
+  const { handleLoginSubmit } = useAuth();
 
-    login(loginData)
-      .then(res => {
-        console.log('Login successful:', res.data);
-        navigate('/dashboard')
-        toast.success("Login successfully")
-      })
-      .catch(err => {
-        console.log(err)
-        toast.error("Login Failed")
-      })
-  }
+  const loginData = {
+    email,
+    password
+  };
 
   return(
     <main className="bg-white flex items-center justify-center p-8">
@@ -54,7 +31,10 @@ export default function Login(){
             <span className="bg-white px-2 text-gray-500 text-xs">Or continue with email</span>
           </div>
         </div>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={(e) => {
+          e.preventDefault();
+          handleLoginSubmit(loginData);
+        }}>
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
             <input 
