@@ -29,6 +29,7 @@ export type Status =
   | "Accepted"
 
 export interface IApplication {
+  _id?: string,
   companyName: string,
   jobTitle: string,
   jobURL: string,

@@ -7,7 +7,7 @@ export const useApplications = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchApplication = async () => {
+  const fetchApplication = async (): Promise<void> => {
     try {
       setLoading(true)
       const response = await getApplications()

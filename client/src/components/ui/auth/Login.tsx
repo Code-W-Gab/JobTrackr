@@ -3,13 +3,14 @@ import { useState } from "react";
 import { login } from "../../../service/authService";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import type { ILogin } from '../../../types/authTypes';
 
 export default function Login(){
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     
     if (!email || !password) {
@@ -17,7 +18,12 @@ export default function Login(){
       return
     }
     
-    login(email, password)
+    const loginData: ILogin = {
+      email,
+      password
+    };
+
+    login(loginData)
       .then(res => {
         console.log('Login successful:', res.data);
         navigate('/dashboard')

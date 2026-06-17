@@ -12,7 +12,7 @@ export default function Register(){
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
     if (!fullName || !email || !password || !confirmPassword) {
