@@ -1,9 +1,10 @@
 import { Search, Funnel, ChevronDown, ChevronUp, Eye, Pencil, ExternalLink, Trash2  } from "lucide-react"
 import { useState } from "react"
+import { useApplications } from "../../../hook/useApplication";
 
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
-  
+  const { applications } = useApplications()
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
   const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
   const jobType: string[] = [ "All", "Full-time", "Part-time", "Contract", "Internship" ]
@@ -79,43 +80,47 @@ export default function Applications(){
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b border-gray-200 text-xs">
-            <td className="px-5 py-2 text-sm font-medium text-gray-900 whitespace-nowrap">
-              <div className="flex items-center gap-2">
-                <div className="text-white text-[13px] font-semibold bg-indigo-600 px-2 py-1 rounded-lg">
-                  <p>G</p>
-                </div>
-                <span>Google</span>
-              </div>
-            </td>
-            <td className="px-5 py-2">LinkedIn</td>
-            <td className="px-5 py-4">Software Engineer</td>
-            <td className="px-5 py-4">Full-Time</td>
-            <td className="px-5 py-4">Remote</td>
-            <td className="px-5 py-4">2023-08-15</td>
-            <td className="px-5 py-4">$100,000 - $120,000</td>
-            <td className="px-5 py-4">
-              <div className="px-3 py-0.5 text-center bg-blue-100 text-blue-800 text-[11px]  font-medium rounded-full">
-                <span>Applied</span>
-              </div>
-            </td>
-            <td className="px-5 py-4">
-              <div className="flex items-center gap-1">
-                <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
-                  <Eye size={13}/>
-                </div>
-                <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
-                  <Pencil size={13}/>
-                </div>
-                <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
-                  <ExternalLink size={13}/>
-                </div>
-                <div className="hover:bg-gray-100 hover:text-red-600 text-gray-500 p-1.5 rounded-md">
-                  <Trash2 size={13}/>
-                </div>
-              </div>
-            </td>
-          </tr>
+          {applications.map((application) => {
+            return(
+              <tr key={application._id} className="bg-white border-b border-gray-200 text-xs">
+                <td className="px-5 py-2 text-sm font-medium text-gray-900 whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <div className="text-white text-[13px] font-semibold bg-indigo-600 px-2 py-1 rounded-lg">
+                      <p>G</p>
+                    </div>
+                    <span>{application.companyName}</span>
+                  </div>
+                </td>
+                <td className="px-5 py-2">{application.platform}</td>
+                <td className="px-5 py-4">{application.jobTitle}</td>
+                <td className="px-5 py-4">{application.jobType}</td>
+                <td className="px-5 py-4">{application.locationType}</td>
+                <td className="px-5 py-4">{application.dateApplied}</td>
+                <td className="px-5 py-4">{application.salary}</td>
+                <td className="px-5 py-4">
+                  <div className="px-3 py-0.5 text-center bg-blue-100 text-blue-800 text-[11px]  font-medium rounded-full">
+                    <span>{application.status}</span>
+                  </div>
+                </td>
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-1">
+                    <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                      <Eye size={13}/>
+                    </div>
+                    <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                      <Pencil size={13}/>
+                    </div>
+                    <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                      <ExternalLink size={13}/>
+                    </div>
+                    <div className="hover:bg-gray-100 hover:text-red-600 text-gray-500 p-1.5 rounded-md">
+                      <Trash2 size={13}/>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </main>

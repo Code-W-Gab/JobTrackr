@@ -34,7 +34,7 @@ export interface IApplication {
   jobTitle: string,
   jobURL: string,
   location: string,
-  dateApplied: Date,
+  dateApplied: string,
   salary: string,
   platform: Platform,
   jobType: JobType,

@@ -4,7 +4,7 @@ import { useApplications } from "../../hook/useApplication";
 import type { JobType, LocationType, Platform, Status } from "../../types/applicationTypes";
 
 interface AddApplicationModalProps {
-  onClose?: () => void
+  onClose: () => void
 }
 
 export default function AddApplicationModal({onClose}: AddApplicationModalProps){
@@ -12,7 +12,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
   const [jobTitle, setJobTitle] = useState<string>("")
   const [jobURL, setJobURL] = useState<string>("")
   const [location, setLocation] = useState<string>("")
-  const [dateApplied, setDateApplied] = useState<Date>(new Date())
+  const [dateApplied, setDateApplied] = useState<string>("")
   const [salary, setSalary] = useState<string>("")
   const [platform, setPlatform] = useState<Platform>("LinkedIn")
   const [jobType, setJobType] = useState<JobType>("Full-Time")
@@ -45,7 +45,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
       </div>
       <form className="p-4 overflow-y-auto max-h-120" onSubmit={(e) => {
         e.preventDefault();
-        handleCreateApplication(formData)
+        handleCreateApplication(formData, onClose)
       }}>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -101,8 +101,8 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
           <div>
             <label htmlFor="dateApplied" className="block text-xs font-medium text-gray-700">Date Applied</label>
             <input 
-              value={dateApplied.toISOString().split('T')[0]}
-              onChange={(e) => setDateApplied(new Date(e.target.value))} 
+              value={dateApplied}
+              onChange={(e) => setDateApplied(e.target.value)} 
               name="dateApplied" 
               id="dateApplied" 
               type="date"  

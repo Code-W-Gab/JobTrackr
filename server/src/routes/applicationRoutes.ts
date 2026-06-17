@@ -1,14 +1,13 @@
 import { Router } from 'express';
 import { createApplication, updateApplication, deleteApplication, getApplication } from '../controllers/applicationController';
 import { createApplicationRules } from '../middleware/validationMiddleware';
-import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
-router.post('/create', protect, createApplicationRules, createApplication)
-router.put('/:id', protect, updateApplication)
-router.delete('/:id', protect, deleteApplication)
-router.get('/all', protect, getApplication) 
+router.post('/create', createApplicationRules, createApplication)
+router.put('/:id', updateApplication)
+router.delete('/:id', deleteApplication)
+router.get('/all', getApplication) 
 
 
 export default router

@@ -30,11 +30,17 @@ export const useApplications = () => {
   }, [])
 
   // Handle Create Application
-  const handleCreateApplication = async (formData: IApplication): Promise<void> => {
+  const handleCreateApplication = async (formData: IApplication, onClose: () => void): Promise<void> => {
+    if (!formData.companyName || !formData.jobTitle || !formData.jobURL || !formData.location || !formData.dateApplied || !formData.salary || !formData.platform || !formData.jobType || !formData.locationType || !formData.status) {
+      toast.error("Please fill all required fields")
+      return
+    }
+    
     try {
       await createApplication(formData)
       fetchApplication()
       toast.success("Application created successfully!")
+      onClose()
     } catch (error) {
       toast.error("Failed to create application")
       console.log(error)
