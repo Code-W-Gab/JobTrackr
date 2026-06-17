@@ -1,6 +1,7 @@
 import { X } from "lucide-react"
 import { useState } from "react"
 import { createApplication } from "../../service/applicationService";
+import type { IApplication, Platform, JobType, Status, LocationType } from "../../types/applicationTypes";
 
 interface AddApplicationModalProps {
   onClose?: () => void
@@ -11,31 +12,33 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
   const [jobTitle, setJobTitle] = useState<string>("")
   const [jobURL, setJobURL] = useState<string>("")
   const [location, setLocation] = useState<string>("")
-  const [dateApplied, setDateApplied] = useState<Date | "">("")
+  const [dateApplied, setDateApplied] = useState<Date>(new Date())
   const [salary, setSalary] = useState<string>("")
-  const [platform, setPlatform] = useState<string>("LinkedIn")
-  const [jobType, setJobType] = useState<string>("Full-time")
-  const [locationType, setLocationType] = useState<string>("On-site")
-  const [status, setStatus] = useState<string>("Wishlist")
+  const [platform, setPlatform] = useState<Platform>("LinkedIn")
+  const [jobType, setJobType] = useState<JobType>("Full-Time")
+  const [locationType, setLocationType] = useState<LocationType>("On-Site")
+  const [status, setStatus] = useState<Status>("Wishlist")
   const [notes, setNotes] = useState<string>("")
-  
+
+  const formData: IApplication = {
+    companyName,
+    jobTitle,
+    jobURL,
+    location,
+    dateApplied,
+    salary,
+    platform,
+    jobType,
+    locationType,
+    status,
+    notes
+  }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    createApplication(
-      companyName,
-      jobTitle,
-      jobURL,
-      location,
-      dateApplied,
-      salary,
-      platform,
-      jobType,
-      locationType,
-      status,
-      notes
-    )
+    createApplication(formData)
     .then(res => {
       if(res.data.success){
         alert("Application created successfully!")
@@ -113,8 +116,10 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
           <div>
             <label htmlFor="dateApplied" className="block text-xs font-medium text-gray-700">Date Applied</label>
             <input 
-              value={dateApplied}
-              onChange={(e) => setDateApplied(e.target.value)} 
+              value={dateApplied.toISOString().split('T')[0]}
+              onChange={(e) => setDateApplied(new Date(e.target.value))} 
+              name="dateApplied" 
+              id="dateApplied" 
               type="date"  
               placeholder="e.g. Junior Software Engineer" 
               className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -124,7 +129,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <label htmlFor="platform" className="block text-xs font-medium text-gray-700">Platform</label>
             <select 
               value={platform}
-              onChange={(e) => setPlatform(e.target.value)} 
+              onChange={(e) => setPlatform(e.target.value as Platform)}
               name="platform" 
               id="platform" 
               className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -142,13 +147,13 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <label htmlFor="jobType" className="block text-xs font-medium text-gray-700">Job Type</label>
             <select 
               value={jobType}
-              onChange={(e) => setJobType(e.target.value)} 
+              onChange={(e) => setJobType(e.target.value as JobType)} 
               name="jobType" 
               id="jobType" 
               className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
+              <option value="Full-Time">Full-time</option>
+              <option value="Part-Time">Part-time</option>
               <option value="Contract">Contract</option>
               <option value="Internship">Internship</option>
             </select>
@@ -157,12 +162,12 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <label htmlFor="locationType" className="block text-xs font-medium text-gray-700">Location Type</label>
             <select 
               value={locationType}
-              onChange={(e) => setLocationType(e.target.value)} 
+              onChange={(e) => setLocationType(e.target.value as LocationType)} 
               name="locationType" 
               id="locationType" 
               className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
-              <option value="On-site">On-site</option>
+              <option value="On-Site">On-site</option>
               <option value="Remote">Remote</option>
               <option value="Hybrid">Hybrid</option>
             </select>
@@ -171,7 +176,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <label htmlFor="Status" className="block text-xs font-medium text-gray-700">Status</label>
             <select 
               value={status}
-              onChange={(e) => setStatus(e.target.value)} 
+              onChange={(e) => setStatus(e.target.value as Status)} 
               name="Status" 
               id="Status" 
               className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

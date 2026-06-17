@@ -1,4 +1,4 @@
-type Platform = 
+export type Platform = 
   | "LinkedIn" 
   | "Indeed" 
   | "JobStreet" 
@@ -7,18 +7,18 @@ type Platform =
   | "Referral"
   | "Other"
 
-type JobType = 
+export type JobType = 
   | "Full-Time"
   | "Part-Time"
   | "Contract"
   | "Internship"
 
-type LocationType = 
+export type LocationType = 
   | "Remote"
   | "Hybrid"
   | "On-Site"
 
-type Status = 
+export type Status = 
   | "Wishlist" 
   | "Applied" 
   | "Assessment" 
@@ -40,4 +40,10 @@ export interface IApplication {
   locationType: LocationType,
   status: Status,
   notes: string
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
 }

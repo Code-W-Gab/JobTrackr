@@ -1,4 +1,5 @@
 import api from "../Api/axios.ts"
+import type { IRegister, ILogin } from "../types/authTypes.ts";
 
-export const login = (email: string, password: string) => api.post('api/auth/login', { email, password })
-export const register = (fullName: string, email: string, password: string, confirmPassword: string) => api.post('api/auth/register', { fullName, email, password, confirmPassword })
+export const login = (loginData: ILogin) => api.post('api/auth/login', loginData)
+export const register = (registerData: IRegister) => api.post('api/auth/register', registerData)

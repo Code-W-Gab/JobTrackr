@@ -3,6 +3,7 @@ import { useState } from "react";
 import { register } from "../../../service/authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import type { IRegister } from '../../../types/authTypes';
 
 export default function Register(){
   const [fullName, setFullName] = useState<string>('');
@@ -18,8 +19,15 @@ export default function Register(){
       toast.error("Please fill all fields")
       return
     }
-    
-    register(fullName, email, password, confirmPassword)
+
+    const registerData: IRegister = {
+      fullName,
+      email,
+      password,
+      confirmPassword
+    };
+
+    register(registerData)
       .then(res => {
         navigate('/auth/login')
         toast.success("Registration successful")
