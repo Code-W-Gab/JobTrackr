@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { createApplication, updateApplication, deleteApplication, getApplication } from '../controllers/applicationController';
+import { 
+  createApplication, 
+  updateApplication, 
+  deleteApplication, 
+  getApplication,
+  getApplicationById
+} from '../controllers/applicationController';
 import { createApplicationRules } from '../middleware/validationMiddleware';
 
 const router = Router();
@@ -7,7 +13,7 @@ const router = Router();
 router.post('/create', createApplicationRules, createApplication)
 router.put('/:id', updateApplication)
 router.delete('/:id', deleteApplication)
-router.get('/all', getApplication) 
-
+router.get('/getAll', getApplication) 
+router.get('/:id', getApplicationById)
 
 export default router

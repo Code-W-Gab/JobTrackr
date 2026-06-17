@@ -19,7 +19,7 @@ export const createApplication: RequestHandler<{}, {}, createApplicationDTO> = a
   }
 }
 
-export const updateApplication: RequestHandler = async (req, res) => {
+export const updateApplication: RequestHandler<IdParams, {}, updateApplicationDTO> = async (req, res) => {
   try {
     const application = await applicationSchema.findByIdAndUpdate(
       req.params.id,
@@ -65,7 +65,7 @@ export const getApplication: RequestHandler = async (req, res) => {
     res.status(200).json({
       success: true,
       data: application,
-      message: "Application retrieved successfully"
+      message: "Applications retrieved successfully"
     })
   } catch (error) {
     res.status(500).json({
@@ -75,9 +75,26 @@ export const getApplication: RequestHandler = async (req, res) => {
   }
 }
 
+export const getApplicationById: RequestHandler<IdParams> = async (req, res) => {
+  try {
+    const application = await applicationSchema.findById(req.params.id)
+    if(!application) return res.status(404).json({ message: "Application not found"})
+    res.status(200).json({
+      success: true,
+      data: application,
+      message: "Application retrieved successfully"
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    })
+  }
+}
 export default {
   createApplication,
   updateApplication,
   deleteApplication,
-  getApplication
+  getApplication,
+  getApplicationById
 }
