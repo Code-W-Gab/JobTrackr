@@ -1,10 +1,15 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
+type faqType = {
+  question: string,
+  answer: string
+}
+
 export default function FaqSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const faqs = [
+  const faqs: faqType[] = [
     { question: "Is JobTrackr free to use?", answer: "Yes! Our Starter plan is completely free with up to 50 applications. Pro and Team plans unlock advanced features." },
     { question: "Can I import applications from LinkedIn?", answer: "Pro plan users can bulk import applications via CSV export from LinkedIn, Indeed, and other major platforms." },
     { question: "Does JobTrackr send email notifications?", answer: "Yes, with an email connected account, JobTrackr can send follow-up reminders and interview prep notifications." },

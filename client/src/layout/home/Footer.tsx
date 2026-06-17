@@ -1,9 +1,9 @@
 import { Zap } from 'lucide-react';
 
 export default function Footer(){
-  const prod = ["Features", "Pricing", "Changelog", "Roadmap"];
-  const company = ["About", "Careers", "Press", "Blog"];
-  const legal = ["Privacy", "Terms", "Security", "Cookies"];
+  const prod: string[] = ["Features", "Pricing", "Changelog", "Roadmap"];
+  const company: string[] = ["About", "Careers", "Press", "Blog"];
+  const legal: string[] = ["Privacy", "Terms", "Security", "Cookies"];
 
   return(
     <footer className="bg-[#0F172A] text-slate-400 py-12 px-4 sm:px-6 lg:px-8 ">

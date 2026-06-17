@@ -1,7 +1,16 @@
 import { AppWindow, ChartColumnIncreasing, Calendar, ChartLine, Mail, BellRing } from 'lucide-react';
+import type React from 'react';
+
+interface IFeature {
+  title: string,
+  description: string,
+  bgColor: string,
+  color: string,
+  icon: React.ElementType
+}
 
 export default function Feature(){
-  const features = [
+  const features: IFeature[] = [
     { title: "Job Application Tracker", description: "Manage all your applications in one beautiful, organized place. Never lose track of a single opportunity.", bgColor: "bg-blue-100", color: "text-blue-600", icon: AppWindow },
     { title: "Kanban Board", description: "Visualize your pipeline with an intuitive drag-and-drop board. Move cards through stages effortlessly.", bgColor: "bg-green-100", color: "text-green-600", icon: ChartColumnIncreasing },
     { title: "Calendar View", description: "See all your interviews, deadlines, and follow-ups in a visual calendar. Stay on schedule, always.", bgColor: "bg-purple-100", color: "text-purple-600", icon: Calendar },

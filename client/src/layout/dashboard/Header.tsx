@@ -3,7 +3,11 @@ import Profile from "../../components/common/Profile";
 import SearchBar from "../../components/common/SearchBar";
 import { Sun, Bell } from 'lucide-react';
 
-export default function Header() {
+interface HeaderProps {
+  setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Header({ setIsModalOpen }: HeaderProps) {
   return(
     <header className="bg-white w-full p-3 flex items-center justify-between border-l border-indigo-100">
       <SearchBar/>
@@ -14,7 +18,7 @@ export default function Header() {
         <div className="hover:bg-indigo-100 p-1.5 rounded-lg">
           <Bell size={16} className="text-gray-600"/>
         </div>
-        <AddJob name="Add Job"/>
+        <AddJob name="Add Job" onClick={() => setIsModalOpen && setIsModalOpen(true)}/>
         <Profile initials="GC"/>
       </div>
     </header>

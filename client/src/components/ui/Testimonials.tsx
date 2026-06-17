@@ -1,7 +1,15 @@
 import { Star } from "lucide-react";
 
+interface ITestimonials {
+  name: string,
+  title: string,
+  quote: string,
+  icon: string,
+  bgColor: string
+}
+
 export default function Testimonials(){
-  const testimonials = [
+  const testimonials: ITestimonials[] = [
     {
       name: "Sarah Chen",
       title: "Software Engineer at Google",

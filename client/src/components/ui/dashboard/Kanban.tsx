@@ -1,7 +1,11 @@
 import { MapPin, Calendar } from "lucide-react";
 
+type statusType = {
+  type: string,
+  count: number
+}
 export default function Kanban(){
-  const status = [
+  const status: statusType[] = [
     { type: "Wishlist", count: 0 },
     { type: "Applied", count: 0 },
     { type: "Assessment", count: 0 },

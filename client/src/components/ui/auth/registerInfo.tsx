@@ -2,7 +2,7 @@ import { Zap, Check } from "lucide-react";
 import BackToMenuBtn from "../../common/BackToMenuBtn";
 
 export default function RegisterInfo() {
-  const infoItems = [
+  const infoItems: string[] = [
     "Track application across all platforms",
     "Get smart interview reminders",
     "Visualize your progress with analytics",

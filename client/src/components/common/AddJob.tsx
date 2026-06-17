@@ -1,6 +1,5 @@
 import { Plus } from 'lucide-react';
 
-
 interface nameProps {
   name: string
   onClick?: () => void

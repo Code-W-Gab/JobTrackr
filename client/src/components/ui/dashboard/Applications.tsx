@@ -4,9 +4,9 @@ import { useState } from "react"
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
   
-  const platforms = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
-  const locationType = [ "All", "On-site", "Remote", "Hybrid" ]
-  const jobType = [ "All", "Full-time", "Part-time", "Contract", "Internship" ]
+  const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
+  const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
+  const jobType: string[] = [ "All", "Full-time", "Part-time", "Contract", "Internship" ]
 
   return(
     <main className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 overflow-y-auto">

@@ -3,10 +3,18 @@ import AddJob from "../../common/AddJob";
 import { useState } from 'react';
 import AddApplicationModal from "../../overlays/AddApplicationModal";
 
+type statusType = {
+  count: number | string,
+  name: string,
+  icon: React.ElementType,
+  color: string,
+  bgColor: string
+}
+
 export default function Dashboard(){
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   
-  const status = [
+  const status: statusType[] = [
     {
       count: 48,
       name: "Total Applications",
