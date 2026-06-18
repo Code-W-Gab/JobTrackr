@@ -6,7 +6,7 @@ export default function LoginInfo() {
   return(
     <main className="bg-indigo-700 p-10 flex flex-col justify-between">
       <div>
-        <BackToMenuBtn/>
+        <BackToMenuBtn name="Back to home" to="/home"/>
         <div className="flex items-center gap-2 my-10">
           <div className="text-white bg-indigo-500 rounded-lg p-1.5">
             <Zap size={16}/>
