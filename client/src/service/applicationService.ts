@@ -15,3 +15,7 @@ export const getApplicationById = (
 export const updateApplication = (
   id: string, formData: updateApplicationDTO
 ) => api.put(`/api/application/${id}`, formData)
+
+export const deleteApplication = (
+  id: string
+) => api.delete(`/api/application/${id}`)

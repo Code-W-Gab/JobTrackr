@@ -3,12 +3,14 @@ import { useState } from "react"
 import { useApplications } from "../../../hook/useApplication";
 import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
 import { formatDate } from "../../../Utils/formatDate";
+import DeleteModal from "../../overlays/DeleteModal";
 
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const { applications, handleUpdateApplication } = useApplications()
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+  const { applications, handleUpdateApplication, handleDeleteApplication } = useApplications()
 
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
   const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
@@ -124,9 +126,14 @@ export default function Applications(){
                     <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
                       <ExternalLink size={13}/>
                     </div>
-                    <div className="hover:bg-gray-100 hover:text-red-600 text-gray-500 p-1.5 rounded-md">
-                      <Trash2 size={13}/>
-                    </div>
+                    <button
+                      onClick={() => {
+                        setSelectedId(application._id)
+                        setIsDeleteModalOpen(true)
+                      }}
+                      className="hover:bg-gray-100 hover:text-red-600 text-gray-500 p-1.5 rounded-md">
+                        <Trash2 size={13}/>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -136,16 +143,28 @@ export default function Applications(){
       </table>
 
       {isModalOpen && (
-          <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
-            <div className="z-50">
-              <UpdateApplicationModal 
-                onClose={() => setIsModalOpen(false)} 
-                selectedId={selectedId}
-                onUpdate={handleUpdateApplication}
-              />
-            </div>
+        <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
+          <div className="z-50">
+            <UpdateApplicationModal 
+              onClose={() => setIsModalOpen(false)} 
+              selectedId={selectedId}
+              onUpdate={handleUpdateApplication}
+            />
           </div>
-        )}
+        </div>
+      )}
+
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
+          <div className="z-50">
+            <DeleteModal 
+              onClose={() => setIsDeleteModalOpen(false)}
+              selectedId={selectedId}
+              onDelete={handleDeleteApplication}
+            />
+          </div>
+        </div>
+      )}
     </main>
   )
 }

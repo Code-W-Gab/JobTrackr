@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { IApplication, createApplicationDTO, updateApplicationDTO } from "../types/applicationTypes";
-import { createApplication, updateApplication, getApplications } from "../service/applicationService";
+import { createApplication, updateApplication, getApplications, deleteApplication } from "../service/applicationService";
 import toast from "react-hot-toast";
 
 export const useApplications = () => {
@@ -65,5 +65,17 @@ export const useApplications = () => {
     }
   }
 
-  return { loading, error, applications, fetchApplication, handleCreateApplication, handleUpdateApplication }
+  // Handle Delete Application
+  const handleDeleteApplication = async (id: string, onClose: () => void): Promise<void> => {
+    try {
+      await deleteApplication(id)
+      await fetchApplication()
+      toast.success("Application deleted successfully!")
+      onClose()
+    } catch (error) {
+      toast.error("Failed to updated application")
+      console.log(error)
+    }
+  }
+  return { loading, error, applications, fetchApplication, handleCreateApplication, handleUpdateApplication, handleDeleteApplication }
 }
