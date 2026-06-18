@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import type { IApplication } from "../types/applicationTypes";
-import { createApplication, getApplications } from "../service/applicationService";
+import type { IApplication, createApplicationDTO, updateApplicationDTO } from "../types/applicationTypes";
+import { createApplication, updateApplication, getApplications } from "../service/applicationService";
 import toast from "react-hot-toast";
 
 export const useApplications = () => {
@@ -30,15 +30,15 @@ export const useApplications = () => {
   }, [])
 
   // Handle Create Application
-  const handleCreateApplication = async (formData: IApplication, onClose: () => void): Promise<void> => {
+  const handleCreateApplication = async (formData: createApplicationDTO, onClose: () => void): Promise<void> => {
     if (!formData.companyName || !formData.jobTitle || !formData.jobURL || !formData.location || !formData.dateApplied || !formData.salary || !formData.platform || !formData.jobType || !formData.locationType || !formData.status) {
       toast.error("Please fill all required fields")
       return
     }
-    
+
     try {
       await createApplication(formData)
-      fetchApplication()
+      await fetchApplication()
       toast.success("Application created successfully!")
       onClose()
     } catch (error) {
@@ -47,5 +47,23 @@ export const useApplications = () => {
     }
   }
 
-  return { loading, error, applications, fetchApplication, handleCreateApplication }
+  // Handle Update Application
+  const handleUpdateApplication = async (id: string, formData: updateApplicationDTO, onClose: () => void): Promise<void> => {
+    if (!formData.companyName || !formData.jobTitle || !formData.jobURL || !formData.location || !formData.dateApplied || !formData.salary || !formData.platform || !formData.jobType || !formData.locationType || !formData.status) {
+      toast.error("Please fill all required fields")
+      return
+    }
+
+    try {
+      await updateApplication(id, formData)
+      await fetchApplication()
+      toast.success("Application updated successfully!")
+      onClose()
+    } catch (error) {
+      toast.error("Failed to updated application")
+      console.log(error)
+    }
+  }
+
+  return { loading, error, applications, fetchApplication, handleCreateApplication, handleUpdateApplication }
 }

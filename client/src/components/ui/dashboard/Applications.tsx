@@ -1,10 +1,15 @@
 import { Search, Funnel, ChevronDown, ChevronUp, Eye, Pencil, ExternalLink, Trash2  } from "lucide-react"
 import { useState } from "react"
 import { useApplications } from "../../../hook/useApplication";
+import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
+import { formatDate } from "../../../Utils/formatDate";
 
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
-  const { applications } = useApplications()
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const { applications, handleUpdateApplication } = useApplications()
+
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
   const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
   const jobType: string[] = [ "All", "Full-time", "Part-time", "Contract", "Internship" ]
@@ -95,7 +100,7 @@ export default function Applications(){
                 <td className="px-5 py-4">{application.jobTitle}</td>
                 <td className="px-5 py-4">{application.jobType}</td>
                 <td className="px-5 py-4">{application.locationType}</td>
-                <td className="px-5 py-4">{application.dateApplied}</td>
+                <td className="px-5 py-4">{formatDate(application.dateApplied)}</td>
                 <td className="px-5 py-4">{application.salary}</td>
                 <td className="px-5 py-4">
                   <div className="px-3 py-0.5 text-center bg-blue-100 text-blue-800 text-[11px]  font-medium rounded-full">
@@ -104,12 +109,18 @@ export default function Applications(){
                 </td>
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-1">
-                    <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
-                      <Eye size={13}/>
-                    </div>
-                    <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
-                      <Pencil size={13}/>
-                    </div>
+                    <button 
+                      className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                        <Eye size={13}/>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSelectedId(application._id)
+                        setIsModalOpen(true)
+                      }} 
+                      className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                        <Pencil size={13}/>
+                    </button>
                     <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
                       <ExternalLink size={13}/>
                     </div>
@@ -123,6 +134,18 @@ export default function Applications(){
           })}
         </tbody>
       </table>
+
+      {isModalOpen && (
+          <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
+            <div className="z-50">
+              <UpdateApplicationModal 
+                onClose={() => setIsModalOpen(false)} 
+                selectedId={selectedId}
+                onUpdate={handleUpdateApplication}
+              />
+            </div>
+          </div>
+        )}
     </main>
   )
 }

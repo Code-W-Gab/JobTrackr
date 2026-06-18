@@ -24,7 +24,7 @@ export const updateApplication: RequestHandler<IdParams, {}, updateApplicationDT
     const application = await applicationSchema.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { returnDocument: 'after', runValidators: true }
     );
   
     if(!application) return res.status(404).json({ message: "Application not found"})

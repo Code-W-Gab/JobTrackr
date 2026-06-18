@@ -1,3 +1,5 @@
+import { updateApplication } from "../service/applicationService"
+
 export type Platform = 
   | "LinkedIn" 
   | "Indeed" 
@@ -29,7 +31,7 @@ export type Status =
   | "Accepted"
 
 export interface IApplication {
-  _id?: string,
+  _id: string,
   companyName: string,
   jobTitle: string,
   jobURL: string,
@@ -42,6 +44,10 @@ export interface IApplication {
   status: Status,
   notes: string
 }
+
+export type createApplicationDTO = Omit<IApplication, "_id">
+
+export type updateApplicationDTO = Partial<IApplication>
 
 export interface ApiResponse<T> {
   success: boolean;
