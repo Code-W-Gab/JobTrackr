@@ -123,7 +123,7 @@ export default function OpenApplication({onClose}: OpenApplicationProps){
 
           <div className="bg-white w-full rounded-xl border border-gray-200 mt-4 p-6 space-y-3">
             <h1 className="font-bold">Notes</h1>
-            <p className="text-sm text-gray-500">Applied via referral.</p>
+            <p className="text-sm text-gray-500">Applied via referral asdasdsad.</p>
           </div>
         </div>
 
