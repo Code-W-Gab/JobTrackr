@@ -71,7 +71,6 @@ export default function OpenApplication({onClose, selectedId}: OpenApplicationPr
     }))
   }
 
-  // ✅ Store the result in a variable
   const timelineStages = getTimelineStages(selectedApplication?.status)
 
   useEffect(() => {

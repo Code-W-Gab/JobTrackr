@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
 
       {/* Bottom Row: Content Area */}
-      <div className="flex ">
+      <div className="flex h-full">
         <Sidebar/>
         {children}
       </div>
