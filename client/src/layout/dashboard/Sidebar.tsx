@@ -1,18 +1,24 @@
-import { LayoutDashboard, Briefcase, FolderKanban, Calendar, ChartColumn, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Briefcase, FolderKanban, Calendar, ChartColumn, ChevronRight, Settings } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Logout from '../../components/common/Logout';
 import Profile from '../../components/common/Profile';
 
+interface INav {
+  name: string,
+  to: string,
+  icon: React.ElementType,
+}
+
 export default function Sidebar(){
   const location = useLocation();
-  const navOption = [
+  const navOption: INav[] = [
     { name: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
     { name: "Application", to: "/application", icon: Briefcase },
     { name: "Kanban Board", to: "/kanban-board", icon: FolderKanban },
     { name: "Calendar", to: "/calendar", icon: Calendar },
     { name: "Analytics", to: "/analytics", icon: ChartColumn },
-    
+    { name: "Settings", to: "/settings", icon: Settings },
   ]
   return(
     <aside className="flex flex-col justify-between w-55 bg-white">
