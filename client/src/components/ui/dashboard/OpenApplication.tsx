@@ -1,8 +1,21 @@
-// import BackToMenuBtn from "../../common/BackToMenuBtn";
-import { MoveLeft, MapPin, Briefcase, Globe, Calendar, ExternalLink, CircleCheckBig } from "lucide-react";
+import {
+  Briefcase,
+  Calendar,
+  CircleCheckBig,
+  ExternalLink,
+  Globe,
+  MapPin,
+  MoveLeft
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import { getApplicationById } from "../../../service/applicationService";
+import type { IApplication } from "../../../types/applicationTypes";
+import { formatDateForInput } from "../../../Utils/formatDate";
 
 interface OpenApplicationProps {
   onClose: () => void
+  selectedId: string | null
 }
 
 type status = 
@@ -17,17 +30,66 @@ interface timelineStages {
   description?: string
 }
 
-export default function OpenApplication({onClose}: OpenApplicationProps){
+export default function OpenApplication({onClose, selectedId}: OpenApplicationProps){
+  const [selectedApplication, setSelectedApplication] = useState<IApplication | null>(null);
 
-  const timelineStages: timelineStages[] = [
-    { id: 1, label: 'Wishlist', status: 'completed' },
-    { id: 2, label: 'Applied', status: 'current', description: 'Current stage' },
-    { id: 3, label: 'Assessment', status: 'pending' },
-    { id: 4, label: 'Interview', status: 'pending' },
-    { id: 5, label: 'Final Interview', status: 'pending' },
-    { id: 6, label: 'Offer', status: 'pending' },
-    { id: 7, label: 'Accepted', status: 'pending' },
-  ];
+  // Helper function to generate timeline stages based on application status
+  const getTimelineStages = (applicationStatus: string | undefined): timelineStages[] => {
+    const stages: timelineStages[] = [
+      { id: 1, label: 'Wishlist', status: 'pending' },
+      { id: 2, label: 'Applied', status: 'pending' },
+      { id: 3, label: 'Assessment', status: 'pending' },
+      { id: 4, label: 'Interview', status: 'pending' },
+      { id: 5, label: 'Final Interview', status: 'pending' },
+      { id: 6, label: 'Offer', status: 'pending' },
+      { id: 7, label: 'Accepted', status: 'pending' },
+    ]
+
+    // Map application status to timeline positions
+    const statusMap: { [key: string]: number } = {
+      'Wishlist': 0,
+      'Applied': 1,
+      'Assessment': 2,
+      'Interview': 3,
+      'Final Interview': 4,
+      'Offer': 5,
+      'Accepted': 6,
+      'Rejected': 6
+    }
+
+    const currentIndex = statusMap[applicationStatus || ''] ?? -1
+
+    // Mark stages as completed, current, or pending
+    return stages.map((stage, index) => ({
+      ...stage,
+      status: index < currentIndex 
+        ? 'completed' 
+        : index === currentIndex 
+        ? 'current' 
+        : 'pending',
+      description: index === currentIndex ? 'Current stage' : undefined
+    }))
+  }
+
+  // ✅ Store the result in a variable
+  const timelineStages = getTimelineStages(selectedApplication?.status)
+
+  useEffect(() => {
+    if (!selectedId) return
+    const fetchApplicationById = async (): Promise<void> => {
+      try {
+        const res = await getApplicationById(selectedId)
+        const data = res.data?.data || null
+        setSelectedApplication(data)
+      } catch (error) {
+        toast.error("Failed to fetch application")
+        onClose()
+        console.log(error)
+      }
+    }
+
+    fetchApplicationById()
+  }, [selectedId, onClose])
 
   return(
     <main className="overflow-y-auto h-[calc(100vh-100px)] px-10">
@@ -42,29 +104,29 @@ export default function OpenApplication({onClose}: OpenApplicationProps){
           </div>
           <div className="w-full">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-semibold">GitHub</h1>
+              <h1 className="text-2xl font-semibold">{selectedApplication?.companyName}</h1>
               <div className="px-6 py-1 text-center bg-blue-100 text-blue-800 text-[11px]  font-medium rounded-full">
-                <span>Applied</span>
+                <span>{selectedApplication?.status}</span>
               </div>
             </div>
-            <p className="text-gray-500 text-sm mt-1 mb-3">Senior Engineer</p>
+            <p className="text-gray-500 text-sm mt-1 mb-3">{selectedApplication?.jobTitle}</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-gray-500">
                 <MapPin size={14}/>
-                <span className="text-sm">Remote</span>
+                <span className="text-sm">{selectedApplication?.location}</span>
               </div>
               <div className="flex items-center gap-1 text-gray-500">
                 <Briefcase size={14}/>
-                <span className="text-sm">Full-Time</span>
+                <span className="text-sm">{selectedApplication?.jobType}</span>
               </div>
               <div className="flex items-center gap-1 text-gray-500">
                 <Globe size={14}/>
-                <span className="text-sm">Remote</span>
+                <span className="text-sm">{selectedApplication?.locationType}</span>
               </div>
-              <p className="text-gray-500 text-sm">$1500,000</p>
+              <p className="text-gray-500 text-sm">{selectedApplication?.salary}</p>
               <div className="flex items-center gap-1 text-gray-500">
                 <Calendar size={14}/>
-                <span className="text-sm">Applied 2024-05-12</span>
+                <span className="text-sm">Applied {formatDateForInput(selectedApplication?.dateApplied ?? "")}</span>
               </div>
             </div>
           </div>
@@ -107,7 +169,7 @@ export default function OpenApplication({onClose}: OpenApplicationProps){
                     {/* Text content */}
                     <div className="pt-1.5">
                       <p className={`font-medium text-sm ${
-                        stage.status === 'pending' ? 'text-gray-300' : stage.status  === "current" ? 'text-indigo-500' : 'text-gray-700'
+                        stage.status === 'pending' ? 'text-gray-300' : stage.status === "current" ? 'text-indigo-500' : 'text-gray-700'
                       }`}>
                         {stage.label}
                       </p>
@@ -123,7 +185,7 @@ export default function OpenApplication({onClose}: OpenApplicationProps){
 
           <div className="bg-white w-full rounded-xl border border-gray-200 mt-4 p-6 space-y-3">
             <h1 className="font-bold">Notes</h1>
-            <p className="text-sm text-gray-500">Applied via referral asdasdsad.</p>
+            <p className="text-sm text-gray-500">{selectedApplication?.notes || "No notes added"}</p>
           </div>
         </div>
 
@@ -132,23 +194,23 @@ export default function OpenApplication({onClose}: OpenApplicationProps){
             <h1 className="font-bold">Application Info</h1>
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-gray-500">Platform</p>
-              <p className="text-sm text-gray-800">Company Website</p>
+              <p className="text-sm text-gray-800">{selectedApplication?.platform || "N/A"}</p>
             </div>
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-gray-500">Job Type</p>
-              <p className="text-sm text-gray-800">Full-Time</p>
+              <p className="text-sm text-gray-800">{selectedApplication?.jobType || "N/A"}</p>
             </div>
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-gray-500">Location Type</p>
-              <p className="text-sm text-gray-800">Remote</p>
+              <p className="text-sm text-gray-800">{selectedApplication?.locationType || "N/A"}</p>
             </div>
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-gray-500">Salary</p>
-              <p className="text-sm text-gray-800">$150,000</p>
+              <p className="text-sm text-gray-800">{selectedApplication?.salary || "N/A"}</p>
             </div>
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-gray-500">Date Applied</p>
-              <p className="text-sm text-gray-800">2024-05-12</p>
+              <p className="text-sm text-gray-800">{formatDateForInput(selectedApplication?.dateApplied ?? "")}</p>
             </div>
           </div>
           

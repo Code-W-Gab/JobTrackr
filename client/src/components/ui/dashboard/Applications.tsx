@@ -117,6 +117,7 @@ export default function Applications(){
                     <div className="flex items-center gap-1">
                       <button 
                         onClick={() => {
+                          setSelectedId(application._id)
                           setIsOpenApplication(true)
                         }}
                         className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
@@ -152,7 +153,10 @@ export default function Applications(){
           
       {/* Open Application */}
       <div className={`${isOpenApplication ? "block" : "hidden"}` }>
-        <OpenApplication onClose={() => setIsOpenApplication(false)}/>
+        <OpenApplication 
+          onClose={() => setIsOpenApplication(false)}
+          selectedId={selectedId}
+        />
       </div>
 
       {isModalOpen && (

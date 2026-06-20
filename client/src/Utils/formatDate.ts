@@ -40,7 +40,9 @@ export const formatDateTime = (dateString: string | Date): string => {
   })
 }
 
-export const formatDateForInput = (dateString: string | Date): string => {
+export const formatDateForInput = (dateString: string | undefined): string => {
+  if(!dateString) return ""
+  
   const date = new Date(dateString)
   
   if (isNaN(date.getTime())) {

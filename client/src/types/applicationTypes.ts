@@ -1,5 +1,3 @@
-import { updateApplication } from "../service/applicationService"
-
 export type Platform = 
   | "LinkedIn" 
   | "Indeed" 

@@ -67,8 +67,6 @@ export default function UpdateApplicationModal({onClose, selectedId, onUpdate}: 
 
   }, [selectedId, navigate])
 
-
-
   return(
     <main className="bg-white w-140 rounded-xl">
       <div className="flex items-center justify-between p-4 border-b border-gray-300">
@@ -235,4 +233,3 @@ export default function UpdateApplicationModal({onClose, selectedId, onUpdate}: 
     </main>
   )
 }
-           
