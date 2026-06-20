@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
-import { loginDTO, registerDTO } from "../types/authTypes";
+import { loginDTO, registerDTO, IdParams } from "../types/authTypes";
 
 const authController = {
   async Register (req: Request<{}, {}, registerDTO>, res: Response) {
@@ -86,6 +86,22 @@ const authController = {
         data: user,
         message: "Login successful"
 
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      })
+    }
+  },
+
+  async GetMe(req: Request<IdParams>, res: Response){
+    try {
+      const user = await authSchema.findById(req.params.id)
+      res.status(200).json({
+        success: true,
+        data: user,
+        message: "User retrieved successfully"
       })
     } catch (error) {
       res.status(500).json({
