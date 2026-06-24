@@ -71,7 +71,7 @@ const authController = {
       // Use same expiration for JWT and cookie
       const tokenExpiry = 15 * 60; // 15 minutes in seconds
       const token = jwt.sign(
-        { id: user._id },
+        { userId: user._id },
         process.env.JWT_SECRET!,
         { expiresIn: tokenExpiry }
       );
@@ -79,7 +79,7 @@ const authController = {
       res.cookie("token", token, {
         httpOnly: true,
         secure: false, // Set to true in production with HTTPS
-        sameSite: "none",
+        sameSite: "lax",
         maxAge: tokenExpiry * 1000 // Convert to milliseconds
       });
 
