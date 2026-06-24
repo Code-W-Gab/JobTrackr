@@ -2,9 +2,20 @@ import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { login, register } from "../service/authService"
 import type { LoginType, RegisterType } from "../types/authTypes"
+import { useContext } from "react"
+import { AuthContext } from "../context/authContext"
 
 export const useAuth = () => {
   const navigate = useNavigate();
+
+  // Handle Get Me
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth must be used inside AuthProvider"
+    );
+  }
 
   // Handle Login
   const handleLoginSubmit = async (loginData: LoginType): Promise<void> => {
@@ -40,5 +51,5 @@ export const useAuth = () => {
     }
   }
 
-  return { handleLoginSubmit, handleRegisterSubmit }
+  return { handleLoginSubmit, handleRegisterSubmit, context }
 }

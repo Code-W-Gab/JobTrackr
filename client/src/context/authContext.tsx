@@ -1,5 +1,5 @@
 import { getMe } from "../service/authService";
-import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { createContext, useState, useEffect, type ReactNode } from 'react';
 import type { IUser } from "../types/authTypes";
 
 // Define the context value type
@@ -9,7 +9,7 @@ interface AuthContextType {
   error: string | null;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface authProps {
   children: ReactNode;
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: authProps) => {
         setLoading(true);
         setError(null);
         const res = await getMe();
-        const data = res.data|| null;
+        const data = res.data?.data|| null;
         console.log(data)
         setUser(data);
       } catch (error) {
@@ -48,13 +48,4 @@ export const AuthProvider = ({ children }: authProps) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Custom hook to use the auth context
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within authProvider");
-  }
-  return context;
 };
