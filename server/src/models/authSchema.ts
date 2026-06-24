@@ -11,10 +11,7 @@ const authSchema = new mongoose.Schema<IUser>({
   },
   password: {
     type: String
-  },
-  confirmPassword: {
-    type: String
   }
 }, { timestamps: true })
 
-export default mongoose.model("User", authSchema)
+export default mongoose.model<IUser>("User", authSchema)

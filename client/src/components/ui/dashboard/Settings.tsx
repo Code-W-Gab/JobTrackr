@@ -33,7 +33,7 @@ export default function Settings(){
         </div>
 
         {/* Profile Section */}
-        <section>
+        <section className={`${isActive === "Profile" ? "block" : "hidden"}`}>
           <div className="p-6 bg-white border border-gray-200 rounded-xl">
             <h1 className="font-bold text-gray-800">Profile Information</h1>
             <div className="flex items-center gap-4 my-6">
@@ -85,6 +85,20 @@ export default function Settings(){
                 <button className="text-sm text-red-600">Disconnect</button>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Preferences Section */}
+        <section className={`${isActive === "Preferences" ? "block" : "hidden"}`}>
+          <div className="p-6 bg-white border border-gray-200 rounded-xl">
+            <h1 className="font-bold text-gray-800">Preferences</h1>
+          </div>
+        </section>
+
+        {/* Security Section */}
+        <section className={`${isActive === "Security" ? "block" : "hidden"}`}>
+          <div className="p-6 bg-white border border-gray-200 rounded-xl">
+            <h1 className="font-bold text-gray-800">Security</h1>
           </div>
         </section>
       </main>

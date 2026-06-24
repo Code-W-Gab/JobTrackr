@@ -27,7 +27,7 @@ export default function Applications(){
             <h1 className="font-bold text-xl text-gray-800">Applications</h1>
             <p className="text-xs text-gray-500">{allApplicationCount} application found</p>
           </div>
-          <div className="bg-white p-2.5 rounded-lg mt-8">
+          <div className="bg-white p-2.5 rounded-lg mt-8 border border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-full">
                 <div className="relative flex items-center">

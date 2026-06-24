@@ -1,9 +1,17 @@
-export interface ILogin {
+export interface IUser {
+  _id: string;
+  fullName: string;
   email: string;
-  password: string;
+  password?: string;
+  confirmPassword?: string;
 }
 
-export interface IRegister extends ILogin {
-  fullName: string;
-  confirmPassword: string;
+export type LoginType = Pick<IUser, "email" | "password">
+
+export type RegisterType = Omit<IUser, "_id">
+
+export interface ApiResponse<T> {
+  success: boolean,
+  data: T,
+  message: string
 }

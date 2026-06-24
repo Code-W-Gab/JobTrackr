@@ -6,11 +6,10 @@ import { validationResult } from "express-validator";
 import { loginDTO, registerDTO, IdParams } from "../types/authTypes";
 
 const authController = {
-  async Register (req: Request<{}, {}, registerDTO>, res: Response) {
+  async Register(req: Request<{}, {}, registerDTO>, res: Response) {
     try {
-      // Validation
       const errors = validationResult(req);
-      if (!errors.isEmpty()) return res.status(404).json({ errors: errors.array() })
+      if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() }); // Fixed: 400
         
       const { fullName, email, password, confirmPassword } = req.body;
       const userExists = await authSchema.findOne({ email });
@@ -23,7 +22,6 @@ const authController = {
         return res.status(400).json({ message: "Passwords do not match" });
       }
 
-      // Hashed Password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -31,85 +29,106 @@ const authController = {
         fullName,
         email,
         password: hashedPassword,
-        confirmPassword: hashedPassword
-      })
+      });
 
       res.status(201).json({
         success: true,
-        data: newUser,
+        data: {
+          id: newUser._id,
+          fullName: newUser.fullName,
+          email: newUser.email,
+        },
         message: "User registered successfully"
-      })
+      });
     } catch (error) {
+      console.error("Register error:", error); // Log actual error
       res.status(500).json({
         success: false,
         message: "Internal server error"
-      })
+      });
     }
   },
 
-  async Login(req: Request<{}, {}, loginDTO>, res: Response){
+  async Login(req: Request<{}, {}, loginDTO>, res: Response) {
     try {
-      // Validation
-      const errors = validationResult(req)
-      if (!errors.isEmpty()) return res.status(404).json({ errors: errors.array() })
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
       const { email, password } = req.body;
-      const user = await authSchema.findOne({email})
+      const user = await authSchema.findOne({ email });
+      
       if (!user) return res.status(400).json({
         success: false,
         message: "User not found"
-      })
+      });
 
-      // Compare password
-      const isMatch = await bcrypt.compare(password, user.password)
+      const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({
         success: false,
         message: "Invalid Credentials"
-      })
+      });
 
-      // Creating token
+      // Use same expiration for JWT and cookie
+      const tokenExpiry = 15 * 60; // 15 minutes in seconds
       const token = jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET!,
-        { expiresIn: "15m" }
-      )
+        { expiresIn: tokenExpiry }
+      );
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure: false, // Set to true in production with HTTPS
         sameSite: "none",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      })
+        maxAge: tokenExpiry * 1000 // Convert to milliseconds
+      });
 
       res.status(200).json({
         success: true,
-        data: user,
+        data: {
+          id: user._id,
+          fullName: user.fullName,
+          email: user.email,
+        },
         message: "Login successful"
-
-      })
+      });
     } catch (error) {
+      console.error("Login error:", error);
       res.status(500).json({
         success: false,
         message: "Internal server error"
-      })
+      });
     }
   },
 
-  async GetMe(req: Request<IdParams>, res: Response){
+  async GetMe(req: Request, res: Response) {
     try {
-      const user = await authSchema.findById(req.params.id)
+      const user = await authSchema.findById(req.userId);
+      
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found"
+        });
+      }
+      
       res.status(200).json({
         success: true,
-        data: user,
+        data: {
+          id: user._id,
+          fullName: user.fullName,
+          email: user.email,
+        },
         message: "User retrieved successfully"
-      })
+      });
     } catch (error) {
+      console.error("GetMe error:", error);
       res.status(500).json({
         success: false,
         message: "Internal server error"
-      })
+      });
     }
   }
-}
+};
 
-export default authController
+export default authController;

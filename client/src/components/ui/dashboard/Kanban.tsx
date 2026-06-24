@@ -31,7 +31,7 @@ export default function Kanban(){
         <p className="text-xs text-gray-500">Drag and drop to update application status</p>
       </div>
       
-      <div className="mt-6 flex-1 overflow-x-auto overflow-y-hidden">
+      <div className="mt-6 flex-1 overflow-x-auto overflow-y-auto">
         <div className="flex gap-4 h-full w-100">
           {status.map((item, index) => {
             const columnApplications = getApplicationsByStatus(item.type)

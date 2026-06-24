@@ -9,6 +9,10 @@ declare global {
   }
 }
 
+interface JwtPayload {
+  userId: string
+}
+
 export const protect: RequestHandler = (req, res, next) => {
   try {
     const token = req.cookies.token;
@@ -19,9 +23,9 @@ export const protect: RequestHandler = (req, res, next) => {
     const decoded = jwt.verify(
       token, 
       process.env.JWT_SECRET!
-    ) as { id: string };
+    ) as JwtPayload
 
-    req.userId = decoded.id
+    req.userId = decoded.userId
     
     next()
   } catch (error) {

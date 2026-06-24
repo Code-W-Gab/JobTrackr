@@ -1,13 +1,13 @@
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { login, register } from "../service/authService"
-import type { ILogin, IRegister } from "../types/authTypes"
+import type { LoginType, RegisterType } from "../types/authTypes"
 
 export const useAuth = () => {
   const navigate = useNavigate();
 
   // Handle Login
-  const handleLoginSubmit = async (loginData: ILogin): Promise<void> => {
+  const handleLoginSubmit = async (loginData: LoginType): Promise<void> => {
     if (!loginData.email || !loginData.password) {
       toast.error("Please fill all fields")
       return
@@ -24,7 +24,7 @@ export const useAuth = () => {
   }
 
   // Handle Register
-  const handleRegisterSubmit = async (registerData: IRegister): Promise<void> => {
+  const handleRegisterSubmit = async (registerData: RegisterType): Promise<void> => {
     if (!registerData.fullName || !registerData.email || !registerData.password || !registerData.confirmPassword) {
       toast.error("Please fill all fields")
       return
