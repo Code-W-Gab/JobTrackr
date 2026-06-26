@@ -9,14 +9,23 @@ export default function Settings(){
   const [isActive, setIsActive] = useState<string>("Profile");
   const [fullName, setFullName] = useState<string | undefined>("")
   const [email, setEmail] = useState<string | undefined>("")
+  const [currentPassword, setCurrentPassword] = useState<string>("")
+  const [newPassword, setNewPassword] = useState<string>("")
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("")
   const { user } = useAuthContext()
-  const { handleUpdateMe } = useAuth()
+  const { handleUpdateMe, handleUpdatePass } = useAuth()
 
   const navSetting: INav[] = [
     { name: "Profile" },
     { name: "Preferences" },
     { name: "Security" }
   ];
+
+  const updateData = {
+    currentPassword,
+    newPassword,
+    confirmNewPassword
+  }
 
   useEffect(() => {
     function setter(){
@@ -117,7 +126,51 @@ export default function Settings(){
         {/* Security Section */}
         <section className={`${isActive === "Security" ? "block" : "hidden"}`}>
           <div className="p-6 bg-white border border-gray-200 rounded-xl">
-            <h1 className="font-bold text-gray-800">Security</h1>
+            <h1 className="font-bold text-gray-800">Change Password</h1>
+            <div className="grid grid-cols-3 items-center gap-3 mt-4">
+              <div>
+                <label htmlFor="currentPassword" className="block text-xs font-medium text-gray-700">Current Password</label>
+                <input 
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  type="text" 
+                  id="currentPassword" 
+                  placeholder="Current Password" 
+                  className="mt-1.5 block w-full border border-gray-300 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label htmlFor="newPassword" className="block text-xs font-medium text-gray-700">New Password</label>
+                <input 
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  type="text" 
+                  id="newPassword" 
+                  placeholder="New Password" 
+                  className="mt-1.5 block w-full border border-gray-300 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label htmlFor="confirmNewPass" className="block text-xs font-medium text-gray-700">Confirm New Password</label>
+                <input 
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  type="text" 
+                  id="confirmNewPass" 
+                  placeholder="Confirm New Password" 
+                  className="mt-1.5 block w-full border border-gray-300 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end mt-4 ">
+              <button onClick={(e) => {
+                e.preventDefault();
+                handleUpdatePass(updateData)
+                setCurrentPassword("")
+                setNewPassword("")
+                setConfirmNewPassword("")
+              }} className="bg-indigo-700 font-medium px-6 py-2 text-white rounded-xl text-sm cursor-pointer">Update Password</button>
+            </div>
           </div>
         </section>
       </main>

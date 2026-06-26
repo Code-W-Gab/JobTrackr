@@ -42,6 +42,34 @@ export const loginRules = [
 ]
 
 export const updateMeRules = [
+  body('currentPassword')
+    .isStrongPassword({
+      minLength: 6,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 0
+    }).withMessage('Current password must be at least 6 characters and include letters and numbers.'),
+  body('newPassword')
+    .isStrongPassword({
+      minLength: 6,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 0
+    }).withMessage('New password must be at least 6 characters and include letters and numbers.'),
+  body('confirmNewPassword')
+    .isStrongPassword({
+      minLength: 6,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 0
+    }).withMessage('Confirm new password must be at least 6 characters and include letters and numbers.'),
+
+]
+
+export const updatePassRules = [
   body('fullName')
     .notEmpty().withMessage('Name must not empty')
     .isString().withMessage('Name must be string'),

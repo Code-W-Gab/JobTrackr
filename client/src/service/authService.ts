@@ -1,5 +1,5 @@
 import api from "../Api/axios.ts"
-import type { LoginType, RegisterType } from "../types/authTypes.ts";
+import type { LoginType, RegisterType, IUpdatePass } from "../types/authTypes.ts";
 
 export const login = (
   loginData: LoginType
@@ -15,6 +15,10 @@ export const getMe = (
 export const updateMe = (
   fullName: string
 ) => api.put('/api/auth/me/update', {fullName})
+
+export const updatePass = (
+  updateData: IUpdatePass
+) => api.put('/api/auth/me/updatePass', updateData)
 
 export const logout = (
 ) => api.post('/api/auth/logout')

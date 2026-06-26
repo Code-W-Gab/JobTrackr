@@ -1,5 +1,5 @@
 import authSchema from "../models/authSchema";
-import { Request, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
@@ -141,13 +141,14 @@ export const UpdateMe: RequestHandler<{}, {}, updateMeDTO> = async (req, res) =>
     );
 
     if(!me) return res.status(404).json({ message: "User not found"})
-      res.status(200).json({
-        success: true,
-        data: {
-          fullName: me.fullName
-        },
-        message: "User updated successfully"
-      })
+
+    res.status(200).json({
+      success: true,
+      data: {
+        fullName: me.fullName
+      },
+      message: "User updated successfully"
+    })
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -177,10 +178,59 @@ export const Logout: RequestHandler = async (req, res) => {
   }
 }
 
+export const UpdatePassword: RequestHandler = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body
+    const user = await authSchema.findById(req.userId);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+    
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) return res.status(400).json({
+      success: false,
+      message: "Invalid Credentials"
+    });
+
+    if(newPassword !== confirmNewPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const me = await authSchema.findByIdAndUpdate(
+      req.userId,
+      { password: hashedPassword },
+      { returnDocument: 'after', runValidators: true }
+    );
+
+    if(!me) return res.status(404).json({ message: "User not found"})
+
+    res.status(200).json({
+      success: true,
+      data: me,
+      message: "User Update successfully"
+    });
+
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+}
+
 export default {
   Register,
   Login,
   GetMe,
   UpdateMe,
-  Logout
+  Logout,
+  UpdatePassword
 };

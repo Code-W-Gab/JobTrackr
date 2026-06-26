@@ -7,6 +7,7 @@ interface AuthContextType {
   user: IUser | null;
   loading: boolean;
   error: string | null;
+  fetchUser: () => void
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

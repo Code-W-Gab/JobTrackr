@@ -1,7 +1,7 @@
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { login, logout, register, updateMe } from "../service/authService"
-import type { LoginType, RegisterType } from "../types/authTypes"
+import { login, logout, register, updateMe, updatePass } from "../service/authService"
+import type { IUpdatePass, LoginType, RegisterType } from "../types/authTypes"
 import { useContext } from "react"
 import { AuthContext } from "../context/authContext"
 
@@ -61,6 +61,22 @@ export const useAuth = () => {
     }
   }
 
+  // Handle Update Password
+  const handleUpdatePass = async (updateData: IUpdatePass) => {
+    try {
+      if(!updateData.currentPassword || !updateData.newPassword || !updateData.confirmNewPassword){
+        toast.error("Please fill all fields")
+        return
+      }
+      const res = await updatePass(updateData)
+      fetchUser()
+      toast.success(res.data?.message)
+    } catch (err) {
+      console.log(err)
+      toast.error("Update Failed")
+    }
+  }
+
   // Handle Logout
   const handleLogout = async (): Promise<void> => {
     try {
@@ -72,8 +88,9 @@ export const useAuth = () => {
       toast.error('Logout failed')
     }
   }
+  
 
-  return { handleLoginSubmit, handleRegisterSubmit, handleUpdateMe, handleLogout }
+  return { handleLoginSubmit, handleRegisterSubmit, handleUpdateMe, handleUpdatePass, handleLogout }
 }
 
 export const useAuthContext = () => {
