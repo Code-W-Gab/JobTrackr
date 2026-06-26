@@ -20,31 +20,33 @@ export const AuthProvider = ({ children }: authProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUser = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        setError(null);
-        const res = await getMe();
-        const data = res.data?.data|| null;
-        console.log(data)
-        setUser(data);
-      } catch (error) {
-        setError("Failed to fetch user");
-        if (error instanceof Error) {
-          console.error("Error fetching user:", error.message);
-        }
-        setUser(null);
-      } finally {
-        setLoading(false);
+  const fetchUser = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await getMe();
+      const data = res.data?.data|| null;
+      console.log(data)
+      setUser(data);
+    } catch (error) {
+      setError("Failed to fetch user");
+      if (error instanceof Error) {
+        console.error("Error fetching user:", error.message);
       }
-    };
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    
 
     fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, error }}>
+    <AuthContext.Provider value={{ user, loading, error, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

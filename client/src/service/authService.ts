@@ -11,3 +11,10 @@ export const register = (
 
 export const getMe = (
 ) => api.get('/api/auth/me')
+
+export const updateMe = (
+  fullName: string
+) => api.put('/api/auth/me/update', {fullName})
+
+export const logout = (
+) => api.post('/api/auth/logout')
