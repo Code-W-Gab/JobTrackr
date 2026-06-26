@@ -1,9 +1,13 @@
 import applicationSchema from "../models/applicationSchema";
 import { createApplicationDTO, updateApplicationDTO, IdParams } from "../types/applicationTypes";
 import { RequestHandler } from "express";
+import { validationResult } from "express-validator";
 
 export const createApplication: RequestHandler<{}, {}, createApplicationDTO> = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() }); // Fixed: 400
+          
     const newApplication = await applicationSchema.create(req.body)
 
     res.status(201).json({
@@ -21,6 +25,9 @@ export const createApplication: RequestHandler<{}, {}, createApplicationDTO> = a
 
 export const updateApplication: RequestHandler<IdParams, {}, updateApplicationDTO> = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() }); // Fixed: 400
+      
     const application = await applicationSchema.findByIdAndUpdate(
       req.params.id,
       req.body,

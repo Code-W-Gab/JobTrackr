@@ -12,6 +12,8 @@ export interface loginDTO {
 
 export type registerDTO = IUser;
 
+export type updateMeDTO = Partial<Pick<IUser, "fullName">>
+
 export interface IAuthResponse {
   success: boolean;
   data?: IUser;
