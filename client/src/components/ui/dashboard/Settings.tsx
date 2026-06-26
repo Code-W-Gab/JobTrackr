@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useAuth, useAuthContext } from "../../../hook/useAuth";
 
 interface INav {
   name: string,
@@ -6,12 +7,25 @@ interface INav {
 
 export default function Settings(){
   const [isActive, setIsActive] = useState<string>("Profile");
+  const [fullName, setFullName] = useState<string | undefined>("")
+  const [email, setEmail] = useState<string | undefined>("")
+  const { user } = useAuthContext()
+  const { handleUpdateMe } = useAuth()
 
   const navSetting: INav[] = [
     { name: "Profile" },
     { name: "Preferences" },
     { name: "Security" }
   ];
+
+  useEffect(() => {
+    function setter(){
+      setFullName(user?.fullName)
+      setEmail(user?.email)
+    }
+
+    setter();
+  }, [user])
 
   return(
     <div className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 overflow-x-auto">
@@ -41,8 +55,8 @@ export default function Settings(){
                 <span>GC</span>
               </div>
               <div className="">
-                <h3 className="font-semibold">Gabriel Concepcion</h3>
-                <p className="text-gray-600 text-xs">Gab@gmail.com</p>
+                <h3 className="font-semibold">{user?.fullName}</h3>
+                <p className="text-gray-600 text-xs">{user?.email}</p>
                 <button className="text-indigo-600 hover:underline text-xs cursor-pointer">Change photo</button>
               </div>
             </div>
@@ -50,6 +64,8 @@ export default function Settings(){
               <div>
                 <label htmlFor="fullName" className="block text-xs font-medium text-gray-700">Full Name</label>
                 <input 
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                   type="text" 
                   id="fullName" 
                   placeholder="Your Name" 
@@ -59,15 +75,18 @@ export default function Settings(){
               <div>
                 <label htmlFor="fullName" className="block text-xs font-medium text-gray-700">Email</label>
                 <input 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  readOnly
                   type="email" 
                   id="email" 
                   placeholder="name@example.com" 
-                  className="mt-1.5 block w-full border border-gray-300 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1.5 block w-full text-gray-500 border border-gray-300 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
             </div>
             <div className="flex justify-end mt-4 ">
-              <button className="bg-indigo-700 font-medium px-6 py-2 text-white rounded-xl text-sm cursor-pointer">Save Changes</button>
+              <button onClick={() => handleUpdateMe(fullName)} className="bg-indigo-700 font-medium px-6 py-2 text-white rounded-xl text-sm cursor-pointer">Save Changes</button>
             </div>
           </div>
 

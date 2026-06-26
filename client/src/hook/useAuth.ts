@@ -1,21 +1,13 @@
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { login, register } from "../service/authService"
+import { login, logout, register, updateMe } from "../service/authService"
 import type { LoginType, RegisterType } from "../types/authTypes"
 import { useContext } from "react"
 import { AuthContext } from "../context/authContext"
 
 export const useAuth = () => {
   const navigate = useNavigate();
-
-  // Handle Get Me
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error(
-      "useAuth must be used inside AuthProvider"
-    );
-  }
+  const { fetchUser } = useAuthContext()
 
   // Handle Login
   const handleLoginSubmit = async (loginData: LoginType): Promise<void> => {
@@ -26,6 +18,7 @@ export const useAuth = () => {
 
     try {
       await login(loginData)
+      await fetchUser()
       navigate('/dashboard')
       toast.success("Login successfully")
     } catch (err) {
@@ -51,5 +44,47 @@ export const useAuth = () => {
     }
   }
 
-  return { handleLoginSubmit, handleRegisterSubmit, context }
+  // Handle Update Me
+  const handleUpdateMe = async (fullName: string | undefined): Promise<void> => {
+    if(!fullName){
+      toast.error("Please fill all fields")
+      return
+    }
+
+    try {
+      await updateMe(fullName)
+      fetchUser()
+      toast.success("Updated successful")
+    } catch (err) {
+      console.log(err)
+      toast.error("Update Failed")
+    }
+  }
+
+  // Handle Logout
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout()
+      navigate('/home')
+      toast.success('Logout successfully')
+    } catch (error) {
+      console.log(error)
+      toast.error('Logout failed')
+    }
+  }
+
+  return { handleLoginSubmit, handleRegisterSubmit, handleUpdateMe, handleLogout }
+}
+
+export const useAuthContext = () => {
+  // Handle Get Me
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth must be used inside AuthProvider"
+    );
+  }
+
+  return context;
 }

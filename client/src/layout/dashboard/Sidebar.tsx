@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Logout from '../../components/common/Logout';
 import Profile from '../../components/common/Profile';
+import { useAuthContext } from '../../hook/useAuth';
 
 interface INav {
   name: string,
@@ -11,7 +12,9 @@ interface INav {
 }
 
 export default function Sidebar(){
+  const { user } = useAuthContext()
   const location = useLocation();
+  
   const navOption: INav[] = [
     { name: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
     { name: "Application", to: "/application", icon: Briefcase },
@@ -20,6 +23,7 @@ export default function Sidebar(){
     { name: "Analytics", to: "/analytics", icon: ChartColumn },
     { name: "Settings", to: "/settings", icon: Settings },
   ]
+
   return(
     <aside className="flex flex-col justify-between w-55 bg-white">
       <nav className='py-3 px-4'>
@@ -44,8 +48,8 @@ export default function Sidebar(){
         <div className='flex items-center gap-2 px-1 mt-2'>
           <Profile initials='GC'/>
           <div>
-            <h3 className='text-xs font-semibold'>Gabriel Concepcion</h3>
-            <p className='text-[10px] text-gray-500'>gab@example.com</p>
+            <h3 className='text-xs font-semibold'>{user?.fullName}</h3>
+            <p className='text-[10px] text-gray-500'>{user?.email}</p>
           </div>
         </div>
       </div>
