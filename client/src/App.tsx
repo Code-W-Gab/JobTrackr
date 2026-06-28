@@ -8,6 +8,7 @@ import KanbanViewPage from "./pages/KanbanViewPage";
 import CalendarPage from "./pages/CalendarPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
+import ProtectedRoute from "./routes/ProtectedRoutes";
 
 export default function App() {
   return (
@@ -21,13 +22,15 @@ export default function App() {
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/application" element={<ApplicationPage />} />
-        <Route path="/kanban-board" element={<KanbanViewPage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/analytics" element={<AnalyticsPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route element={<ProtectedRoute/>}>
+          {/* Dashboard */}
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/application" element={<ApplicationPage />} />
+          <Route path="/kanban-board" element={<KanbanViewPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
       </Routes>
     </div>
   )

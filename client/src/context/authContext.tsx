@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: authProps) => {
 
   const fetchUser = async (): Promise<void> => {
     try {
-      setLoading(true);
       setError(null);
       const res = await getMe();
       const data = res.data?.data|| null;
