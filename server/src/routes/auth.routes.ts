@@ -1,7 +1,20 @@
 import { Router } from "express";
-import { Register, Login, Logout, GetMe, UpdateMe, UpdatePassword, DeleteAccount } from "../controllers/authController";
-import { registerRules, loginRules, updateMeRules, updatePassRules } from "../middleware/validationMiddleware";
-import { protect } from "../middleware/authMiddleware";
+import {
+  DeleteAccount,
+  GetMe,
+  Login,
+  Logout,
+  Register,
+  UpdateMe,
+  UpdatePassword
+} from "../controllers/auth.controller";
+import { protect } from "../middleware/auth.middleware";
+import {
+  loginRules,
+  registerRules,
+  updateMeRules,
+  updatePassRules
+} from "../middleware/validation.middleware";
 
 const router = Router()
 

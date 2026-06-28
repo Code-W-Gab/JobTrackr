@@ -1,9 +1,9 @@
-import authSchema from "../models/authSchema";
+import authSchema from "../models/auth.schema";
 import { RequestHandler } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
-import { IUpdatePass, loginDTO, registerDTO, updateMeDTO } from "../types/authTypes";
+import { IUpdatePass, loginDTO, registerDTO, updateMeDTO } from "../types/auth.types";
 
 export const Register: RequestHandler<{}, {}, registerDTO> = async (req, res) => {
   try {

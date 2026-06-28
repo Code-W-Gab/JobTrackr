@@ -5,8 +5,11 @@ import {
   deleteApplication, 
   getApplication,
   getApplicationById
-} from '../controllers/applicationController';
-import { createApplicationRules, updateApplicationRules } from '../middleware/validationMiddleware';
+} from '../controllers/application.controller';
+import { 
+  createApplicationRules, 
+  updateApplicationRules 
+} from '../middleware/validation.middleware';
 
 const router = Router();
 

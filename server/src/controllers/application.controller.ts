@@ -1,5 +1,5 @@
-import applicationSchema from "../models/applicationSchema";
-import { createApplicationDTO, updateApplicationDTO, IdParams } from "../types/applicationTypes";
+import applicationSchema from "../models/application.schema";
+import { createApplicationDTO, updateApplicationDTO, IdParams } from "../types/application.types";
 import { RequestHandler } from "express";
 import { validationResult } from "express-validator";
 

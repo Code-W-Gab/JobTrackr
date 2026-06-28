@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IApplication } from "../types/applicationTypes";
+import { IApplication } from "../types/application.types";
 
 const applicationSchema = new mongoose.Schema<IApplication>({
   companyName: {
