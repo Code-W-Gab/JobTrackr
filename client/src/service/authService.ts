@@ -20,5 +20,8 @@ export const updatePass = (
   updateData: IUpdatePass
 ) => api.put('/api/auth/me/updatePass', updateData)
 
+export const deleteAccount = (
+) => api.delete('/api/auth/me/delete')
+
 export const logout = (
 ) => api.post('/api/auth/logout')

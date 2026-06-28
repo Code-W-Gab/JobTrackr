@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
-import { loginDTO, registerDTO, updateMeDTO } from "../types/authTypes";
+import { IUpdatePass, loginDTO, registerDTO, updateMeDTO } from "../types/authTypes";
 
 export const Register: RequestHandler<{}, {}, registerDTO> = async (req, res) => {
   try {
@@ -178,8 +178,11 @@ export const Logout: RequestHandler = async (req, res) => {
   }
 }
 
-export const UpdatePassword: RequestHandler = async (req, res) => {
+export const UpdatePassword: RequestHandler<{}, {}, IUpdatePass> = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
     const { currentPassword, newPassword, confirmNewPassword } = req.body
     const user = await authSchema.findById(req.userId);
     
@@ -213,12 +216,34 @@ export const UpdatePassword: RequestHandler = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: me,
-      message: "User Update successfully"
+      data: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+      },
+      message: "Password Update successfully"
     });
 
   } catch (error) {
-    console.error("Logout error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+}
+
+
+export const DeleteAccount: RequestHandler = async (req, res) => {
+  try {
+    const user = await authSchema.findByIdAndDelete(req.userId)
+
+    if(!user) return res.status(404).json({ message: "User not found"})
+    
+    res.status(201).json({
+      success: true,
+      message: "User deleted successfully"
+    })
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: "Internal server error"

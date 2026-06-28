@@ -23,3 +23,9 @@ export interface IAuthResponse {
 export interface IdParams {
   id: string
 }
+
+export interface IUpdatePass {
+  currentPassword: string,
+  newPassword: string,
+  confirmNewPassword: string
+}

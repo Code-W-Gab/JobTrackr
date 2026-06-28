@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Register, Login, Logout, GetMe, UpdateMe, UpdatePassword} from "../controllers/authController";
+import { Register, Login, Logout, GetMe, UpdateMe, UpdatePassword, DeleteAccount } from "../controllers/authController";
 import { registerRules, loginRules, updateMeRules, updatePassRules } from "../middleware/validationMiddleware";
 import { protect } from "../middleware/authMiddleware";
 
@@ -10,6 +10,7 @@ router.post('/login', loginRules, Login)
 router.get('/me', protect, GetMe)
 router.put('/me/update', protect, updateMeRules, UpdateMe)
 router.put('/me/updatePass', protect, updatePassRules, UpdatePassword)
+router.delete('/me/delete', protect, DeleteAccount)
 router.post('/logout', protect, Logout)
 
 

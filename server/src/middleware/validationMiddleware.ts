@@ -41,7 +41,7 @@ export const loginRules = [
     }).withMessage('Password must be at least 6 characters and include letters and numbers.')
 ]
 
-export const updateMeRules = [
+export const updatePassRules = [
   body('currentPassword')
     .isStrongPassword({
       minLength: 6,
@@ -69,7 +69,7 @@ export const updateMeRules = [
 
 ]
 
-export const updatePassRules = [
+export const updateMeRules = [
   body('fullName')
     .notEmpty().withMessage('Name must not empty')
     .isString().withMessage('Name must be string'),

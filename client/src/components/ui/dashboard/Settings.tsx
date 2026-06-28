@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAuth, useAuthContext } from "../../../hook/useAuth";
+import { Trash2 } from "lucide-react";
+import DeleteAccountModal from "../../overlays/DeleteAccountModal";
 
 interface INav {
   name: string,
@@ -12,8 +14,9 @@ export default function Settings(){
   const [currentPassword, setCurrentPassword] = useState<string>("")
   const [newPassword, setNewPassword] = useState<string>("")
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("")
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const { user } = useAuthContext()
-  const { handleUpdateMe, handleUpdatePass } = useAuth()
+  const { handleUpdateMe, handleUpdatePass, handleDeleteAccount } = useAuth()
 
   const navSetting: INav[] = [
     { name: "Profile" },
@@ -172,8 +175,29 @@ export default function Settings(){
               }} className="bg-indigo-700 font-medium px-6 py-2 text-white rounded-xl text-sm cursor-pointer">Update Password</button>
             </div>
           </div>
+
+          <div className="p-6 bg-red-100 border border-red-200 rounded-xl mt-4">
+            <div className="flex items-start gap-2 text-red-700">
+              <Trash2 size={16}/>
+              <h3 className="font-semibold text-sm">Delete Account</h3>
+              
+            </div>
+            <p className="text-xs text-red-700 ml-6 mt-1">Once you delete your account, all your data will be permanently removed. This action canny be undone</p>
+            <button onClick={() => setIsDeleteModalOpen(true)} className="text-red-700 text-xs font-semibold border border-red-500 py-1.5 px-4 rounded-lg mt-4 cursor-pointer hover:bg-red-300">Delete my account</button>
+          </div>
         </section>
       </main>
+
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
+          <div className="z-50">
+            <DeleteAccountModal
+              onClose={() => setIsDeleteModalOpen(false)}
+              onDelete={handleDeleteAccount}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

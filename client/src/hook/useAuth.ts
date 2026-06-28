@@ -1,6 +1,6 @@
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { login, logout, register, updateMe, updatePass } from "../service/authService"
+import { deleteAccount, login, logout, register, updateMe, updatePass } from "../service/authService"
 import type { IUpdatePass, LoginType, RegisterType } from "../types/authTypes"
 import { useContext } from "react"
 import { AuthContext } from "../context/authContext"
@@ -88,9 +88,21 @@ export const useAuth = () => {
       toast.error('Logout failed')
     }
   }
+
+  // Handle Delete Account
+  const handleDeleteAccount = async (): Promise<void> => {
+    try {
+      const res = await deleteAccount()
+      navigate('/home')
+      toast.success(res.data?.message)
+    } catch (error) {
+      console.log(error)
+      toast.error('Delete failed')
+    }
+  }
   
 
-  return { handleLoginSubmit, handleRegisterSubmit, handleUpdateMe, handleUpdatePass, handleLogout }
+  return { handleLoginSubmit, handleRegisterSubmit, handleUpdateMe, handleUpdatePass, handleDeleteAccount, handleLogout }
 }
 
 export const useAuthContext = () => {
