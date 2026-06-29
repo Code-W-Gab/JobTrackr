@@ -32,7 +32,7 @@ export default function Kanban(){
       </div>
       
       <div className="mt-6 flex-1 overflow-x-auto overflow-y-auto">
-        <div className="flex gap-4 h-full w-100">
+        <div className="flex gap-4 w-100 ">
           {status.map((item, index) => {
             const columnApplications = getApplicationsByStatus(item.type)
 

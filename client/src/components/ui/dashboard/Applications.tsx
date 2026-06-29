@@ -20,9 +20,9 @@ export default function Applications(){
   const allApplicationCount = applications.length 
 
   return(
-    <main className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 overflow-y-auto">
-      <div className="h-100">
-        <div className={`${isOpenApplication ? "hidden" : "block"}`}>
+    <main className="h-full overflow-y-auto p-6 bg-[#f5f7f7] border-l border-indigo-100 ">
+      <div>
+        <div className={`${isOpenApplication ? "hidden" : "block"} shrink-0`}>
           <div className="space-y-1">
             <h1 className="font-bold text-xl text-gray-800">Applications</h1>
             <p className="text-xs text-gray-500">{allApplicationCount} application found</p>
@@ -77,7 +77,7 @@ export default function Applications(){
             </div>
           </div>
 
-          <table className="w-full text-left text-sm text-gray-500 mt-4 rounded-lg border border-gray-200">
+          <table className="w-full text-left text-sm text-gray-500 mt-4 rounded-lg border border-gray-200 flex-1">
             <thead className="text-[11px] text-gray-500 uppercase bg-gray-100 ">
               <tr >
                 <th scope="col" className="px-5 py-3">COMPANY</th>

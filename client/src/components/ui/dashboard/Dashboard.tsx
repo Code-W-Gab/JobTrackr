@@ -83,6 +83,23 @@ export default function Dashboard(){
         })}
       </div>
 
+      <div className='bg-white p-4 mt-4 rounded-xl border border-gray-200 w-100'>
+        <div className='flex items-center justify-between'>
+          <h1 className='font-bold text-gray-900'>Upcoming Interviews</h1>
+          <button className='text-indigo-600 text-xs hover:underline cursor-pointer'>View all</button>
+        </div>
+        <div className='flex items-center justify-between py-2 px-3 bg-gray-100 rounded-lg'>
+          <div>
+            <h4 className='text-sm font-semibold'>Notion</h4>
+            <p className='text-xs text-gray-500'>Full Stack Developer</p>
+          </div>
+          <div>
+            <span className='text-xs text-orange-500'>Tomorrow</span>
+            <p className='text-xs text-gray-500'>10:00 AM</p>
+          </div>
+        </div>
+      </div>
+
       {isModalOpen && (
         <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
           <div className="z-50">

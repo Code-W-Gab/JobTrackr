@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export default function Header({ setIsModalOpen }: HeaderProps) {
   return(
-    <header className="bg-white w-full p-3 flex items-center justify-between border-l border-indigo-100">
+    <header className="bg-white px-4 flex items-center justify-between border-l border-indigo-100">
       <SearchBar/>
       <div className="flex items-center gap-2">
         <div className="hover:bg-indigo-100 p-1.5 rounded-lg">
