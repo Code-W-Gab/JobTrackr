@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../hook/useAuth";
+import Input from "../../common/Input";
+import InputPassword from "../../common/InputPassword";
 
 export default function Login(){
   const [email, setEmail] = useState<string>('');
@@ -31,38 +33,27 @@ export default function Login(){
             <span className="bg-white px-2 text-gray-500 text-xs">Or continue with email</span>
           </div>
         </div>
-        <form className="space-y-4" onSubmit={(e) => {
-          e.preventDefault();
-          handleLoginSubmit(loginData);
-        }}>
+        <form className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="example@gmail.com" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+           <Input type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
           </div>
           <div>
             <label htmlFor="password" className="block text-xs font-medium text-gray-700">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="••••••••" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <InputPassword passwordType="password" textType="text" placeholder="••••••••" value={password} setValue={setPassword}/>
           </div>
           <div className="flex justify-end">
             <div className="text-xs text-indigo-600 text-right mt-1">
               <Link to="/auth/forgot-password" className="text-indigo-600 hover:text-indigo-500 font-medium">Forgot password?</Link >
             </div>
           </div>
-          <button type="submit" className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Sign In</button>
+          <button onClick={(e) => {
+            e.preventDefault();
+            handleLoginSubmit(loginData);
+          }}
+            className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">
+              Sign In
+          </button>
         </form>
         <p className="text-sm text-gray-600 mt-6 text-center">Don't have an account? <Link to="/auth/register" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign Up</Link ></p>   
 

@@ -40,8 +40,8 @@ export default function Settings(){
   }, [user])
 
   return(
-    <div className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 overflow-x-auto">
-      <main className="h-100">
+    <main className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 overflow-y-auto">
+      <div>
         <div className="space-y-1">
           <h1 className="font-bold text-xl text-gray-800">Settings</h1>
           <p className="text-xs text-gray-500">Manage your account and preferences</p>
@@ -102,7 +102,7 @@ export default function Settings(){
             </div>
           </div>
 
-          <div className="p-6 bg-white border border-gray-200 rounded-xl my-6">
+          <div className="p-6 bg-white border border-gray-200 rounded-xl mt-6">
             <h1 className="font-bold text-gray-800">Connected Accounts</h1>
             <div className="mt-4 flex items-center justify-between">
               <div className="flex items-center gap-1">
@@ -186,7 +186,7 @@ export default function Settings(){
             <button onClick={() => setIsDeleteModalOpen(true)} className="text-red-700 text-xs font-semibold border border-red-500 py-1.5 px-4 rounded-lg mt-4 cursor-pointer hover:bg-red-300">Delete my account</button>
           </div>
         </section>
-      </main>
+      </div>
 
       {isDeleteModalOpen && (
         <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
@@ -198,6 +198,6 @@ export default function Settings(){
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }

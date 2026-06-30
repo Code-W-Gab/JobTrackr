@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../../hook/useAuth";
+import Input from "../../common/Input";
+import InputPassword from "../../common/InputPassword";
 
 export default function Register(){
   const [fullName, setFullName] = useState<string>('');
@@ -41,47 +43,19 @@ export default function Register(){
         }}>
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Full Name</label>
-            <input 
-              type="text" 
-              id="fullName" 
-              placeholder="Juan Dela Cruz" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
+            <Input type="text" placeholder="Juan Dela Cruz" value={fullName} setValue={setFullName}/>
           </div>
           <div>
             <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="example@gmail.com" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Input type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
           </div>
           <div>
             <label htmlFor="password" className="block text-xs font-medium text-gray-700">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="Create a strong password" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <InputPassword passwordType="password" textType="text" placeholder="Create a strong password" value={password} setValue={setPassword}/>
           </div>
           <div>
             <label htmlFor="password" className="block text-xs font-medium text-gray-700">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirmPassword" 
-              placeholder="Confirm your password" 
-              className="mt-1.5 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <InputPassword passwordType="password" textType="text" placeholder="Confirm your password" value={confirmPassword} setValue={setConfirmPassword}/>
           </div>
           <button type="submit" className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Create Account</button>
         </form>
