@@ -84,26 +84,43 @@ export default function Dashboard(){
         })}
       </div>
 
-      <div className='bg-white p-4 mt-4 rounded-xl border border-gray-200 w-100'>
-        <div className='flex items-center justify-between'>
-          <h1 className='font-bold text-gray-900'>Upcoming Interviews</h1>
-          <button className='text-indigo-600 text-xs hover:underline cursor-pointer'>View all</button>
-        </div>
-        <div className='flex items-center justify-between py-2 px-3 bg-gray-100 rounded-lg mt-4'>
-          <div className='flex gap-2'>
-            <div className='bg-black text-white px-3 rounded-xl flex items-center justify-center'>
-              <span className='text-xs font-semibold'>N</span>
+      <div className='grid grid-cols-3 gap-4 items-start'>
+        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+          <div className='flex items-center justify-between'>
+            <h1 className='font-bold text-gray-900'>Upcoming Interviews</h1>
+            <button className='text-indigo-600 text-xs hover:underline cursor-pointer'>View all</button>
+          </div>
+          <div className='flex items-center justify-between py-2 px-3 bg-gray-100 rounded-lg mt-4'>
+            <div className='flex gap-2'>
+              <div className='bg-black text-white px-3 rounded-xl flex items-center justify-center'>
+                <span className='text-xs font-semibold'>N</span>
+              </div>
+              <div>
+                <h4 className='text-sm font-semibold'>Notion</h4>
+                <p className='text-xs text-gray-500'>Full Stack Developer</p>
+              </div>
             </div>
             <div>
-              <h4 className='text-sm font-semibold'>Notion</h4>
-              <p className='text-xs text-gray-500'>Full Stack Developer</p>
+              <span className='text-xs text-orange-500'>Tomorrow</span>
+              <p className='text-xs text-gray-500'>10:00 AM</p>
             </div>
           </div>
-          <div>
-            <span className='text-xs text-orange-500'>Tomorrow</span>
-            <p className='text-xs text-gray-500'>10:00 AM</p>
+        </section>
+
+        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+          <h1 className='font-bold text-gray-900'>Recent Activity</h1>
+          <div className='mt-4'>
+            <div className='flex items-center gap-2'>
+              <div className='bg-black text-white px-3 py-2 rounded-xl flex items-center justify-center'>
+                <span className='text-xs font-semibold'>N</span>
+              </div>
+              <div className='flex flex-col  text-gray-500'>
+                <h3 className='text-xs'>Applied to <span className='font-semibold text-black'>Github</span></h3>
+                <p className='text-xs'>2h ago</p>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
 
       {isModalOpen && (
