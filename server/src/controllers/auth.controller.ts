@@ -232,7 +232,6 @@ export const UpdatePassword: RequestHandler<{}, {}, IUpdatePass> = async (req, r
   }
 }
 
-
 export const DeleteAccount: RequestHandler = async (req, res) => {
   try {
     const user = await authSchema.findByIdAndDelete(req.userId)
@@ -250,6 +249,19 @@ export const DeleteAccount: RequestHandler = async (req, res) => {
     });
   }
 }
+
+// export const forgotPassword: RequestHandler = async (req, res) => {
+//   try {
+//     const { email } = req.body
+//     const user = await authSchema.findOne({email})
+
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Internal server error"
+//     });
+//   }
+// }
 
 export default {
   Register,

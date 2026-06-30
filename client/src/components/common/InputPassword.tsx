@@ -30,7 +30,7 @@ export default function InputPassword({passwordType, textType, placeholder, valu
         className="pl-1 pr-3 cursor-pointer"
         aria-label={showPassword ? "Hide password" : "Show password"}
       >
-        {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
       </button>
     </main>
   )

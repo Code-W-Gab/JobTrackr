@@ -60,7 +60,6 @@ export default function Register(){
           <button type="submit" className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Create Account</button>
         </form>
         <p className="text-sm text-gray-600 mt-6 text-center">Already have an account? <Link to="/auth/login" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign In</Link ></p>   
-
       </div>
     </main>
   )

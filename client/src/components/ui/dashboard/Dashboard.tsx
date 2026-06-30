@@ -58,6 +58,7 @@ export default function Dashboard(){
       bgColor: "bg-violet-100"
     }
   ]
+
   return(
     <main className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100">
       <div className="flex items-center justify-between">
@@ -88,10 +89,15 @@ export default function Dashboard(){
           <h1 className='font-bold text-gray-900'>Upcoming Interviews</h1>
           <button className='text-indigo-600 text-xs hover:underline cursor-pointer'>View all</button>
         </div>
-        <div className='flex items-center justify-between py-2 px-3 bg-gray-100 rounded-lg'>
-          <div>
-            <h4 className='text-sm font-semibold'>Notion</h4>
-            <p className='text-xs text-gray-500'>Full Stack Developer</p>
+        <div className='flex items-center justify-between py-2 px-3 bg-gray-100 rounded-lg mt-4'>
+          <div className='flex gap-2'>
+            <div className='bg-black text-white px-3 rounded-xl flex items-center justify-center'>
+              <span className='text-xs font-semibold'>N</span>
+            </div>
+            <div>
+              <h4 className='text-sm font-semibold'>Notion</h4>
+              <p className='text-xs text-gray-500'>Full Stack Developer</p>
+            </div>
           </div>
           <div>
             <span className='text-xs text-orange-500'>Tomorrow</span>
