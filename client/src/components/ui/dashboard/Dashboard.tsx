@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, TrendingUp, Award, Target, CircleX } from 'lucide-react';
+import { Briefcase, Calendar, TrendingUp, Award, Target, CircleX, Plus, ArrowRight } from 'lucide-react';
 import AddJob from "../../common/AddJob";
 import { useState } from 'react';
 import AddApplicationModal from "../../overlays/AddApplicationModal";
@@ -119,6 +119,28 @@ export default function Dashboard(){
                 <p className='text-xs'>2h ago</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+          <h1 className='font-bold text-gray-900'>Quick Actions</h1>
+          <div className="space-y-2">
+            {[
+              { label: 'Add New Application', desc: 'Track a new job', color: 'bg-indigo-600' },
+              { label: 'View Calendar', desc: 'See upcoming events',  color: 'bg-blue-600' },
+              { label: 'Create Reminder', desc: 'Set a follow-up',  color: 'bg-amber-600' },
+            ].map(item => (
+              <button key={item.label} className="w-full flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all group">
+                <div className={`w-8 h-8 rounded-lg ${item.color} flex items-center justify-center shrink-0`}>
+                  <Plus className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex-1 text-left">
+                  <div className="text-sm font-medium text-[#0F172A]">{item.label}</div>
+                  <div className="text-xs text-slate-400">{item.desc}</div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
+              </button>
+            ))}
           </div>
         </section>
       </div>
