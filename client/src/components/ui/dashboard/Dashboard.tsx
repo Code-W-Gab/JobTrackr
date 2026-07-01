@@ -1,8 +1,9 @@
-import { Briefcase, Calendar, TrendingUp, Award, Target, CircleX, Plus, ArrowRight } from 'lucide-react';
-import AddJob from "../../common/AddJob";
+import { ArrowRight, Award, Briefcase, Calendar, CircleX, Plus, Target, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
+import { Area, AreaChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useApplications } from '../../../hook/useApplication';
+import AddJob from "../../common/AddJob";
 import AddApplicationModal from "../../overlays/AddApplicationModal";
-import { AreaChart, Area, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 type statusType = {
   count: number | string,
@@ -14,45 +15,55 @@ type statusType = {
 
 export default function Dashboard(){
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  
+  const { applications } = useApplications()
+
+  const statusValue: Record<string, number> = {
+    totalApplications: applications.length,
+    activeApplications: applications.filter(app => app.status === "Applied" || app.status === "Assessment").length,
+    interviewsScheduled: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length,
+    offerReceived: applications.filter(app => app.status === "Offer").length,
+    rejected: applications.filter(app => app.status === "Rejected").length,
+    successRate: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0
+  }
+
   const status: statusType[] = [
     {
-      count: 48,
+      count: statusValue.totalApplications,
       name: "Total Applications",
       icon: Briefcase,
       color: "text-indigo-700",
       bgColor: "bg-indigo-100"
     },
     {
-      count: 23,
+      count: statusValue.activeApplications,
       name: "Active Applications",
       icon: TrendingUp,
       color: "text-blue-700",
       bgColor: "bg-blue-100"
     },
     {
-      count: 9,
+      count: statusValue.interviewsScheduled,
       name: "Interviews Scheduled",
       icon: Calendar,
       color: "text-orange-700",
       bgColor: "bg-orange-100"
     },
     {
-      count: 3,
+      count: statusValue.offerReceived,
       name: "Offer Received",
       icon: Award,
       color: "text-green-700",
       bgColor: "bg-green-100"
     },
     {
-      count: 12,
+      count: statusValue.rejected,
       name: "Rejected",
       icon: CircleX,
       color: "text-red-700",
       bgColor: "bg-red-100"
     },
     {
-      count: "19.7%",
+      count: `${statusValue.successRate}%`,
       name: "Success Rate",
       icon: Target,
       color: "text-violet-700",
