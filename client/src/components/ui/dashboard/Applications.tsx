@@ -1,10 +1,16 @@
-import { Search, Funnel, ChevronDown, ChevronUp, Eye, Pencil, ExternalLink, Trash2  } from "lucide-react"
-import { useState } from "react"
+import { ChevronDown, ChevronUp, ExternalLink, Eye, Funnel, Pencil, Search, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useApplications } from "../../../hook/useApplication";
-import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
 import { formatDate } from "../../../Utils/formatDate";
 import DeleteModal from "../../overlays/DeleteModal";
+import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
 import OpenApplication from "./OpenApplication";
+
+interface filterType {
+  platform: string;
+  locationType: string;
+  jobType: string;
+}
 
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
@@ -12,11 +18,41 @@ export default function Applications(){
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isOpenApplication, setIsOpenApplication] = useState<boolean>(false)
-  const { applications, handleUpdateApplication, handleDeleteApplication } = useApplications()
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [filter, setFilter] = useState<filterType>({
+    platform: "All",
+    locationType: "All",
+    jobType: "All"
+  })
 
+  const { applications, handleUpdateApplication, handleDeleteApplication } = useApplications()
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
   const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
-  const jobType: string[] = [ "All", "Full-time", "Part-time", "Contract", "Internship" ]
+  const jobType: string[] = [ "All", "Full-Time", "Part-Time", "Contract", "Internship" ]
+
+  const filteredApplications = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return applications.filter((application) => {
+      const matchesSearch =
+        !query ||
+        application.companyName.toLowerCase().includes(query) ||
+        application.jobTitle.toLowerCase().includes(query);
+
+      const matchesPlatform =
+        filter.platform === "All" || application.platform === filter.platform;
+
+      const matchesLocation =
+        filter.locationType === "All" || application.locationType === filter.locationType;
+
+      const matchesJobType =
+        filter.jobType === "All" || application.jobType === filter.jobType;
+
+      return matchesSearch && matchesPlatform && matchesLocation && matchesJobType;
+    });
+  }, [applications, searchQuery, filter]);
+
+
   const allApplicationCount = applications.length 
 
   return(
@@ -36,6 +72,8 @@ export default function Applications(){
                   </div>
                   <input
                     type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search company, position..."
                     className="w-full py-1.5 pl-10 pr-4 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-400"
                   />    
@@ -51,7 +89,11 @@ export default function Applications(){
 
             <div className={`grid grid-cols-3 gap-4 mt-3 ${filterActive ? 'block' : 'hidden'}`}>
               {/* Platform */}
-              <select className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select 
+                value={filter.platform} 
+                onChange={(e) => setFilter({ ... filter, platform: e.target.value })}
+                className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
                 {platforms.map((platform) => (
                   <option key={platform} value={platform}>
                     {platform}
@@ -59,7 +101,11 @@ export default function Applications(){
                 ))}
               </select>
               {/* Location Type */}
-              <select className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select 
+                value={filter.locationType}
+                onChange={(e) => setFilter({ ...filter, locationType: e.target.value})}
+                className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
                 {locationType.map((location) => (
                   <option key={location} value={location}>
                     {location}
@@ -67,7 +113,11 @@ export default function Applications(){
                 ))}
               </select>
               {/* Job Type */}
-              <select className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select 
+                value={filter.jobType}
+                onChange={(e) => setFilter({ ...filter, jobType: e.target.value })}
+                className="mt-1.5 w-full border border-gray-200 bg-gray-50 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
                 {jobType.map((job) => (
                   <option key={job} value={job}>
                     {job}
@@ -92,7 +142,7 @@ export default function Applications(){
               </tr>
             </thead>
             <tbody>
-              {applications.map((application) => {
+              {filteredApplications.map((application) => {
                 return(
                   <tr key={application._id} className="bg-white border-b border-gray-200 text-xs">
                     <td className="px-5 py-2 text-sm font-medium text-gray-900 whitespace-nowrap">
