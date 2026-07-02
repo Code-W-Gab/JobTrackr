@@ -1,15 +1,17 @@
-import { MoveLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface BackToMenuBtnProps {
   name: string
   to: string
+  color: string
+  hoverColor: string
 }
  
-export default function BackToMenuBtn({name, to}: BackToMenuBtnProps){
+export default function BackToMenuBtn({name, to, color, hoverColor}: BackToMenuBtnProps){
   return(
-    <Link to={to} className="flex items-center gap-3 text-sm text-gray-300 hover:text-gray-100 transition-colors duration-300">
-      <MoveLeft size={16}/>
+    <Link to={to} className={`flex items-center gap-2 text-xs ${color} hover:${hoverColor} transition-colors duration-300`}>
+      <ArrowLeft size={14}/>
       {name}
     </Link>
   )

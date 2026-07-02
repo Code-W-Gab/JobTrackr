@@ -41,22 +41,11 @@ export default function Register(){
           e.preventDefault();
           handleRegisterSubmit(registerData)
         }}>
-          <div>
-            <label htmlFor="email" className="block text-xs font-medium text-gray-700">Full Name</label>
-            <Input type="text" placeholder="Juan Dela Cruz" value={fullName} setValue={setFullName}/>
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
-            <Input type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-xs font-medium text-gray-700">Password</label>
-            <InputPassword passwordType="password" textType="text" placeholder="Create a strong password" value={password} setValue={setPassword}/>
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-xs font-medium text-gray-700">Confirm Password</label>
-            <InputPassword passwordType="password" textType="text" placeholder="Confirm your password" value={confirmPassword} setValue={setConfirmPassword}/>
-          </div>
+          <Input name="Full Name" type="text" placeholder="Juan Dela Cruz" value={fullName} setValue={setFullName}/>
+          <Input name="Email" type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
+          <InputPassword name="Password" passwordType="password" textType="text" placeholder="Create a strong password" value={password} setValue={setPassword}/>
+          <InputPassword name="Confirm Password" passwordType="password" textType="text" placeholder="Confirm your password" value={confirmPassword} setValue={setConfirmPassword}/>
+
           <button type="submit" className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Create Account</button>
         </form>
         <p className="text-sm text-gray-600 mt-6 text-center">Already have an account? <Link to="/auth/login" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign In</Link ></p>   

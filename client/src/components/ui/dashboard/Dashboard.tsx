@@ -4,6 +4,7 @@ import { Area, AreaChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContaine
 import { useApplications } from '../../../hook/useApplication';
 import AddJob from "../../common/AddJob";
 import AddApplicationModal from "../../overlays/AddApplicationModal";
+import { getInitials } from '../../../Utils/getInitial';
 
 type statusType = {
   count: number | string,
@@ -210,9 +211,7 @@ export default function Dashboard(){
           <h1 className='font-semibold text-[#0F172A] '>Recent Activity</h1>
           <div className='mt-4'>
             <div className='flex items-center gap-2'>
-              <div className='bg-black text-white px-3 py-2 rounded-xl flex items-center justify-center'>
-                <span className='text-xs font-semibold'>N</span>
-              </div>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials("Notion")}</div>
               <div className='flex flex-col'>
                 <h3 className='text-sm text-slate-500'>Applied to <span className='font-medium text-black'>Github</span></h3>
                 <p className='text-xs text-slate-400'>2h ago</p>
@@ -266,7 +265,7 @@ export default function Dashboard(){
               <tr className="hover:bg-slate-50/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0">V</div>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials("Vercel")}</div>
                     <span className="text-sm font-medium text-[#0F172A]">Vercel</span>
                   </div>
                 </td>

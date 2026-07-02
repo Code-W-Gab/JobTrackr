@@ -9,6 +9,7 @@ import CalendarPage from "./pages/CalendarPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
         {/* Auth Pages */}
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />
+
+        {/* Forgot Password Auth */}
+        <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
 
         <Route element={<ProtectedRoute/>}>
           {/* Dashboard */}

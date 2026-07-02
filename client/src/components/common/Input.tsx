@@ -1,15 +1,17 @@
 import type { Dispatch, SetStateAction } from "react";
 
 interface IInput {
+  name: string
   type: string;
   placeholder: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
 }
 
-export default function Input({type, placeholder, value, setValue}: IInput){
+export default function Input({name, type, placeholder, value, setValue}: IInput){
   return(
-    <main>
+    <main className="flex flex-col">
+      <label className="block text-xs font-medium text-gray-700">{name}</label>
       <input
         type={type}
         id={type}

@@ -34,14 +34,8 @@ export default function Login(){
           </div>
         </div>
         <form className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-xs font-medium text-gray-700">Email address</label>
-           <Input type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-xs font-medium text-gray-700">Password</label>
-            <InputPassword passwordType="password" textType="text" placeholder="••••••••" value={password} setValue={setPassword}/>
-          </div>
+          <Input name="Email Address" type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
+          <InputPassword name="Password" passwordType="password" textType="text" placeholder="••••••••" value={password} setValue={setPassword}/>
           <div className="flex justify-end">
             <div className="text-xs text-indigo-600 text-right mt-1">
               <Link to="/auth/forgot-password" className="text-indigo-600 hover:text-indigo-500 font-medium">Forgot password?</Link >
