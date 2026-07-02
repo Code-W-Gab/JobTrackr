@@ -10,8 +10,11 @@ const infoItems: string[] = [
   "Contact support if you need help"
 ]
 
+type ForgotStep = "email" | "send" | "reset" | "done"
+
 export default function ForgotPassword(){
   const [email, setEmail] = useState<string>("");
+  const [step, setStep] = useState<ForgotStep>("email")
 
   return(
     <main>
@@ -47,6 +50,17 @@ export default function ForgotPassword(){
         <section className="bg-white flex items-center justify-center p-8">
           <div className="flex flex-col space-y-6">
             <BackToMenuBtn name="Back to login" to="/auth/login" color="text-gray-500" hoverColor="text-indigo-600"/>
+            <div className="flex items-center gap-2">
+              {["Email", "Verification", "Reset"].map((item, index) => {
+                return(
+                  <div className="flex items-center gap-2">
+                    <div className="size-6 p-2 rounded-full text-sm text-white flex items-center justify-center bg-indigo-500">{index + 1}</div>
+                    <p className="text-xs text-indigo-500">{item}</p>
+                    {index < 2 ? <div className="w-6 h-px bg-gray-300"></div> : ""}
+                  </div>
+                )
+              })}
+            </div>
             <div className="w-full max-w-sm">
               <h1 className="text-2xl font-bold text-black">Forgot password?</h1>
               <p className="text-sm text-gray-600 mt-1">Enter the email address associated with your account and we'll send you a 6-digit verification code.</p>
