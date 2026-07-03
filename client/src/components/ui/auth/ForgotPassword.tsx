@@ -1,9 +1,9 @@
 import BackToMenuBtn from "../../common/BackToMenuBtn";
 import Input from "../../common/Input";
 import { useState } from "react";
-import { Zap, Check, ArrowLeft, Mail, CheckCircle } from "lucide-react";
+import { Zap, Check, ArrowLeft, Mail, CheckCircle, ShieldCheck, CircleCheckBig } from "lucide-react";
 import InputPassword from "../../common/InputPassword";
-
+import { Link } from "react-router-dom";
 
 const infoItems: string[] = [
   "Your account is always protected",
@@ -31,34 +31,37 @@ export default function ForgotPassword(){
 
   return(
     <main>
-      <div className="grid grid-cols-2 min-h-screen">
-        <section className="bg-indigo-700 p-10 flex flex-col justify-between">
-          <div>
-            <BackToMenuBtn name="Back to home" to="/home" color="text-gray-300" hoverColor="text-gray-100"/>
-            <div className="flex items-center gap-2 my-10">
-              <div className="text-white bg-indigo-500 rounded-lg p-1.5">
-                <Zap size={16}/>
-              </div>
-              <h1 className="font-bold text-lg text-white">JobTrackr</h1>
-            </div>
-
-            <div className="text-white">
-              <h1 className="text-3xl font-bold">{step === "email" ? "Forgot your password?" : step === "send" ? "Check your email" : step === "reset" ? "Create a new password" : ""}</h1>
-              <p className="text-gray-300 mt-4">{step === "email" ? "No worries. Enter your email and we'll send you a reset link right away." : step === "send" ? "We've sent a 6-digit code to your inbox. Enter it below to continue" : step === "reset" ? "Choose something strong and unique. We recommend using mix of letters, numbers, and symbols." : ""}</p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            {infoItems.map((item, index) => (
-              <div key={index} className="flex items-center gap-2 text-white text-sm">
-                <div className="text-white bg-indigo-500 rounded-full flex items-center gap-2 w-max p-1">
-                  <Check size={12}/>
+      <div className={`min-h-screen ${step !== "done" ? "grid grid-cols-2" : "flex items-center justify-center"}`}>
+        {step !== "done" && (
+          <section className="bg-indigo-700 p-10 flex flex-col justify-between">
+            <div>
+              <BackToMenuBtn name="Back to home" to="/home" color="text-gray-300" hoverColor="text-gray-100"/>
+              <div className="flex items-center gap-2 my-10">
+                <div className="text-white bg-indigo-500 rounded-lg p-1.5">
+                  <Zap size={16}/>
                 </div>
-                <p>{item}</p>
+                <h1 className="font-bold text-lg text-white">JobTrackr</h1>
               </div>
-            ))}
-          </div>
-        </section>
+
+              <div className="text-white">
+                <h1 className="text-3xl font-bold">{step === "email" ? "Forgot your password?" : step === "send" ? "Check your email" : step === "reset" ? "Create a new password" : ""}</h1>
+                <p className="text-gray-300 mt-4">{step === "email" ? "No worries. Enter your email and we'll send you a reset link right away." : step === "send" ? "We've sent a 6-digit code to your inbox. Enter it below to continue" : step === "reset" ? "Choose something strong and unique. We recommend using mix of letters, numbers, and symbols." : ""}</p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {infoItems.map((item, index) => (
+                <div key={index} className="flex items-center gap-2 text-white text-sm">
+                  <div className="text-white bg-indigo-500 rounded-full flex items-center gap-2 w-max p-1">
+                    <Check size={12}/>
+                  </div>
+                  <p>{item}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+          )
+        }
 
         {step === 'email'
         ? <section className="bg-white flex items-center justify-center p-8">
@@ -68,8 +71,8 @@ export default function ForgotPassword(){
                 {["Email", "Verification", "Reset"].map((item, index) => {
                   return(
                     <div className="flex items-center gap-2">
-                      <div className="size-6 p-2 rounded-full text-sm text-white flex items-center justify-center bg-indigo-500 ">{index + 1}</div>
-                      <p className="text-xs text-indigo-500">{item}</p>
+                      <div className={`size-6 p-2 rounded-full text-sm text-white flex items-center justify-center ${index === 0 ? "bg-indigo-500" : "bg-gray-200"}`}>{index + 1}</div>
+                      <p className= {`text-xs ${index === 0 ? "text-indigo-500" : "text-gray-400"}`}>{item}</p>
                       {index < 2 ? <div className="w-6 h-px bg-gray-300"></div> : ""}
                     </div>
                   )
@@ -97,9 +100,9 @@ export default function ForgotPassword(){
                 {["Email", "Verification", "Reset"].map((item, index) => {
                   return(
                     <div className="flex items-center gap-2">
-                      <div className="size-6 p-2 rounded-full text-sm text-white flex items-center justify-center bg-indigo-500 ">{index + 1}</div>
-                      <p className="text-xs text-indigo-500">{item}</p>
-                      {index < 2 ? <div className="w-6 h-px bg-gray-300"></div> : ""}
+                      <div className={`size-6 p-2 rounded-full text-sm text-white flex items-center justify-center ${index < 2 ? "bg-indigo-500" : "bg-gray-200"}`}>{index + 1}</div>
+                      <p className= {`text-xs ${index < 2 ? "text-indigo-500" : "text-gray-400"}`}>{item}</p>
+                      {index < 2 ? <div className={`w-6 h-px ${index < 2 ? "bg-indigo-500" : "bg-gray-300"}`}></div> : ""}
                     </div>
                   )
                 })}
@@ -141,9 +144,9 @@ export default function ForgotPassword(){
                 {["Email", "Verification", "Reset"].map((item, index) => {
                   return(
                     <div className="flex items-center gap-2">
-                      <div className="size-6 p-2 rounded-full text-sm text-white flex items-center justify-center bg-indigo-500 ">{index + 1}</div>
-                      <p className="text-xs text-indigo-500">{item}</p>
-                      {index < 2 ? <div className="w-6 h-px bg-gray-300"></div> : ""}
+                      <div className={`size-6 p-2 rounded-full text-sm text-white flex items-center justify-center ${index <= 2 ? "bg-indigo-500" : "bg-gray-200"}`}>{index + 1}</div>
+                      <p className= {`text-xs ${index <= 2 ? "text-indigo-500" : "text-gray-400"}`}>{item}</p>
+                      {index <= 2 ? <div className={`w-6 h-px ${index < 2 ? "bg-indigo-500" : "bg-gray-300"}`}></div> : ""}
                     </div>
                   )
                 })}
@@ -199,10 +202,31 @@ export default function ForgotPassword(){
               </div>
             </div>
           </section>
-        : ""
+        : <section className="max-w-sm space-y-6">
+            <div className="flex justify-center">
+              <div className="bg-emerald-500 text-white p-3 rounded-full inline-flex">
+                <CircleCheckBig size={40}/>
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <h1 className="text-black text-3xl font-bold">Password reset!</h1>
+              <p className="text-gray-600">Your password has been successfully reset.</p>
+              <p className="text-sm text-gray-400">You can now sign in to your JobTrackr account with your new password.</p>
+            </div>
+            <div className="text-xs border border-amber-100 bg-amber-50 p-3 rounded-xl text-amber-700 space-y-0.5 flex gap-2">
+              <ShieldCheck size={16}/>
+              <div>
+                <h3 className="font-semibold">Security reminder</h3>
+                <p>All other active sessions have been signed out for your security</p>
+              </div>
+            </div>
+            <Link to="/auth/login">
+              <button className="bg-indigo-500 text-white w-full py-2 rounded-xl text-sm cursor-pointer hover:bg-indigo-400">Sign in with new password</button>
+            </Link>
+            <div className="text-gray-400 text-xs text-center mt-4">Need help? <span className="text-indigo-500 font-semibold">Contact support</span></div>
+          </section>
         }
       </div>
-
       
     </main>
   )
