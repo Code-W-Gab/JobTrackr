@@ -146,7 +146,7 @@ export default function ForgotPassword(){
                     <div className="flex items-center gap-2">
                       <div className={`size-6 p-2 rounded-full text-sm text-white flex items-center justify-center ${index <= 2 ? "bg-indigo-500" : "bg-gray-200"}`}>{index + 1}</div>
                       <p className= {`text-xs ${index <= 2 ? "text-indigo-500" : "text-gray-400"}`}>{item}</p>
-                      {index <= 2 ? <div className={`w-6 h-px ${index < 2 ? "bg-indigo-500" : "bg-gray-300"}`}></div> : ""}
+                      {index < 2 ? <div className={`w-6 h-px ${index < 2 ? "bg-indigo-500" : "bg-gray-300"}`}></div> : ""}
                     </div>
                   )
                 })}
