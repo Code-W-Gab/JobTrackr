@@ -40,7 +40,9 @@ export interface IApplication {
   jobType: JobType,
   locationType: LocationType,
   status: Status,
-  notes: string
+  notes: string,
+  createdAt: string,
+  updatedAt: string
 }
 
 export type createApplicationDTO = Omit<IApplication, "_id">

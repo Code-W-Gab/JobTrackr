@@ -39,6 +39,6 @@ const applicationSchema = new mongoose.Schema<IApplication>({
   notes: {
     type: String
   }
-})
+}, { timestamps: true })
 
 export default mongoose.model<IApplication>("Application", applicationSchema)

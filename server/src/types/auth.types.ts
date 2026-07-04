@@ -1,8 +1,14 @@
 export interface IUser {
   fullName: string;
   email: string;
-  password: string;
-  confirmPassword: string;
+  password?: string;
+  confirmPassword?: string;
+  avatar?: string;
+  googleId?: string;
+  provider?: "local" | "google";
+}
+export interface GoogleLoginDto {
+  credential: string;
 }
 
 export interface loginDTO {

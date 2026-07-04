@@ -5,6 +5,7 @@ import { formatDate } from "../../../Utils/formatDate";
 import DeleteModal from "../../overlays/DeleteModal";
 import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
 import OpenApplication from "./OpenApplication";
+import Status from "../../common/Status";
 
 interface filterType {
   platform: string;
@@ -27,7 +28,7 @@ export default function Applications(){
 
   const { applications, handleUpdateApplication, handleDeleteApplication } = useApplications()
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
-  const locationType: string[] = [ "All", "On-site", "Remote", "Hybrid" ]
+  const locationType: string[] = [ "All", "On-Site", "Remote", "Hybrid" ]
   const jobType: string[] = [ "All", "Full-Time", "Part-Time", "Contract", "Internship" ]
 
   const filteredApplications = useMemo(() => {
@@ -127,7 +128,7 @@ export default function Applications(){
             </div>
           </div>
 
-          <table className="w-full text-left text-sm text-gray-500 mt-4 rounded-lg border border-gray-200 flex-1">
+          <table className="overflow-x-auto w-full text-left text-sm text-gray-500 mt-4 rounded-lg border border-gray-200 flex-1">
             <thead className="text-[11px] text-gray-500 uppercase bg-gray-100 ">
               <tr >
                 <th scope="col" className="px-5 py-3">COMPANY</th>
@@ -160,9 +161,9 @@ export default function Applications(){
                     <td className="px-5 py-4">{formatDate(application.dateApplied)}</td>
                     <td className="px-5 py-4">{application.salary}</td>
                     <td className="px-5 py-4">
-                      <div className="px-3 py-0.5 text-center bg-blue-100 text-blue-800 text-[11px]  font-medium rounded-full">
-                        <span>{application.status}</span>
-                      </div>
+                    <div>
+                      <Status status={application.status} className="flex w-fit items-center gap-2 rounded-xl px-2.5 py-1"/>
+                    </div>
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-1">

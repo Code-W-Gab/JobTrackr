@@ -11,6 +11,17 @@ const authSchema = new mongoose.Schema<IUser>({
   },
   password: {
     type: String
+  },
+  provider: {
+    type: String,
+    enum: ["local", "google"],
+    default: "local"
+  },
+  googleId: {
+    type: String
+  },
+  avatar: {
+    type: String
   }
 }, { timestamps: true })
 

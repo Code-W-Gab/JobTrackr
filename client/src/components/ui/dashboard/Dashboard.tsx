@@ -5,8 +5,9 @@ import { useApplications } from '../../../hook/useApplication';
 import { getInitials } from '../../../Utils/getInitial';
 import AddJob from "../../common/AddJob";
 import AddApplicationModal from "../../overlays/AddApplicationModal";
-import OnNavigate from "../../common/onNavigate";
-import { formatDateForInput } from '../../../Utils/formatDate';
+import OnNavigate from "../../common/OnNavigate";
+import { formatDateForInput, formatRelativeTime } from '../../../Utils/formatDate';
+import Status from '../../common/Status';
 
 type statusType = {
   count: number | string,
@@ -20,6 +21,14 @@ export default function Dashboard(){
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { applications } = useApplications()
   const recent = applications.slice(0, 5).sort((a, b) => new Date(b.dateApplied).getTime() - new Date(a.dateApplied).getTime())
+  const upcomingInterviews = applications.filter(app => app.status === "Interview" || app.status === "Final Interview").slice(0, 3).sort((a, b) => new Date(a.dateApplied).getTime() - new Date(b.dateApplied).getTime()).slice(0, 5)
+  const recentActivity = [...applications]
+  .sort((a, b) => {
+    const aTime = new Date(a.updatedAt || a.dateApplied).getTime()
+    const bTime = new Date(b.updatedAt || b.dateApplied).getTime()
+    return bTime - aTime
+  })
+  .slice(0, 4)
 
   const statusValue: Record<string, number> = {
     totalApplications: applications.length,
@@ -28,6 +37,17 @@ export default function Dashboard(){
     offerReceived: applications.filter(app => app.status === "Offer").length,
     rejected: applications.filter(app => app.status === "Rejected").length,
     successRate: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0
+  }
+
+  const ActivityStatus: Record<string, string> = {
+    Applied: "Applied to",
+    Assessment: "Assessment for",
+    Interview: "Interview for",
+    "Final Interview": "Final Interview for",
+    Offer: "Offer received from",
+    Rejected: "Rejected by",
+    Accepted: "Accepted offer from",
+    Wishlist: "Added to wishlist"
   }
 
   const status: statusType[] = [
@@ -196,20 +216,32 @@ export default function Dashboard(){
               </button>
             </OnNavigate>
           </div>
-          <div className='flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg mt-4'>
-            <div className='flex gap-2'>
-              <div className='bg-black text-white size-9 rounded-xl flex items-center justify-center'>
-                <span className='text-xs font-semibold'>N</span>
+          <div>
+            {upcomingInterviews.length === 0 ? (
+              <p className='text-xs text-slate-400 mt-2'>No upcoming interviews</p>
+            ) : (
+              <div className='space-y-2 mt-4'>
+                {upcomingInterviews.map(interview => {
+                  return(
+                    <div key={interview._id} className='flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg'>
+                      <div className='flex gap-2'>
+                        <div className='bg-black text-white size-9 rounded-xl flex items-center justify-center'>
+                          <span className='text-xs font-semibold'>N</span>
+                        </div>
+                        <div>
+                          <h4 className='text-sm font-medium text-[#0F172A]'>{interview.companyName}</h4>
+                          <p className='text-xs text-slate-500'>{interview.jobType}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <span className='text-xs text-amber-600'>Tomorrow</span>
+                        <p className='text-xs text-slate-400'>10:00 AM</p>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-              <div>
-                <h4 className='text-sm font-medium text-[#0F172A]'>Notion</h4>
-                <p className='text-xs text-slate-500'>Full Stack Developer</p>
-              </div>
-            </div>
-            <div>
-              <span className='text-xs text-amber-600'>Tomorrow</span>
-              <p className='text-xs text-slate-400'>10:00 AM</p>
-            </div>
+            )}
           </div>
         </section>
 
@@ -217,20 +249,30 @@ export default function Dashboard(){
         <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
           <h1 className='font-semibold text-[#0F172A] '>Recent Activity</h1>
           <div className='mt-4'>
-            <div className='flex items-center gap-2'>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials("Notion")}</div>
-              <div className='flex flex-col'>
-                <h3 className='text-sm text-slate-500'>Applied to <span className='font-medium text-black'>Github</span></h3>
-                <p className='text-xs text-slate-400'>2h ago</p>
+            {recentActivity.length === 0 ? (
+              <p className='text-xs text-slate-400'>No recent activity</p>
+            ) : (
+              <div className='space-y-4'>
+                {recentActivity.map(activity => {
+                  return(
+                    <div key={activity._id} className='flex items-center gap-2'>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials(activity.companyName)}</div>
+                      <div className='flex flex-col'>
+                        <h3 className='text-sm text-slate-500'>{ActivityStatus[activity.status] || "Updated"} <span className='font-medium text-black'>{activity.companyName}</span></h3>
+                        <p className='text-xs text-slate-400'>{formatRelativeTime(activity.updatedAt || activity.dateApplied)}</p>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-            </div>
+            )}
           </div>
         </section>
 
         {/* Quick Action */}
         <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
           <h1 className='font-semibold text-[#0F172A] '>Quick Actions</h1>
-          <div className="space-y-2">
+          <div className="space-y-2 mt-4">
             {[
               { label: 'Add New Application', desc: 'Track a new job', color: 'bg-indigo-600', action: () => setIsModalOpen(true) },
               { label: 'View Calendar', desc: 'See upcoming events',  color: 'bg-blue-600', action: () => {}, navigate: "/calendar" },
@@ -282,7 +324,9 @@ export default function Dashboard(){
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600 ">{application.jobType}</td>
                     <td className="px-6 py-4 text-sm text-slate-500">{formatDateForInput(application.dateApplied)}</td>
-                    <td className="px-6 py-4">{application.status}</td>
+                    <div className='px-6 py-4'>
+                      <Status className='flex w-fit items-center gap-2 rounded-xl px-2.5 py-1' status={application.status}/>
+                    </div>
                   </tr>
                 )
               })}

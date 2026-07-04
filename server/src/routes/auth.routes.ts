@@ -6,7 +6,8 @@ import {
   Logout,
   Register,
   UpdateMe,
-  UpdatePassword
+  UpdatePassword,
+  GoogleLogin
 } from "../controllers/auth.controller";
 import { protect } from "../middleware/auth.middleware";
 import {
@@ -25,6 +26,7 @@ router.put('/me/update', protect, updateMeRules, UpdateMe)
 router.put('/me/updatePass', protect, updatePassRules, UpdatePassword)
 router.delete('/me/delete', protect, DeleteAccount)
 router.post('/logout', protect, Logout)
+router.post('/google', GoogleLogin)
 
 
 export default router

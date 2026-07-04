@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
 import { IUpdatePass, loginDTO, registerDTO, updateMeDTO } from "../types/auth.types";
+import { OAuth2Client } from "google-auth-library";
 
 export const Register: RequestHandler<{}, {}, registerDTO> = async (req, res) => {
   try {
@@ -11,6 +12,11 @@ export const Register: RequestHandler<{}, {}, registerDTO> = async (req, res) =>
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() }); // Fixed: 400
       
     const { fullName, email, password, confirmPassword } = req.body;
+
+    if (!fullName || !email || !password || !confirmPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     const userExists = await authSchema.findOne({ email });
 
     if(userExists) {
@@ -54,7 +60,19 @@ export const Login: RequestHandler<{}, {}, loginDTO> = async (req, res ) => {
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+
     const user = await authSchema.findOne({ email });
+
+    if (!user || !user.password) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
     
     if (!user) return res.status(400).json({
       success: false,
@@ -192,6 +210,13 @@ export const UpdatePassword: RequestHandler<{}, {}, IUpdatePass> = async (req, r
         message: "User not found"
       });
     }
+
+    if (!user.password) {
+      return res.status(400).json({
+        success: false,
+        message: "This account does not have a local password",
+      });
+    }
     
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) return res.status(400).json({
@@ -250,18 +275,74 @@ export const DeleteAccount: RequestHandler = async (req, res) => {
   }
 }
 
-// export const forgotPassword: RequestHandler = async (req, res) => {
-//   try {
-//     const { email } = req.body
-//     const user = await authSchema.findOne({email})
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+export const GoogleLogin: RequestHandler<{}, {}, { credential: string }> = async (req, res) => {
+  try {
+    const { credential } = req.body;
 
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Internal server error"
-//     });
-//   }
-// }
+    if (!credential) {
+      return res.status(400).json({ message: "Credential is required" });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload?.email) {
+      return res.status(400).json({ message: "Invalid Google token" });
+    }
+
+    let user = await authSchema.findOne({ email: payload.email });
+
+    if (!user) {
+      user = await authSchema.create({
+        fullName: payload.name,
+        email: payload.email,
+        avatar: payload.picture,
+        provider: "google",
+        googleId: payload.sub
+      })
+    } else {
+      if (!user.googleId) {
+        user.googleId = payload.sub;
+        user.provider = "google";
+        await user.save();
+      }
+    }
+
+    const token = jwt.sign(
+      {userId: user._id},
+      process.env.JWT_SECRET!,
+      { "expiresIn": "7d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+      },
+      message: "Google login successful",
+    });
+} catch (error) {
+    console.error("Google login error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Google login failed",
+    });
+  }
+}
 
 export default {
   Register,
@@ -269,5 +350,6 @@ export default {
   GetMe,
   UpdateMe,
   Logout,
-  UpdatePassword
+  UpdatePassword,
+  GoogleLogin,
 };
