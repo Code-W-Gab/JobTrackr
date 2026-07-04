@@ -6,6 +6,7 @@ import { getInitials } from '../../../Utils/getInitial';
 import AddJob from "../../common/AddJob";
 import AddApplicationModal from "../../overlays/AddApplicationModal";
 import OnNavigate from "../../common/onNavigate";
+import { formatDateForInput } from '../../../Utils/formatDate';
 
 type statusType = {
   count: number | string,
@@ -18,6 +19,7 @@ type statusType = {
 export default function Dashboard(){
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { applications } = useApplications()
+  const recent = applications.slice(0, 5).sort((a, b) => new Date(b.dateApplied).getTime() - new Date(a.dateApplied).getTime())
 
   const statusValue: Record<string, number> = {
     totalApplications: applications.length,
@@ -253,9 +255,11 @@ export default function Dashboard(){
       <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden mt-4">
         <div className="flex items-center justify-between p-5 border-b border-slate-100">
           <h3 className="font-semibold text-[#0F172A] ">Recent Applications</h3>
-          <button className="flex items-center gap-1 text-xs text-indigo-600  hover:underline">
-            View all <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <OnNavigate to='/application'>
+            <button className="flex items-center gap-1 text-xs text-indigo-600  hover:underline">
+              View all <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </OnNavigate>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -267,17 +271,21 @@ export default function Dashboard(){
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 ">
-              <tr className="hover:bg-slate-50/50 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials("Vercel")}</div>
-                    <span className="text-sm font-medium text-[#0F172A]">Vercel</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-600 ">Senior Frontend Engineer</td>
-                <td className="px-6 py-4 text-sm text-slate-500">2024-05-10</td>
-                <td className="px-6 py-4">Interview</td>
-              </tr>
+              {recent.map(application => {
+                return(
+                  <tr className="hover:bg-slate-50/50 transition-colors" key={application._id}>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials(application.companyName)}</div>
+                        <span className="text-sm font-medium text-[#0F172A]">{application.companyName}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-slate-600 ">{application.jobType}</td>
+                    <td className="px-6 py-4 text-sm text-slate-500">{formatDateForInput(application.dateApplied)}</td>
+                    <td className="px-6 py-4">{application.status}</td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
