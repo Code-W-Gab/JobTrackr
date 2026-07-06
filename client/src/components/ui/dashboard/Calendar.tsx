@@ -76,7 +76,7 @@ export default function Calendar() {
   };
 
   return (
-    <main className="h-full w-full p-6 bg-[#f5f7f7] border-l border-indigo-100">
+    <main className="h-full overflow-y-auto w-full p-6 bg-[#f5f7f7] border-l border-indigo-100">
       <header className="flex items-center justify-between mb-6">
         <h1 className="font-bold text-xl text-gray-800">Calendar</h1>
         <div className="flex items-center gap-4">
@@ -115,13 +115,13 @@ export default function Calendar() {
       </header>
 
       {/* Calendar Grid */}
-      <div className="bg-white rounded-lg p-4">
+      <div className="bg-white rounded-lg">
         {/* Week day headers */}
-        <div className="grid grid-cols-7 gap-2 mb-2">
+        <div className="grid grid-cols-7 gap-2 border border-b-0 border-gray-100 rounded-tl-lg rounded-tr-lg">
           {weekDays.map((day) => (
             <div
               key={day}
-              className="text-center text-xs font-semibold text-gray-600 py-2"
+              className="text-center text-xs font-semibold text-gray-600 py-4"
             >
               {day}
             </div>
@@ -129,28 +129,30 @@ export default function Calendar() {
         </div>
 
         {/* Calendar dates */}
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 border border-b-0 border-r-0 border-gray-100">
           {calendarDays.map((dayObj, index) => (
             <div
               key={index}
               className={`
-                aspect-square flex items-center justify-center rounded-lg text-sm font-medium
+                relative border-b border-r border-gray-100 h-30 flex items-center text-xs font-medium
                 transition-colors cursor-pointer
                 ${
                   !dayObj.isCurrentMonth
                     ? "text-gray-300 bg-gray-50"
-                    : "text-gray-800"
+                    : "text-gray-600"
                 }
                 ${
                   isToday(dayObj.date)
-                    ? "bg-indigo-500 text-white font-bold"
+                    ? "bg-indigo-50 text-white font-bold"
                     : dayObj.isCurrentMonth
                     ? "hover:bg-indigo-100"
                     : ""
                 }
               `}
             >
-              {dayObj.day}
+              <div className={`absolute top-3 left-3 ${isToday(dayObj.date) ? "bg-indigo-500 size-8 flex items-center justify-center rounded-full" : ""}`}>
+                {dayObj.day}
+              </div>
             </div>
           ))}
         </div>
