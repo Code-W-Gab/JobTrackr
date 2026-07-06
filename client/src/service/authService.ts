@@ -26,6 +26,6 @@ export const deleteAccount = (
 export const logout = (
 ) => api.post('/api/auth/logout')
 
-export const googleLogin = (
+export const googleLogin = ( 
   credential: { credential: string }
 ) => api.post('/api/auth/google', credential)
