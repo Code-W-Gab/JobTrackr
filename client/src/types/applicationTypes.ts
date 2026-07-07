@@ -41,8 +41,8 @@ export interface IApplication {
   locationType: LocationType,
   status: Status,
   notes: string,
-  createdAt: string,
-  updatedAt: string
+  createdAt?: string,
+  updatedAt?: string
 }
 
 export type createApplicationDTO = Omit<IApplication, "_id">

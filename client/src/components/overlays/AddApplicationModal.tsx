@@ -1,7 +1,8 @@
-import { X } from "lucide-react";
+import { ChevronDown, ChevronUp, Clock, X } from "lucide-react";
 import { useState } from "react";
 import { useApplications } from "../../hook/useApplication";
 import type { JobType, LocationType, Platform, Status } from "../../types/applicationTypes";
+import { Video, Phone, MessageSquare, MapPin } from "lucide-react";
 
 interface AddApplicationModalProps {
   onClose: () => void
@@ -19,6 +20,9 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
   const [locationType, setLocationType] = useState<LocationType>("On-Site")
   const [status, setStatus] = useState<Status>("Wishlist")
   const [notes, setNotes] = useState<string>("")
+  const [interviewTime, setInterviewTime] = useState<string>("Select time")
+  const [formatName, setFormatName] = useState<string>("Video Call")
+  const [isInterviewTimeOpen, setIsInterviewTimeOpen] = useState<boolean>(false);
   const { handleCreateApplication } = useApplications()
 
   const formData = {
@@ -34,6 +38,15 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
     status,
     notes
   }
+
+  const interviewFormat = [
+    { name: "Video Call", icon: Video },
+    { name: "Phone", icon: Phone },
+    { name: "Technical", icon: MessageSquare },
+    { name: "On-site", icon: MapPin }
+  ]
+
+  const InterviewTime: string[] = ["08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM"]
 
   return(
     <main className="bg-white w-140 rounded-xl">
@@ -177,6 +190,123 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             </select>
           </div>
         </div>
+        
+        {(status === "Interview" || status === "Final Interview") && (
+          <div className="border border-gray-200 rounded-xl my-4">
+            <div className="bg-blue-50 rounded-tl-xl rounded-tr-xl p-3 border-b border-gray-200 text-xs text-gray-500">
+              <h1  className="font-semibold text-indigo-700 text-sm">{status} Details</h1>
+              <p className="text-indigo-500">Add the date, time, and format for this interview</p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-bl-xl rounded-br-xl ">
+              <h1 className="text-sm font-semibold">Interview Format</h1>
+              <div className="grid grid-cols-4 gap-3 mt-2">
+                {interviewFormat.map((format, i) => {
+                  return(
+                    <div key={i} onClick={() => setFormatName(format.name)} className={`border ${formatName === format.name ? "border-indigo-500 bg-indigo-500 text-white" : "border-gray-300 text-gray-600"}  px-2 py-1.5 rounded-xl flex items-center gap-2 cursor-pointer`}>
+                      <format.icon size={14}/>
+                      <span className="text-sm">{format.name}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center mt-4">
+                <div>
+                  <label htmlFor="interviewDate" className="block text-xs font-medium text-gray-700">Interview Date <span className="text-red-600">*</span></label>
+                  <input
+                    type="date"
+                    className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div className="relative">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700">Interview Time <span className="text-red-600">*</span></label>
+                    <div onClick={() => setIsInterviewTimeOpen(!isInterviewTimeOpen)} className="flex items-center justify-between mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <div className="flex items-center gap-2 ">
+                        <Clock size={14}/>
+                        <span className="text-xs">{interviewTime}</span>
+                      </div>
+                      { isInterviewTimeOpen ? <ChevronUp size={16}/> :<ChevronDown size={16}/>}
+                    </div>
+                    { isInterviewTimeOpen && (
+                      <div className="absolute bottom-[-10] bg-white border border-gray-300 mt-1 w-full grid grid-cols-3 gap-4 p-1.5 text-[11px] text-gray-500 text-center rounded-lg h-40 overflow-y-auto">
+                        {InterviewTime.map((time, index) => {
+                          return(
+                            <div key={index} onClick={() => {
+                              setInterviewTime(time)
+                              setIsInterviewTimeOpen(!isInterviewTimeOpen)
+                            }} className="hover:bg-indigo-100 hover:text-indigo-700 rounded-lg p-1 cursor-pointer">
+                              <span>{time}</span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center mt-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700">Duration</label>
+                  <select
+                    className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  >
+                    {["15 min", "30 min", "45 min", "1 hour", "1.5 hour", "2 hour", "3 hour"].map((duration, index) => {
+                      return(
+                        <div key={index}>
+                          <option value={duration}>{duration}</option>
+                        </div>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700">Interviewer Name <span className="text-xs text-gray-400">(optional)</span></label>
+                  <input
+                    type="text"  
+                    placeholder="e.g. Alex kim" 
+                    className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+              {formatName === "Video Call" || formatName === "Technical" 
+              ? <div className="mt-3">
+                  <label className="block text-xs font-medium text-gray-700">Meeting Link <span className="text-xs text-gray-400">(optional)</span></label>
+                  <div className="flex items-center gap-3 border border-gray-200 bg-gray-100  mt-1.5 px-3 py-1.5 rounded-xl">
+                    <Video size={16} className="text-gray-500"/>
+                    <input 
+                      type="text" 
+                      placeholder="https://meet.google.com/.."
+                      className="w-full focus:outline-0 text-sm"
+                    />
+                  </div>
+                </div>
+              : formatName === "Phone" 
+              ? <div className="mt-3">
+                  <label className="block text-xs font-medium text-gray-700">Phone / Dial-in Number <span className="text-xs text-gray-400">(optional)</span></label>
+                  <div className="flex items-center gap-3 border border-gray-200 bg-gray-100  mt-1.5 px-3 py-1.5 rounded-xl">
+                    <Phone size={16} className="text-gray-500"/>
+                    <input 
+                      type="text" 
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full focus:outline-0 text-sm"
+                    />
+                  </div>
+                </div>
+              : <div className="mt-3">
+                  <label className="block text-xs font-medium text-gray-700">Office Address <span className="text-xs text-gray-400">(optional)</span></label>
+                  <div className="flex items-center gap-3 border border-gray-200 bg-gray-100  mt-1.5 px-3 py-1.5 rounded-xl">
+                    <MapPin size={16} className="text-gray-500"/>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. 1 Market St, San Francisco, CA."
+                      className="w-full focus:outline-0 text-sm"
+                    />
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        )}
         <div>
           <label htmlFor="Notes" className="block text-xs font-medium text-gray-700">Notes</label>
           <textarea 
