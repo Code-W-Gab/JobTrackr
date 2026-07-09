@@ -324,9 +324,9 @@ export default function Dashboard(){
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600 ">{application.jobType}</td>
                     <td className="px-6 py-4 text-sm text-slate-500">{formatDateForInput(application.dateApplied)}</td>
-                    <div className='px-6 py-4'>
+                    <td className='px-6 py-4'>
                       <Status className='flex w-fit items-center gap-2 rounded-xl px-2.5 py-1' status={application.status}/>
-                    </div>
+                    </td>
                   </tr>
                 )
               })}

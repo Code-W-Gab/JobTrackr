@@ -108,7 +108,7 @@ export const createApplicationRules = [
     .notEmpty().withMessage('Status must not empty')
     .isIn(["Wishlist", "Applied", "Assessment", "Interview", "Final Interview", "Offer", "Rejected", "Accepted"]).withMessage('Status must be one of the following: Wishlist, Applied, Assessment, Interview, Final Interview, Offer, Rejected, Accepted'),
   body('notes')
-    .notEmpty().withMessage('Notes must not empty')
+    .optional({ checkFalsy: true })
     .isString().withMessage('Notes must be string'),
 ]
 
@@ -144,6 +144,6 @@ export const updateApplicationRules = [
     .notEmpty().withMessage('Status must not empty')
     .isIn(["Wishlist", "Applied", "Assessment", "Interview", "Final Interview", "Offer", "Rejected", "Accepted"]).withMessage('Status must be one of the following: Wishlist, Applied, Assessment, Interview, Final Interview, Offer, Rejected, Accepted'),
   body('notes')
-    .notEmpty().withMessage('Notes must not empty')
+    .optional({ checkFalsy: true })
     .isString().withMessage('Notes must be string'),
 ]

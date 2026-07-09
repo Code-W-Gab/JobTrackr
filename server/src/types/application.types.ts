@@ -40,6 +40,11 @@ export interface IApplication {
   locationType: LocationType,
   status: Status,
   notes: string,
+  interviewDate?: Date,
+  interviewTime?: string,
+  duration?: string,
+  interviewerName?: string,
+  meetingLink?: string,
   createdAt: string,
   updatedAt: string
 }

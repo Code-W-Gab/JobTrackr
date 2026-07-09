@@ -30,22 +30,51 @@ export const useApplications = () => {
   }, [])
 
   // Handle Create Application
-  const handleCreateApplication = async (formData: createApplicationDTO, onClose: () => void): Promise<void> => {
-    if (!formData.companyName || !formData.jobTitle || !formData.jobURL || !formData.location || !formData.dateApplied || !formData.salary || !formData.platform || !formData.jobType || !formData.locationType || !formData.status) {
-      toast.error("Please fill all required fields")
-      return
+  const handleCreateApplication = async (
+    formData: createApplicationDTO,
+    onClose: () => void
+  ): Promise<void> => {
+    const payload = {
+      ...formData,
+      companyName: formData.companyName?.trim(),
+      jobTitle: formData.jobTitle?.trim(),
+      jobURL: formData.jobURL?.trim(),
+      location: formData.location?.trim(),
+      salary: formData.salary?.trim(),
+      notes: formData.notes?.trim() || "",
+    };
+  
+    if (
+      !payload.companyName ||
+      !payload.jobTitle ||
+      !payload.jobURL ||
+      !payload.location ||
+      !payload.dateApplied ||
+      !payload.salary ||
+      !payload.platform ||
+      !payload.jobType ||
+      !payload.locationType ||
+      !payload.status
+    ) {
+      toast.error("Please fill all required fields");
+      return;
     }
-
+  
     try {
-      await createApplication(formData)
-      await fetchApplication()
-      toast.success("Application created successfully!")
-      onClose()
-    } catch (error) {
-      toast.error("Failed to create application")
-      console.log(error)
+      await createApplication(payload);
+      await fetchApplication();
+      toast.success("Application created successfully!");
+      onClose();
+    } catch (error: any) {
+      const message =
+        error.response?.data?.errors?.[0]?.msg ||
+        error.response?.data?.message ||
+        "Failed to create application";
+
+      console.error("Create application error:", error.response?.data);
+      toast.error(message);
     }
-  }
+  };
 
   // Handle Update Application
   const handleUpdateApplication = async (id: string, formData: updateApplicationDTO, onClose: () => void): Promise<void> => {
@@ -59,9 +88,14 @@ export const useApplications = () => {
       await fetchApplication()
       toast.success("Application updated successfully!")
       onClose()
-    } catch (error) {
-      toast.error("Failed to updated application")
-      console.log(error)
+    } catch (error: any) {
+      const message =
+        error.response?.data?.errors?.[0]?.msg ||
+        error.response?.data?.message ||
+        "Failed to update application";
+
+      console.error("Update application error:", error.response?.data);
+      toast.error(message);
     }
   }
 

@@ -38,7 +38,22 @@ const applicationSchema = new mongoose.Schema<IApplication>({
   },
   notes: {
     type: String
-  }
+  },
+  interviewDate: {
+    type: Date
+  },
+  interviewTime: {
+    type: String
+  },
+  duration: {
+    type: String
+  },
+  interviewerName: {
+    type: String
+  },
+  meetingLink: {
+    type: String
+  },
 }, { timestamps: true })
 
 export default mongoose.model<IApplication>("Application", applicationSchema)

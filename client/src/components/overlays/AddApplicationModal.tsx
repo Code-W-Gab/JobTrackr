@@ -20,9 +20,14 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
   const [locationType, setLocationType] = useState<LocationType>("On-Site")
   const [status, setStatus] = useState<Status>("Wishlist")
   const [notes, setNotes] = useState<string>("")
-  const [interviewTime, setInterviewTime] = useState<string>("Select time")
+  const [interviewDate, setInterviewDate] = useState<string | null>(null)
+  const [interviewTime, setInterviewTime] = useState<string | null>("Select time")
+  const [duration, setDuration] = useState<string | null>("15 min")
+  const [interviewerName, setInterviewerName] = useState<string | null>(null)
+  const [meetingLink, setMeetingLink] = useState<string | null>(null)
   const [formatName, setFormatName] = useState<string>("Video Call")
   const [isInterviewTimeOpen, setIsInterviewTimeOpen] = useState<boolean>(false);
+  
   const { handleCreateApplication } = useApplications()
 
   const formData = {
@@ -36,8 +41,27 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
     jobType,
     locationType,
     status,
-    notes
+    notes,
+    interviewDate,
+    interviewTime,
+    duration,
+    interviewerName,
+    meetingLink
   }
+
+  const handleStatusChange = (value: Status) => {
+    setStatus(value);
+  
+    if (value !== "Interview" && value !== "Final Interview") {
+      setInterviewDate(null);
+      setInterviewTime(null);
+      setDuration(null);
+      setInterviewerName(null);
+      setMeetingLink(null);
+      setFormatName("Video Call");
+      setIsInterviewTimeOpen(false);
+    }
+  };
 
   const interviewFormat = [
     { name: "Video Call", icon: Video },
@@ -86,7 +110,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <input 
               value={jobURL}
               onChange={(e) => setJobURL(e.target.value)} 
-              type="text"  
+              type="url"  
               placeholder="https://..." 
               className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
@@ -174,7 +198,7 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
             <label htmlFor="Status" className="block text-xs font-medium text-gray-700">Status</label>
             <select 
               value={status}
-              onChange={(e) => setStatus(e.target.value as Status)} 
+              onChange={(e) => handleStatusChange(e.target.value as Status)} 
               name="Status" 
               id="Status" 
               className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -214,6 +238,8 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                   <label htmlFor="interviewDate" className="block text-xs font-medium text-gray-700">Interview Date <span className="text-red-600">*</span></label>
                   <input
                     type="date"
+                    value={interviewDate ?? ""}
+                    onChange={(e) => setInterviewDate(e.target.value)}
                     className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -248,13 +274,13 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                 <div>
                   <label className="block text-xs font-medium text-gray-700">Duration</label>
                   <select
+                    value={duration ?? "15 min"}
+                    onChange={(e) => setDuration(e.target.value)}
                     className="mt-1.5 w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
-                    {["15 min", "30 min", "45 min", "1 hour", "1.5 hour", "2 hour", "3 hour"].map((duration, index) => {
+                    {["15 min", "30 min", "45 min", "1 hour", "1.5 hour", "2 hour", "3 hour"].map((d, index) => {
                       return(
-                        <div key={index}>
-                          <option value={duration}>{duration}</option>
-                        </div>
+                        <option value={d} key={index}>{d}</option>
                       )
                     })}
                   </select>
@@ -262,7 +288,9 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                 <div>
                   <label className="block text-xs font-medium text-gray-700">Interviewer Name <span className="text-xs text-gray-400">(optional)</span></label>
                   <input
-                    type="text"  
+                    type="text" 
+                    value={interviewerName ?? ""}
+                    onChange={(e) => setInterviewerName(e.target.value)}
                     placeholder="e.g. Alex kim" 
                     className="mt-1.5 block w-full border border-gray-200 bg-gray-100 rounded-xl py-1.5 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -275,6 +303,8 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                     <Video size={16} className="text-gray-500"/>
                     <input 
                       type="text" 
+                      value={meetingLink ?? ""}
+                      onChange={(e) => setMeetingLink(e.target.value)}
                       placeholder="https://meet.google.com/.."
                       className="w-full focus:outline-0 text-sm"
                     />
@@ -287,6 +317,8 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                     <Phone size={16} className="text-gray-500"/>
                     <input 
                       type="text" 
+                      value={meetingLink ?? ""}
+                      onChange={(e) => setMeetingLink(e.target.value)}
                       placeholder="+1 (555) 000-0000"
                       className="w-full focus:outline-0 text-sm"
                     />
@@ -298,6 +330,8 @@ export default function AddApplicationModal({onClose}: AddApplicationModalProps)
                     <MapPin size={16} className="text-gray-500"/>
                     <input 
                       type="text" 
+                      value={meetingLink ?? ""}
+                      onChange={(e) => setMeetingLink(e.target.value)}
                       placeholder="e.g. 1 Market St, San Francisco, CA."
                       className="w-full focus:outline-0 text-sm"
                     />
