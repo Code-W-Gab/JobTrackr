@@ -44,7 +44,7 @@ export default function Dashboard(){
       <div className='grid grid-cols-6 gap-4 mt-8'>
         {status.map((stats, index) => {
           return(
-            <div key={index} className='bg-white p-4 rounded-lg border border-gray-100'>
+            <div key={index} className='bg-white p-4 rounded-lg border border-slate-100'>
               <div className={`${stats.bgColor} ${stats.color} p-2 rounded-full inline-flex`}>
                 <stats.icon size={16}/>
               </div>
@@ -123,7 +123,7 @@ export default function Dashboard(){
 
       <div className='grid grid-cols-3 gap-4'>
         {/* Upcoming Interviews */}
-        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+        <section className='bg-white p-4 mt-4 rounded-xl border border-slate-100'>
           <div className='flex items-center justify-between'>
             <h1 className='font-semibold text-[#0F172A] '>Upcoming Interviews</h1>
             <OnNavigate to="/calendar">
@@ -162,7 +162,7 @@ export default function Dashboard(){
         </section>
 
         {/* Recent Activity */}
-        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+        <section className='bg-white p-4 mt-4 rounded-xl border border-slate-100'>
           <h1 className='font-semibold text-[#0F172A] '>Recent Activity</h1>
           <div className='mt-4'>
             {recentActivity.length === 0 ? (
@@ -186,13 +186,12 @@ export default function Dashboard(){
         </section>
 
         {/* Quick Action */}
-        <section className='bg-white p-4 mt-4 rounded-xl border border-gray-200'>
+        <section className='bg-white p-4 mt-4 rounded-xl border border-slate-100'>
           <h1 className='font-semibold text-[#0F172A] '>Quick Actions</h1>
           <div className="space-y-2 mt-4">
             {[
               { label: 'Add New Application', desc: 'Track a new job', color: 'bg-indigo-600', action: () => setIsModalOpen(true) },
-              { label: 'View Calendar', desc: 'See upcoming events',  color: 'bg-blue-600', action: () => {}, navigate: "/calendar" },
-              { label: 'Create Reminder', desc: 'Set a follow-up',  color: 'bg-amber-600', action: () => {} },
+              { label: 'View Calendar', desc: 'See upcoming events',  color: 'bg-blue-600', action: () => {}, navigate: "/calendar" }
             ].map(item => (
               <OnNavigate to={item.navigate} key={item.label} onClick={item.action} className='w-full flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all group'>
                 <div className={`w-8 h-8 rounded-lg ${item.color} flex items-center justify-center shrink-0`}>
