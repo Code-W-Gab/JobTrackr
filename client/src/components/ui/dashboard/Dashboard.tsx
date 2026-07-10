@@ -8,6 +8,7 @@ import AddApplicationModal from "../../overlays/AddApplicationModal";
 import OnNavigate from "../../common/OnNavigate";
 import { formatDateForInput, formatRelativeTime } from '../../../Utils/formatDate';
 import Status from '../../common/Status';
+import { useAuthContext } from '../../../hook/useAuth';
 
 type statusType = {
   count: number | string,
@@ -18,6 +19,7 @@ type statusType = {
 }
 
 export default function Dashboard(){
+  const { user } = useAuthContext()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { applications } = useApplications()
   const recent = applications.slice(0, 5).sort((a, b) => new Date(b.dateApplied).getTime() - new Date(a.dateApplied).getTime())
@@ -29,6 +31,30 @@ export default function Dashboard(){
     return bTime - aTime
   })
   .slice(0, 4)
+  const currentYear = new Date().getFullYear();
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const monthlyData = monthNames.map((month, index) => {
+    const monthApplications = applications.filter((app) => {
+      const appliedDate = new Date(app.dateApplied);
+
+      return (
+        !Number.isNaN(appliedDate.getTime()) &&
+        appliedDate.getFullYear() === currentYear &&
+        appliedDate.getMonth() === index
+      );
+    });
+
+    const interviews = monthApplications.filter((app) =>
+      app.status === 'Interview' || app.status === 'Final Interview'
+    ).length;
+
+    return {
+      month,
+      applications: monthApplications.length,
+      interviews,
+    };
+  });
 
   const statusValue: Record<string, number> = {
     totalApplications: applications.length,
@@ -36,6 +62,8 @@ export default function Dashboard(){
     interviewsScheduled: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length,
     offerReceived: applications.filter(app => app.status === "Offer").length,
     rejected: applications.filter(app => app.status === "Rejected").length,
+    accepted: applications.filter(app => app.status === "Accepted").length,
+    wishlist: applications.filter(app => app.status === "Wishlist").length,
     successRate: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0
   }
 
@@ -95,29 +123,29 @@ export default function Dashboard(){
     }
   ]
 
-  const MONTHLY_DATA = [
-    { month: 'Jan', applications: 4, interviews: 1 },
-    { month: 'Feb', applications: 7, interviews: 2 },
-    { month: 'Mar', applications: 12, interviews: 4 },
-    { month: 'Apr', applications: 18, interviews: 6 },
-    { month: 'May', applications: 24, interviews: 9 },
-    { month: 'Jun', applications: 15, interviews: 5 },
-  ];
+  // const MONTHLY_DATA = [
+  //   { month: 'Jan', applications: 4, interviews: 1 },
+  //   { month: 'Feb', applications: 7, interviews: 2 },
+  //   { month: 'Mar', applications: 12, interviews: 4 },
+  //   { month: 'Apr', applications: 18, interviews: 6 },
+  //   { month: 'May', applications: 24, interviews: 9 },
+  //   { month: 'Jun', applications: 15, interviews: 5 },
+  // ];
   
   const STATUS_DISTRIBUTION = [
-    { name: 'Applied', value: 28, color: '#3B82F6' },
-    { name: 'Interview', value: 18, color: '#F59E0B' },
-    { name: 'Offer', value: 8, color: '#10B981' },
-    { name: 'Rejected', value: 22, color: '#EF4444' },
-    { name: 'Accepted', value: 5, color: '#22C55E' },
-    { name: 'Wishlist', value: 19, color: '#94A3B8' },
+    { name: 'Applied', value: statusValue.activeApplications, color: '#3B82F6' },
+    { name: 'Interview', value: statusValue.interviewsScheduled, color: '#F59E0B' },
+    { name: 'Offer', value: statusValue.offerReceived, color: '#10B981' },
+    { name: 'Rejected', value: statusValue.rejected, color: '#EF4444' },
+    { name: 'Accepted', value: statusValue.accepted, color: '#22C55E' },
+    { name: 'Wishlist', value: statusValue.wishlist, color: '#94A3B8' },
   ];
 
   return(
     <main className="h-full w-full overflow-y-auto p-6 bg-[#f5f7f7] border-l border-indigo-100">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h1 className="font-bold text-xl text-gray-800">Good morning, Gab</h1>
+          <h1 className="font-bold text-xl text-gray-800">Good morning, {user?.fullName}</h1>
           <p className="text-xs text-gray-500">Here's what's happening with your job search today.</p>
         </div>
         <AddJob name="Add Application" onClick={() => setIsModalOpen(true)} />
@@ -142,15 +170,12 @@ export default function Dashboard(){
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
         {/* Area chart */}
         <div className="lg:col-span-2 bg-white  rounded-2xl p-6 border border-slate-100 ">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="font-semibold text-[#0F172A]">Applications Over Time</h3>
-              <p className="text-xs text-slate-400 mt-0.5">Monthly application activity</p>
-            </div>
-            <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+24% this month</span>
+          <div className='mb-6'>
+            <h3 className="font-semibold text-[#0F172A]">Applications Over Time</h3>
+            <p className="text-xs text-slate-400 mt-0.5">Monthly application activity</p>
           </div>
           <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={MONTHLY_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+            <AreaChart data={monthlyData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
               <defs>
                 <linearGradient id="appGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.15} />
