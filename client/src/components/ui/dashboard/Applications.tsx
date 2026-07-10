@@ -1,32 +1,27 @@
 import { ChevronDown, ChevronUp, ExternalLink, Eye, Funnel, Pencil, Search, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useApplications } from "../../../hook/useApplication";
+import type { filterType } from "../../../types/applicationTypes";
 import { formatDate } from "../../../Utils/formatDate";
+import { getAvatarColor, getInitials } from "../../../Utils/getInitial";
+import { getMetricsData } from "../../common/data";
+import Status from "../../common/Status";
 import DeleteModal from "../../overlays/DeleteModal";
 import UpdateApplicationModal from "../../overlays/UpdateApplicationModal";
 import OpenApplication from "./OpenApplication";
-import Status from "../../common/Status";
-
-interface filterType {
-  platform: string;
-  locationType: string;
-  jobType: string;
-}
 
 export default function Applications(){
   const [filterActive, setFilterActive] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [index, setIndex] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isOpenApplication, setIsOpenApplication] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
-  const [filter, setFilter] = useState<filterType>({
-    platform: "All",
-    locationType: "All",
-    jobType: "All"
-  })
-
+  const [filter, setFilter] = useState<filterType>({ platform: "All", locationType: "All", jobType: "All" })
   const { applications, handleUpdateApplication, handleDeleteApplication } = useApplications()
+  const { statusValue } = getMetricsData(applications)
   const platforms: string[] = [ "All", "LinkedIn", "Indeed", "JobStreet", "Glassdoor", "Company Website", "Referral", "Other" ]
   const locationType: string[] = [ "All", "On-Site", "Remote", "Hybrid" ]
   const jobType: string[] = [ "All", "Full-Time", "Part-Time", "Contract", "Internship" ]
@@ -53,16 +48,13 @@ export default function Applications(){
     });
   }, [applications, searchQuery, filter]);
 
-
-  const allApplicationCount = applications.length 
-
   return(
     <main className="h-full overflow-y-auto p-6 bg-[#f5f7f7] border-l border-indigo-100 ">
       <div>
         <div className={`${isOpenApplication ? "hidden" : "block"} shrink-0`}>
           <div className="space-y-1">
             <h1 className="font-bold text-xl text-gray-800">Applications</h1>
-            <p className="text-xs text-gray-500">{allApplicationCount} application found</p>
+            <p className="text-xs text-gray-500">{statusValue.totalApplications} application found</p>
           </div>
           <div className="bg-white p-2.5 rounded-lg mt-8 border border-gray-200">
             <div className="flex items-center gap-3">
@@ -143,14 +135,12 @@ export default function Applications(){
               </tr>
             </thead>
             <tbody>
-              {filteredApplications.map((application) => {
+              {filteredApplications.map((application, index) => {
                 return(
                   <tr key={application._id} className="bg-white border-b border-gray-200 text-xs">
                     <td className="px-5 py-2 text-sm font-medium text-gray-900 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <div className="text-white text-[13px] font-semibold bg-indigo-600 px-2 py-1 rounded-lg">
-                          <p>G</p>
-                        </div>
+                        <div className={`text-white text-[13px] font-semibold bg-indigo-600 px-2 py-1 rounded-lg ${getAvatarColor(application.companyName, index)}`}>{getInitials(application.companyName)}</div>
                         <span>{application.companyName}</span>
                       </div>
                     </td>
@@ -171,6 +161,7 @@ export default function Applications(){
                           onClick={() => {
                             setSelectedId(application._id)
                             setIsOpenApplication(true)
+                            setIndex(index)
                           }}
                           className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
                             <Eye size={13}/>
@@ -183,9 +174,9 @@ export default function Applications(){
                           className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
                             <Pencil size={13}/>
                         </button>
-                        <div className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
+                        <Link to={application.jobURL} className="hover:bg-gray-100 text-gray-500 p-1.5 rounded-md">
                           <ExternalLink size={13}/>
-                        </div>
+                        </Link>
                         <button
                           onClick={() => {
                             setSelectedId(application._id)
@@ -208,6 +199,7 @@ export default function Applications(){
           <OpenApplication 
             onClose={() => setIsOpenApplication(false)}
             selectedId={selectedId}
+            index={index}
           />
         </div>
       </div>

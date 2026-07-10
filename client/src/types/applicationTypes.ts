@@ -67,3 +67,9 @@ export type statusType = {
   color: string,
   bgColor: string
 }
+
+export interface filterType {
+  platform: string;
+  locationType: string;
+  jobType: string;
+}

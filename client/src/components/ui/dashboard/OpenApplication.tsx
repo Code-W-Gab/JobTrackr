@@ -12,10 +12,13 @@ import toast from "react-hot-toast";
 import { getApplicationById } from "../../../service/applicationService";
 import type { IApplication } from "../../../types/applicationTypes";
 import { formatDateForInput } from "../../../Utils/formatDate";
+import { getAvatarColor, getInitials } from "../../../Utils/getInitial";
+import { Link } from "react-router-dom";
 
 interface OpenApplicationProps {
   onClose: () => void
   selectedId: string | null
+  index: number | null
 }
 
 type status = 
@@ -30,7 +33,7 @@ interface timelineStages {
   description?: string
 }
 
-export default function OpenApplication({onClose, selectedId}: OpenApplicationProps){
+export default function OpenApplication({onClose, selectedId, index}: OpenApplicationProps){
   const [selectedApplication, setSelectedApplication] = useState<IApplication | null>(null);
 
   // Helper function to generate timeline stages based on application status
@@ -98,9 +101,7 @@ export default function OpenApplication({onClose, selectedId}: OpenApplicationPr
       </button>
       <div className="bg-white p-6 rounded-xl border border-gray-200 mt-4">
         <div className="flex gap-3 items-start">
-          <div className="bg-black text-white py-3 px-5 rounded-xl">
-            <span className="text-xl font-bold ">G</span>
-          </div>
+          <div className={`text-white py-3 px-5 rounded-xl text-xl font-bold bg-black ${getAvatarColor(selectedApplication?.companyName ?? "", index ?? 0)}`}>{getInitials(selectedApplication?.companyName ?? "")}</div>
           <div className="w-full">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold">{selectedApplication?.companyName}</h1>
@@ -130,10 +131,10 @@ export default function OpenApplication({onClose, selectedId}: OpenApplicationPr
             </div>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-2 text-indigo-500 cursor-pointer hover:underline">
+        <Link to={selectedApplication?.jobURL ?? ""} className="mt-3 flex items-center gap-2 text-indigo-500 cursor-pointer hover:underline">
           <ExternalLink size={14}/>
           <span className="text-xs">View Job Posting</span>
-        </div>
+        </Link>
       </div>
 
       <div className="flex gap-4">
