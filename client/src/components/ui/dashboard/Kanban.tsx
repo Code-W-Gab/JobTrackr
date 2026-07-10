@@ -1,5 +1,6 @@
 import { MapPin, Calendar } from "lucide-react";
 import { useApplications } from "../../../hook/useApplication";
+import { getAvatarColor, getInitials } from "../../../Utils/getInitial";
 
 type statusType = {
   type: string;
@@ -50,15 +51,13 @@ export default function Kanban() {
 
                 <div className="flex-1 space-y-2 overflow-y-auto bg-gray-100 p-2.5">
                   {columnApplications.length > 0 ? (
-                    columnApplications.map((app) => (
+                    columnApplications.map((app, index) => (
                       <div
                         key={app._id}
                         className="space-y-3 rounded-lg border border-gray-200 bg-white p-2.5 shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-xl cursor-grab active:cursor-grabbing"
                       >
                         <div className="flex items-center gap-2">
-                          <div className="rounded-lg bg-indigo-600 px-2 py-0.5 text-[13px] font-semibold text-white">
-                            <p>{app.companyName.charAt(0).toUpperCase()}</p>
-                          </div>
+                          <div className={`rounded-lg px-2 py-0.5 text-[13px] font-semibold text-white ${getAvatarColor(app.companyName, index)}`}>{getInitials(app.companyName)}</div>
                           <span className="truncate text-sm font-semibold">
                             {app.companyName}
                           </span>

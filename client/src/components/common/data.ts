@@ -114,5 +114,5 @@ export const getMetricsData = (applications: IApplication[]) => {
     { name: 'Wishlist', value: statusValue.wishlist, color: '#94A3B8' },
   ];
 
-  return { STATUS_DISTRIBUTION, status }
+  return { STATUS_DISTRIBUTION, status, statusValue }
 }
