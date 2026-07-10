@@ -1,13 +1,16 @@
+import { Bell, Sun } from 'lucide-react';
+import { getInitials } from "../../Utils/getInitial";
 import AddJob from "../../components/common/AddJob";
-import Profile from "../../components/common/Profile";
 import SearchBar from "../../components/common/SearchBar";
-import { Sun, Bell } from 'lucide-react';
+import { useAuthContext } from "../../hook/useAuth";
 
 interface HeaderProps {
   setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Header({ setIsModalOpen }: HeaderProps) {
+  const { user } = useAuthContext();
+  
   return(
     <header className="bg-white px-4 flex items-center justify-between border-l border-indigo-100">
       <SearchBar/>
@@ -19,7 +22,7 @@ export default function Header({ setIsModalOpen }: HeaderProps) {
           <Bell size={16} className="text-gray-600"/>
         </div>
         <AddJob name="Add Job" onClick={() => setIsModalOpen && setIsModalOpen(true)}/>
-        <Profile initials="GC"/>
+        <div className='text-white text-[13px] font-semibold bg-indigo-600 size-7 rounded-full flex items-center justify-center'>{getInitials(user?.fullName ?? "U")}</div>
       </div>
     </header>
   )

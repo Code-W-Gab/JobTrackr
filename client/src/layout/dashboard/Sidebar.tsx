@@ -2,8 +2,8 @@ import { LayoutDashboard, Briefcase, FolderKanban, Calendar, ChartColumn, Chevro
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Logout from '../../components/common/Logout';
-import Profile from '../../components/common/Profile';
 import { useAuthContext } from '../../hook/useAuth';
+import { getInitials } from '../../Utils/getInitial';
 
 interface INav {
   name: string,
@@ -46,7 +46,7 @@ export default function Sidebar(){
       <div className='border-t border-indigo-100 py-3 px-4'>
         <Logout/>
         <div className='flex items-center gap-2 px-1 mt-2'>
-          <Profile initials='GC'/>
+          <div className='text-white text-[13px] font-semibold bg-indigo-600 size-7 rounded-full flex items-center justify-center'>{getInitials(user?.fullName ?? "U")}</div>
           <div>
             <h3 className='text-xs font-semibold'>{user?.fullName}</h3>
             <p className='text-[10px] text-gray-500'>{user?.email}</p>
