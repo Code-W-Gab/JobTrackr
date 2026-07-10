@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useApplications } from "../../../hook/useApplication";
 import type { IApplication } from "../../../types/applicationTypes";
-import { formatDateForInput } from "../../../Utils/formatDate";
+import { formatDate } from "../../../Utils/formatDate";
 
 export default function Calendar() {
   const { applications } = useApplications();
@@ -143,7 +143,7 @@ export default function Calendar() {
       </header>
 
       <div className="bg-white rounded-lg">
-        <div className="grid grid-cols-7 gap-2 border border-b-0 border-gray-100 rounded-tl-lg rounded-tr-lg">
+        <div className="grid grid-cols-7 gap-2 border border-b-0 border-slate-100 rounded-tl-lg rounded-tr-lg">
           {weekDays.map((day) => (
             <div
               key={day}
@@ -154,7 +154,7 @@ export default function Calendar() {
           ))}
         </div>
 
-        <div className="grid grid-cols-7 border border-b-0 border-r-0 border-gray-100">
+        <div className="grid grid-cols-7 border border-b-0 border-r-0 border-slate-100">
           {calendarDays.map((dayObj, index) => {
             const matchingApplications = getApplicationsForDate(dayObj.date);
             const isTodayInterview = matchingApplications.some((app) => {
@@ -195,7 +195,7 @@ export default function Calendar() {
                 </div>
 
                 {matchingApplications.length > 0 && (
-                  <div className="flex flex-col gap-1 mt-11">
+                  <div className="flex flex-col gap-1 mt-8">
                     {matchingApplications.slice(0, 2).map((app) => (
                       <div
                         onClick={() => openApplicationModal(app)}
@@ -236,9 +236,9 @@ export default function Calendar() {
               </div>
               <div>
                 <span className="text-md font-semibold text-gray-900">Interview with {selectedApplication.companyName}</span>
-                <div className="flex flex-col gap-1 text-gray-500 text-xs mt-2 ">
+                <div className="flex flex-col gap-1.5 text-gray-500 text-xs mt-2 ">
                   <span>Company: {selectedApplication.companyName}</span>
-                  <span>Date: {formatDateForInput(selectedApplication.interviewDate ?? "")}</span>
+                  <span>Date: {formatDate(selectedApplication.interviewDate ?? "")}</span>
                   <span>Time: {selectedApplication.interviewTime}</span>
                 </div>
               </div>
