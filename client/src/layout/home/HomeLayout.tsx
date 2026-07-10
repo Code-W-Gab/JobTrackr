@@ -1,10 +1,10 @@
-import CTASection from "../../components/ui/CTASection";
-import FaqSection from "../../components/ui/FaqSection";
-import FeatureSection from "../../components/ui/FeatureSection";
-import HeroSection from "../../components/ui/HeroSection";
-import PricingSection from "../../components/ui/PricingSection";
-import StatsSection from "../../components/ui/StatsSection";
-import TestimonialSection from "../../components/ui/TestimonialSection";
+import CTASection from "../../components/ui/home/CTASection";
+import FaqSection from "../../components/ui/home/FaqSection";
+import FeatureSection from "../../components/ui/home/FeatureSection";
+import HeroSection from "../../components/ui/home/HeroSection";
+import PricingSection from "../../components/ui/home/PricingSection";
+import StatsSection from "../../components/ui/home/StatsSection";
+import TestimonialSection from "../../components/ui/home/TestimonialSection";
 import Footer from "./Footer";
 import Header from "./Header";
 

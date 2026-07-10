@@ -1,71 +1,25 @@
-import { ArrowRight, Award, Briefcase, Calendar, CircleX, Plus, Target, TrendingUp } from 'lucide-react';
+import { ArrowRight, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Area, AreaChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useApplications } from '../../../hook/useApplication';
-import { getInitials } from '../../../Utils/getInitial';
-import AddJob from "../../common/AddJob";
-import AddApplicationModal from "../../overlays/AddApplicationModal";
-import OnNavigate from "../../common/OnNavigate";
-import { formatDateForInput, formatRelativeTime } from '../../../Utils/formatDate';
-import Status from '../../common/Status';
 import { useAuthContext } from '../../../hook/useAuth';
-
-type statusType = {
-  count: number | string,
-  name: string,
-  icon: React.ElementType,
-  color: string,
-  bgColor: string
-}
+import { formatDate, formatDateForInput, formatRelativeTime } from '../../../Utils/formatDate';
+import { getAvatarColor, getInitials } from '../../../Utils/getInitial';
+import AddJob from "../../common/AddJob";
+import { getMetricsData, getMonthlyData, getRecentActivity, getRecentApplications, getUpcomingInterviews } from '../../common/data';
+import OnNavigate from "../../common/OnNavigate";
+import Status from '../../common/Status';
+import AddApplicationModal from "../../overlays/AddApplicationModal";
 
 export default function Dashboard(){
   const { user } = useAuthContext()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { applications } = useApplications()
-  const recent = applications.slice(0, 5).sort((a, b) => new Date(b.dateApplied).getTime() - new Date(a.dateApplied).getTime())
-  const upcomingInterviews = applications.filter(app => app.status === "Interview" || app.status === "Final Interview").slice(0, 3).sort((a, b) => new Date(a.dateApplied).getTime() - new Date(b.dateApplied).getTime()).slice(0, 5)
-  const recentActivity = [...applications]
-  .sort((a, b) => {
-    const aTime = new Date(a.updatedAt || a.dateApplied).getTime()
-    const bTime = new Date(b.updatedAt || b.dateApplied).getTime()
-    return bTime - aTime
-  })
-  .slice(0, 4)
-  const currentYear = new Date().getFullYear();
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-  const monthlyData = monthNames.map((month, index) => {
-    const monthApplications = applications.filter((app) => {
-      const appliedDate = new Date(app.dateApplied);
-
-      return (
-        !Number.isNaN(appliedDate.getTime()) &&
-        appliedDate.getFullYear() === currentYear &&
-        appliedDate.getMonth() === index
-      );
-    });
-
-    const interviews = monthApplications.filter((app) =>
-      app.status === 'Interview' || app.status === 'Final Interview'
-    ).length;
-
-    return {
-      month,
-      applications: monthApplications.length,
-      interviews,
-    };
-  });
-
-  const statusValue: Record<string, number> = {
-    totalApplications: applications.length,
-    activeApplications: applications.filter(app => app.status === "Applied" || app.status === "Assessment").length,
-    interviewsScheduled: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length,
-    offerReceived: applications.filter(app => app.status === "Offer").length,
-    rejected: applications.filter(app => app.status === "Rejected").length,
-    accepted: applications.filter(app => app.status === "Accepted").length,
-    wishlist: applications.filter(app => app.status === "Wishlist").length,
-    successRate: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0
-  }
+  const { status, STATUS_DISTRIBUTION } = getMetricsData(applications)
+  const recentApplications = getRecentApplications(applications)
+  const upcomingInterviews = getUpcomingInterviews(applications)
+  const recentActivity = getRecentActivity(applications)
+  const monthlyData = getMonthlyData(applications)
 
   const ActivityStatus: Record<string, string> = {
     Applied: "Applied to",
@@ -77,69 +31,6 @@ export default function Dashboard(){
     Accepted: "Accepted offer from",
     Wishlist: "Added to wishlist"
   }
-
-  const status: statusType[] = [
-    {
-      count: statusValue.totalApplications,
-      name: "Total Applications",
-      icon: Briefcase,
-      color: "text-indigo-700",
-      bgColor: "bg-indigo-100"
-    },
-    {
-      count: statusValue.activeApplications,
-      name: "Active Applications",
-      icon: TrendingUp,
-      color: "text-blue-700",
-      bgColor: "bg-blue-100"
-    },
-    {
-      count: statusValue.interviewsScheduled,
-      name: "Interviews Scheduled",
-      icon: Calendar,
-      color: "text-orange-700",
-      bgColor: "bg-orange-100"
-    },
-    {
-      count: statusValue.offerReceived,
-      name: "Offer Received",
-      icon: Award,
-      color: "text-green-700",
-      bgColor: "bg-green-100"
-    },
-    {
-      count: statusValue.rejected,
-      name: "Rejected",
-      icon: CircleX,
-      color: "text-red-700",
-      bgColor: "bg-red-100"
-    },
-    {
-      count: `${statusValue.successRate}%`,
-      name: "Success Rate",
-      icon: Target,
-      color: "text-violet-700",
-      bgColor: "bg-violet-100"
-    }
-  ]
-
-  // const MONTHLY_DATA = [
-  //   { month: 'Jan', applications: 4, interviews: 1 },
-  //   { month: 'Feb', applications: 7, interviews: 2 },
-  //   { month: 'Mar', applications: 12, interviews: 4 },
-  //   { month: 'Apr', applications: 18, interviews: 6 },
-  //   { month: 'May', applications: 24, interviews: 9 },
-  //   { month: 'Jun', applications: 15, interviews: 5 },
-  // ];
-  
-  const STATUS_DISTRIBUTION = [
-    { name: 'Applied', value: statusValue.activeApplications, color: '#3B82F6' },
-    { name: 'Interview', value: statusValue.interviewsScheduled, color: '#F59E0B' },
-    { name: 'Offer', value: statusValue.offerReceived, color: '#10B981' },
-    { name: 'Rejected', value: statusValue.rejected, color: '#EF4444' },
-    { name: 'Accepted', value: statusValue.accepted, color: '#22C55E' },
-    { name: 'Wishlist', value: statusValue.wishlist, color: '#94A3B8' },
-  ];
 
   return(
     <main className="h-full w-full overflow-y-auto p-6 bg-[#f5f7f7] border-l border-indigo-100">
@@ -246,21 +137,21 @@ export default function Dashboard(){
               <p className='text-xs text-slate-400 mt-2'>No upcoming interviews</p>
             ) : (
               <div className='space-y-2 mt-4'>
-                {upcomingInterviews.map(interview => {
+                {upcomingInterviews.map((interview, index) => {
                   return(
                     <div key={interview._id} className='flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg'>
                       <div className='flex gap-2'>
-                        <div className='bg-black text-white size-9 rounded-xl flex items-center justify-center'>
-                          <span className='text-xs font-semibold'>N</span>
+                        <div className={`text-white size-9 rounded-xl flex items-center justify-center ${getAvatarColor(interview.companyName, index)}`}>
+                          <span className='text-xs font-semibold'>{getInitials(interview.companyName)}</span>
                         </div>
                         <div>
                           <h4 className='text-sm font-medium text-[#0F172A]'>{interview.companyName}</h4>
                           <p className='text-xs text-slate-500'>{interview.jobType}</p>
                         </div>
                       </div>
-                      <div>
-                        <span className='text-xs text-amber-600'>Tomorrow</span>
-                        <p className='text-xs text-slate-400'>10:00 AM</p>
+                      <div className='flex flex-col items-end'>
+                        <span className='text-xs text-amber-600'>{formatDate(interview.interviewDate ?? "")}</span>
+                        <p className='text-xs text-slate-400'>{interview.interviewTime}</p>
                       </div>
                     </div>
                   )
@@ -278,10 +169,10 @@ export default function Dashboard(){
               <p className='text-xs text-slate-400'>No recent activity</p>
             ) : (
               <div className='space-y-4'>
-                {recentActivity.map(activity => {
+                {recentActivity.map((activity, index) => {
                   return(
                     <div key={activity._id} className='flex items-center gap-2'>
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials(activity.companyName)}</div>
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 ${getAvatarColor(activity.companyName, index)}`}>{getInitials(activity.companyName)}</div>
                       <div className='flex flex-col'>
                         <h3 className='text-sm text-slate-500'>{ActivityStatus[activity.status] || "Updated"} <span className='font-medium text-black'>{activity.companyName}</span></h3>
                         <p className='text-xs text-slate-400'>{formatRelativeTime(activity.updatedAt || activity.dateApplied)}</p>
@@ -338,12 +229,12 @@ export default function Dashboard(){
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 ">
-              {recent.map(application => {
+              {recentApplications.map((application, index) => {
                 return(
                   <tr className="hover:bg-slate-50/50 transition-colors" key={application._id}>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 bg-black">{getInitials(application.companyName)}</div>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 ${getAvatarColor(application.companyName, index)}`}>{getInitials(application.companyName)}</div>
                         <span className="text-sm font-medium text-[#0F172A]">{application.companyName}</span>
                       </div>
                     </td>
