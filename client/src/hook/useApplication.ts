@@ -70,7 +70,7 @@ export const useApplications = () => {
         error.response?.data?.errors?.[0]?.msg ||
         error.response?.data?.message ||
         "Failed to create application";
-
+        
       console.error("Create application error:", error.response?.data);
       toast.error(message);
     }
