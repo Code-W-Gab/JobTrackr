@@ -1,63 +1,28 @@
 import {
-  BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell,
-  ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis, YAxis
 } from 'recharts';
-import { TrendingUp, Briefcase, MessageSquare, Award } from 'lucide-react';
-
-const MONTHLY_DATA = [
-  { month: 'Jan', applications: 4, interviews: 1 },
-  { month: 'Feb', applications: 7, interviews: 2 },
-  { month: 'Mar', applications: 12, interviews: 4 },
-  { month: 'Apr', applications: 18, interviews: 6 },
-  { month: 'May', applications: 24, interviews: 9 },
-  { month: 'Jun', applications: 15, interviews: 5 },
-];
-
-const STATUS_DISTRIBUTION = [
-  { name: 'Applied', value: 28, color: '#3B82F6' },
-  { name: 'Interview', value: 18, color: '#F59E0B' },
-  { name: 'Offer', value: 8, color: '#10B981' },
-  { name: 'Rejected', value: 22, color: '#EF4444' },
-  { name: 'Accepted', value: 5, color: '#22C55E' },
-  { name: 'Wishlist', value: 19, color: '#94A3B8' },
-];
-
-const PLATFORM_DATA = [
-  { platform: 'LinkedIn', count: 42 },
-  { platform: 'Company Site', count: 28 },
-  { platform: 'Indeed', count: 18 },
-  { platform: 'Glassdoor', count: 9 },
-  { platform: 'JobStreet', count: 3 },
-];
-
-const CONVERSION_DATA = [
-  { stage: 'Applied', count: 80, color: '#3B82F6' },
-  { stage: 'Screened', count: 52, color: '#6366F1' },
-  { stage: 'Interview', count: 28, color: '#F59E0B' },
-  { stage: 'Final', count: 12, color: '#F97316' },
-  { stage: 'Offer', count: 6, color: '#10B981' },
-  { stage: 'Accepted', count: 3, color: '#22C55E' },
-];
-
-const RESPONSE_DATA = [
-  { month: 'Jan', rate: 15 },
-  { month: 'Feb', rate: 22 },
-  { month: 'Mar', rate: 31 },
-  { month: 'Apr', rate: 28 },
-  { month: 'May', rate: 38 },
-  { month: 'Jun', rate: 42 },
-];
-
-const METRICS = [
-  { label: 'Applications Sent', value: '80', icon: Briefcase, color: 'text-indigo-600', bg: 'bg-indigo-50 ' },
-  { label: 'Interviews', value: '28', icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50 d' },
-  { label: 'Offers', value: '6', icon: Award, color: 'text-emerald-600', bg: 'bg-emerald-50 ' },
-  { label: 'Acceptance Rate', value: '50%', icon: TrendingUp, color: 'text-violet-600', bg: 'bg-violet-50' },
-];
+import { useApplications } from '../../../hook/useApplication';
+import { getChartsData, getMetricsData, getMonthlyData, getResponseRateData } from '../../common/data';
 
 const TOOLTIP_STYLE = { background: '#1E293B', border: 'none', borderRadius: 12, color: '#F1F5F9', fontSize: 12 };
 
 export default function AnalyticsPage() {
+  const { applications } = useApplications()
+  const { STATUS_DISTRIBUTION } = getMetricsData(applications)
+  const { platformData, conversationData, metrics } = getChartsData(applications)
+  const monthlyData = getMonthlyData(applications)
+  const responseData = getResponseRateData(applications);
+  
   return (
     <div className="p-6 lg:p-8 space-y-6 border-l border-indigo-100 bg-[#f5f7f7]">
       <div>
@@ -67,7 +32,7 @@ export default function AnalyticsPage() {
 
       {/* Metric cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {METRICS.map(m => {
+        {metrics.map(m => {
           const Icon = m.icon;
           return (
             <div key={m.label} className="bg-white rounded-2xl p-5 border border-slate-100">
@@ -87,7 +52,7 @@ export default function AnalyticsPage() {
           <h3 className="font-semibold text-[#0F172A]  mb-1">Applications Per Month</h3>
           <p className="text-xs text-slate-400 mb-6">Monthly application volume</p>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={MONTHLY_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+            <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
@@ -131,13 +96,13 @@ export default function AnalyticsPage() {
           <h3 className="font-semibold text-[#0F172A] mb-1">Interview Conversion Funnel</h3>
           <p className="text-xs text-slate-400 mb-6">Progression through hiring stages</p>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={CONVERSION_DATA} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
+            <BarChart data={conversationData} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
               <YAxis dataKey="stage" type="category" tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Bar dataKey="count" radius={[0, 6, 6, 0]} name="Candidates">
-                {CONVERSION_DATA.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                {conversationData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -147,8 +112,8 @@ export default function AnalyticsPage() {
           <h3 className="font-semibold text-[#0F172A]  mb-1">Top Platforms</h3>
           <p className="text-xs text-slate-400 mb-6">Where you apply most</p>
           <div className="space-y-3">
-            {PLATFORM_DATA.map((item, i) => {
-              const max = PLATFORM_DATA[0].count;
+            {platformData.map((item, i) => {
+              const max = platformData[0].count;
               const pct = Math.round((item.count / max) * 100);
               const colors = ['bg-indigo-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-emerald-500'];
               return (
@@ -172,7 +137,7 @@ export default function AnalyticsPage() {
         <h3 className="font-semibold text-[#0F172A] mb-1">Response Rate Over Time</h3>
         <p className="text-xs text-slate-400 mb-6">Percentage of applications receiving responses</p>
         <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={RESPONSE_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+          <AreaChart data={responseData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <defs>
               <linearGradient id="responseGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#10B981" stopOpacity={0.15} />

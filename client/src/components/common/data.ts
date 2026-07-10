@@ -1,4 +1,4 @@
-import { Award, Briefcase, Calendar, CircleX, Target, TrendingUp } from 'lucide-react';
+import { Award, Briefcase, Calendar, CircleX, Target, TrendingUp, MessageSquare } from 'lucide-react';
 import type { IApplication, statusType } from "../../types/applicationTypes";
 
 export const getRecentApplications = (applications: IApplication[]) =>
@@ -115,4 +115,61 @@ export const getMetricsData = (applications: IApplication[]) => {
   ];
 
   return { STATUS_DISTRIBUTION, status, statusValue }
+}
+
+export const getResponseRateData = (applications: IApplication[]) => {
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const currentYear = new Date().getFullYear();
+
+  return monthNames.map((month, index) => {
+    const monthApplications = applications.filter((app) => {
+      const appliedDate = new Date(app.dateApplied);
+
+      return (
+        !Number.isNaN(appliedDate.getTime()) &&
+        appliedDate.getFullYear() === currentYear &&
+        appliedDate.getMonth() === index
+      );
+    });
+
+    const respondedApplications = monthApplications.filter((app) =>
+      ['Interview', 'Final Interview', 'Offer', 'Rejected', 'Accepted'].includes(app.status)
+    );
+
+    const rate =
+      monthApplications.length === 0
+        ? 0
+        : Math.round((respondedApplications.length / monthApplications.length) * 100);
+
+    return { month, rate };
+  });
+};
+
+export const getChartsData = (applications: IApplication[]) => {
+  const platformData = [
+    { platform: 'LinkedIn', count: applications.filter(app => app.platform === "LinkedIn").length },
+    { platform: 'Indeed', count: applications.filter(app => app.platform === "Indeed").length },
+    { platform: 'JobStreet', count: applications.filter(app => app.platform === "JobStreet").length },
+    { platform: 'Glassdoor', count: applications.filter(app => app.platform === "Glassdoor").length },
+    { platform: 'Company Website', count: applications.filter(app => app.platform === "Company Website").length }
+  ];
+
+  const conversationData = [
+    { stage: 'Applied', count: applications.filter(app => app.status === "Applied").length, color: '#3B82F6' },
+    { stage: 'Screened', count: applications.filter(app => app.status === "Assessment").length, color: '#6366F1' },
+    { stage: 'Interview', count: applications.filter(app => app.status === "Interview").length, color: '#F59E0B' },
+    { stage: 'Final', count: applications.filter(app => app.status === "Final Interview").length, color: '#F97316' },
+    { stage: 'Offer', count: applications.filter(app => app.status === "Offer").length, color: '#10B981' },
+    { stage: 'Accepted', count: applications.filter(app => app.status === "Accepted").length, color: '#22C55E' },
+  ];
+
+  const metrics = [
+    { label: 'Applications Sent', value: applications.length, icon: Briefcase, color: 'text-indigo-600', bg: 'bg-indigo-50 ' },
+    { label: 'Interviews', value: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50 d' },
+    { label: 'Offers', value: applications.filter(app => app.status === "Offer").length, icon: Award, color: 'text-emerald-600', bg: 'bg-emerald-50 ' },
+    { label: 'Acceptance Rate', value: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0, icon: TrendingUp, color: 'text-violet-600', bg: 'bg-violet-50' },
+  ];
+
+  return { platformData, conversationData, metrics }
+  
 }
