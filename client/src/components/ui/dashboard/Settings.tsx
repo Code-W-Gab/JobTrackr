@@ -3,9 +3,6 @@ import { useAuth, useAuthContext } from "../../../hook/useAuth";
 import { Trash2 } from "lucide-react";
 import DeleteAccountModal from "../../overlays/DeleteAccountModal";
 
-interface INav {
-  name: string,
-}
 
 export default function Settings(){
   const [isActive, setIsActive] = useState<string>("Profile");
@@ -18,11 +15,7 @@ export default function Settings(){
   const { user } = useAuthContext()
   const { handleUpdateMe, handleUpdatePass, handleDeleteAccount } = useAuth()
 
-  const navSetting: INav[] = [
-    { name: "Profile" },
-    { name: "Preferences" },
-    { name: "Security" }
-  ];
+  const navSetting: string[] = ["Profile", "Security"];
 
   const updateData = {
     currentPassword,
@@ -49,9 +42,9 @@ export default function Settings(){
         <div className="inline-flex w-fit items-center gap-2 text-gray-600 bg-gray-200 p-1 rounded-xl my-6">
           {navSetting.map((nav) => {
             return(
-              <div key={nav.name}>
-                <button onClick={() => setIsActive(nav.name)} className={`py-1 px-3 rounded-lg text-sm transition-colors ${isActive === nav.name ? 'bg-white' : 'hover:bg-gray-300'}`}>
-                  {nav.name}
+              <div key={nav}>
+                <button onClick={() => setIsActive(nav)} className={`py-1 px-3 rounded-lg text-sm transition-colors ${isActive === nav ? 'bg-white' : 'hover:bg-gray-300'}`}>
+                  {nav}
                 </button>
               </div>
             )
