@@ -1,8 +1,9 @@
-import { Bell, Sun } from 'lucide-react';
+import { Bell, Sun, House, ChevronRight, Moon } from 'lucide-react';
 import { getInitials } from "../../Utils/getInitial";
 import AddJob from "../../components/common/AddJob";
-import SearchBar from "../../components/common/SearchBar";
 import { useAuthContext } from "../../hook/useAuth";
+import { useLocation } from 'react-router-dom';
+import { useTheme } from '../../hook/useTheme';
 
 interface HeaderProps {
   setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,13 +11,28 @@ interface HeaderProps {
 
 export default function Header({ setIsModalOpen }: HeaderProps) {
   const { user } = useAuthContext();
-  
+  const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
+
+  const routeMap: Record<string, string> = {
+    "/dashboard": "Dashboard",
+    "/application": "Application",
+    "/kanban-board": "Kanban Board",
+    "/calendar": "Calendar",
+    "/analytics": "Analytics",
+    "/settings": "Settings",
+  };
+
   return(
-    <header className="bg-white px-4 flex items-center justify-between border-l border-indigo-100">
-      <SearchBar/>
+    <header className="bg-white dark:bg-[#1E293B] px-4 flex items-center justify-between border-l border-indigo-100">
+      <div className='flex items-center gap-2'>
+        <House size={16} className='text-gray-500'/>
+        <ChevronRight size={16} className='text-gray-500'/>
+        <span className='text-sm font-semibold text-slate-600'>{routeMap[location.pathname]}</span>
+      </div>
       <div className="flex items-center gap-2">
-        <div className="hover:bg-indigo-100 p-1.5 rounded-lg">
-          <Sun size={15} className="text-gray-600 "/>
+        <div onClick={toggleTheme} className="hover:bg-indigo-100 p-1.5 rounded-lg">
+          {theme === "light" ? <Sun size={15} className="text-gray-600 "/> : <Moon size={15} className="text-gray-600 "/>}
         </div>
         <div className="hover:bg-indigo-100 p-1.5 rounded-lg">
           <Bell size={16} className="text-gray-600"/>

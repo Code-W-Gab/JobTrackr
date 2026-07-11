@@ -9,7 +9,7 @@ export default function Register(){
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const { handleRegisterSubmit } = useAuth()
+  const { handleRegisterSubmit, errors } = useAuth()
   
   const registerData = {
     fullName,
@@ -41,10 +41,12 @@ export default function Register(){
           e.preventDefault();
           handleRegisterSubmit(registerData)
         }}>
-          <Input name="Full Name" type="text" placeholder="Juan Dela Cruz" value={fullName} setValue={setFullName}/>
-          <Input name="Email" type="email" placeholder="example@gmail.com" value={email} setValue={setEmail}/>
-          <InputPassword name="Password" passwordType="password" textType="text" placeholder="Create a strong password" value={password} setValue={setPassword}/>
-          <InputPassword name="Confirm Password" passwordType="password" textType="text" placeholder="Confirm your password" value={confirmPassword} setValue={setConfirmPassword}/>
+          <Input name="Full Name" type="text" placeholder="Juan Dela Cruz" value={fullName} setValue={setFullName} error={errors.fullName}/>
+          <Input name="Email" type="email" placeholder="example@gmail.com" value={email} setValue={setEmail} error={errors.email}/>
+          <InputPassword name="Password" passwordType="password" textType="text" placeholder="Create a strong password" value={password} setValue={setPassword} error={errors.password}/>
+          <InputPassword name="Confirm Password" passwordType="password" textType="text" placeholder="Confirm your password" value={confirmPassword} setValue={setConfirmPassword} error={errors.confirmPassword}/>
+
+          {errors.general && <div className="bg-red-100 border border-red-400 text-red-600 text-sm px-2 py-1 rounded-sm">{errors.general}</div>}
 
           <button type="submit" className="w-full bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300">Create Account</button>
         </form>

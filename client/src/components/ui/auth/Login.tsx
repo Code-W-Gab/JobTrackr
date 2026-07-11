@@ -24,9 +24,9 @@ declare global {
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [googleError, setGoogleError] = useState<string>("");
   const navigate = useNavigate();
-  const { handleLoginSubmit } = useAuth();
+  const { handleLoginSubmit, errors } = useAuth();
   const { fetchUser } = useAuthContext();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Login() {
           navigate("/dashboard");
         } catch (err) {
           console.error("Google login failed:", err);
-          setError("Google sign-in failed");
+          setGoogleError("Google sign-in failed");
         }
       },
     });
@@ -53,7 +53,7 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     if (!window.google?.accounts?.id) {
-      setError("Google sign-in is not available right now.");
+      setGoogleError("Google sign-in is not available right now.");
       return;
     }
 
@@ -105,7 +105,7 @@ export default function Login() {
           <span>Continue with Google</span>
         </button>
 
-        {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+        {googleError && <p className="text-sm text-red-500 mt-2">{googleError}</p>}
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
@@ -125,6 +125,7 @@ export default function Login() {
             placeholder="example@gmail.com"
             value={email}
             setValue={setEmail}
+            error={errors.email}
           />
           <InputPassword
             name="Password"
@@ -133,7 +134,10 @@ export default function Login() {
             placeholder="••••••••"
             value={password}
             setValue={setPassword}
+            error={errors.password}
           />
+
+          {errors.general && <div className="bg-red-100 border border-red-400 text-red-600 text-sm px-2 py-1 rounded-sm">{errors.general}</div>}
 
           <div className="flex justify-end">
             <div className="text-xs text-indigo-600 text-right mt-1">

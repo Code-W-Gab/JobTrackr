@@ -11,7 +11,7 @@ interface INav {
   icon: React.ElementType,
 }
 
-export default function Sidebar(){
+export default function Sidebar() {
   const { user } = useAuthContext()
   const location = useLocation();
   

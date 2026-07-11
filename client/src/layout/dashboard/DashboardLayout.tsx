@@ -16,13 +16,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Top bar */}
       <div className="grid grid-cols-[210px_1fr] border-b border-indigo-100">
         <Brand />
-        <Header setIsModalOpen={setIsModalOpen} />
+        <Header setIsModalOpen={setIsModalOpen}/>
       </div>
 
       {/* Main content area */}
       <div className="grid flex-1 min-h-0 grid-cols-[210px_1fr]">
         <aside className="bg-white">
-          <Sidebar />
+          <Sidebar/>
         </aside>
 
         <section className="min-h-0 overflow-y-auto bg-gray-50">
