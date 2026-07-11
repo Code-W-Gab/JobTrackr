@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <main className="flex h-screen w-screen flex-col overflow-hidden bg-gray-50">
       {/* Top bar */}
-      <div className="grid grid-cols-[210px_1fr] border-b border-indigo-100">
+      <div className="grid grid-cols-[210px_1fr] border-b border-indigo-100 dark:border-gray-600">
         <Brand />
         <Header setIsModalOpen={setIsModalOpen}/>
       </div>

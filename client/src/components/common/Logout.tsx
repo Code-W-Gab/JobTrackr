@@ -5,7 +5,7 @@ export default function Logout(){
   const { handleLogout } = useAuth();
 
   return(
-    <button onClick={handleLogout} className="flex items-center w-full gap-2 py-2 px-3 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-100">
+    <button onClick={handleLogout} className="flex items-center w-full gap-2 py-2 px-3 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-100 dark:text-gray-300  dark:hover:text-gray-100 dark:hover:bg-red-800">
        <LogOut size={14}/>
        <span className="text-[12px]">Logout</span>
     </button>
