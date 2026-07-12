@@ -6,7 +6,7 @@ interface IInput {
   placeholder: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  error: string | undefined
+  error?: string | null
 }
 
 export default function Input({name, type, placeholder, value, setValue, error}: IInput){

@@ -228,7 +228,7 @@ export default function Calendar() {
           <div className="z-50">
             <div className="w-100 p-4 rounded-xl bg-white dark:bg-[#1E293B]">
               <div className="flex items-center justify-between mb-3">
-                <div className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-xl dark:bg-gray-700 dark:text-indigo-600">{selectedApplication.status}</div>
+                <div className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-xl dark:bg-indigo-700/50 dark:text-indigo-400">{selectedApplication.status}</div>
                 <button onClick={() => setIsModalOpen(false)} className="hover:bg-gray-100 p-2 rounded-full dark:hover:bg-gray-600">
                   <X size={14} className="text-gray-500 dark:text-gray-300"/>
                 </button>
