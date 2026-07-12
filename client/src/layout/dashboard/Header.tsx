@@ -4,7 +4,6 @@ import AddJob from "../../components/common/AddJob";
 import { useAuthContext } from "../../hook/useAuth";
 import { useLocation } from 'react-router-dom';
 import ThemeToggle from '../../components/common/ThemeToggle';
-import { useTheme } from '../../hook/useTheme';
 
 interface HeaderProps {
   setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +22,7 @@ export default function Header({ setIsModalOpen }: HeaderProps) {
   };
 
   return(
-    <header className="bg-white dark:bg-[#1E293B] px-4 flex items-center justify-between border-l border-indigo-100 dark:border-gray-600">
+    <header className="bg-white dark:bg-[#1E293B] px-4 flex items-center justify-between border-l border-indigo-100 dark:border-gray-700">
       <div className='flex items-center gap-2'>
         <House size={16} className='text-gray-500'/>
         <ChevronRight size={16} className='text-gray-500'/>

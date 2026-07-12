@@ -65,43 +65,43 @@ export const getMetricsData = (applications: IApplication[]) => {
       count: statusValue.totalApplications,
       name: "Total Applications",
       icon: Briefcase,
-      color: "text-indigo-700",
-      bgColor: "bg-indigo-100"
+      color: "text-indigo-700 dark:text-indigo-400",
+      bgColor: "bg-indigo-100 dark:bg-indigo-900"
     },
     {
       count: statusValue.activeApplications,
       name: "Active Applications",
       icon: TrendingUp,
-      color: "text-blue-700",
-      bgColor: "bg-blue-100"
+      color: "text-blue-700 dark:text-blue-400",
+      bgColor: "bg-blue-100 dark:bg-blue-900"
     },
     {
       count: statusValue.interviewsScheduled,
       name: "Interviews Scheduled",
       icon: Calendar,
-      color: "text-orange-700",
-      bgColor: "bg-orange-100"
+      color: "text-orange-700 dark:text-orange-400",
+      bgColor: "bg-orange-100 dark:bg-orange-900"
     },
     {
       count: statusValue.offerReceived,
       name: "Offer Received",
       icon: Award,
-      color: "text-green-700",
-      bgColor: "bg-green-100"
+      color: "text-green-700 dark:text-green-400",
+      bgColor: "bg-green-100 dark:bg-green-900"
     },
     {
       count: statusValue.rejected,
       name: "Rejected",
       icon: CircleX,
-      color: "text-red-700",
-      bgColor: "bg-red-100"
+      color: "text-red-700 dark:text-red-500",
+      bgColor: "bg-red-100 dark:bg-red-900"
     },
     {
       count: `${statusValue.successRate}%`,
       name: "Success Rate",
       icon: Target,
-      color: "text-violet-700",
-      bgColor: "bg-violet-100"
+      color: "text-violet-700 dark:text-violet-500",
+      bgColor: "bg-violet-100 dark:bg-violet-900"
     }
   ]
 
