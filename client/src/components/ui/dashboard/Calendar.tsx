@@ -104,36 +104,35 @@ export default function Calendar() {
   };
 
   return (
-    <main className="h-full overflow-y-auto w-full p-6 bg-[#f5f7f7] border-l border-indigo-100">
+    <main className="h-full overflow-y-auto w-full p-6 bg-[#f5f7f7] border-l border-indigo-100 dark:bg-[#161f2e] dark:border-gray-700">
       <header className="flex items-center justify-between mb-6">
-        <h1 className="font-bold text-xl text-gray-800">Calendar</h1>
-
+        <h1 className="font-bold text-xl text-gray-800 dark:text-white">Calendar</h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="size-2.5 rounded-full bg-indigo-500"></div>
-            <p className="text-xs text-gray-500">Interview</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Interview</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="size-2.5 rounded-full bg-red-500"></div>
-            <p className="text-xs text-gray-500">Deadline</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Deadline</p>
           </div>
 
           <div className="flex items-center gap-8">
             <button
               onClick={handlePrevMonth}
-              className="p-1.5 border border-gray-300 rounded-lg hover:bg-gray-300 cursor-pointer transition"
+              className="p-1.5 border border-gray-300 rounded-lg hover:bg-gray-300 cursor-pointer transition dark:text-gray-300 dark:border-gray-700"
               aria-label="Previous month"
             >
               <ChevronLeft size={12} />
             </button>
 
-            <h2 className="text-xs text-gray-800 font-bold w-24 text-center">
+            <h2 className="text-xs text-gray-800 font-bold w-24 text-center dark:text-white">
               {monthName}
             </h2>
 
             <button
               onClick={handleNextMonth}
-              className="p-1.5 border border-gray-300 rounded-lg hover:bg-gray-300 cursor-pointer transition"
+              className="p-1.5 border border-gray-300 rounded-lg hover:bg-gray-300 cursor-pointer transition dark:text-gray-300 dark:border-gray-700"
               aria-label="Next month"
             >
               <ChevronRight size={12} />
@@ -142,19 +141,19 @@ export default function Calendar() {
         </div>
       </header>
 
-      <div className="bg-white rounded-lg">
-        <div className="grid grid-cols-7 gap-2 border border-b-0 border-slate-100 rounded-tl-lg rounded-tr-lg">
+      <div className="bg-white rounded-lg dark:bg-[#1E293B]">
+        <div className="grid grid-cols-7 gap-2 border border-b-0 border-slate-100 rounded-tl-lg rounded-tr-lg dark:border-gray-700">
           {weekDays.map((day) => (
             <div
               key={day}
-              className="text-center text-xs font-semibold text-gray-600 py-4"
+              className="text-center text-xs font-semibold text-gray-600 py-4 dark:text-gray-300 "
             >
               {day}
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-7 border border-b-0 border-r-0 border-slate-100">
+        <div className="grid grid-cols-7 border border-b-0 border-r-0 border-slate-100 dark:border-gray-700">
           {calendarDays.map((dayObj, index) => {
             const matchingApplications = getApplicationsForDate(dayObj.date);
             const isTodayInterview = matchingApplications.some((app) => {
@@ -170,15 +169,15 @@ export default function Calendar() {
                 key={`${dayObj.date.toDateString()}-${index}`}
                 className={`
                   relative border-b border-r border-gray-100 h-30 p-2 text-xs font-medium
-                  transition-colors cursor-pointer
+                  transition-colors cursor-pointer dark:border-gray-700
                   ${
                     isTodayInterview
                       ? "bg-indigo-50 text-red-700"
                       : isToday(dayObj.date)
-                      ? "bg-indigo-50 text-indigo-700 font-bold"
+                      ? "bg-indigo-50 text-indigo-700 font-bold dark:bg-[#1E293B]"
                       : dayObj.isCurrentMonth
-                      ? "text-gray-600 hover:bg-indigo-100"
-                      : "text-gray-300 bg-gray-50"
+                      ? "text-gray-600 hover:bg-indigo-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                      : "text-gray-100 bg-gray-100 dark:bg-[#161f2e] dark:text-[#161f2e]"
                   }
                 `}
               >
@@ -203,7 +202,7 @@ export default function Calendar() {
                         className={`rounded-sm p-1 text-[10px] truncate border-l ${
                           isTodayInterview
                             ? "bg-red-100 text-red-700 border-red-400"
-                            : "bg-indigo-100 text-indigo-700 border-indigo-400"
+                            : "bg-indigo-100 text-indigo-700 border-indigo-400 dark:bg-indigo-900 dark:text-indigo-50"
                         }`}
                       >
                         Interview with {app.companyName}
@@ -225,18 +224,18 @@ export default function Calendar() {
 
 
       {isModalOpen && selectedApplication && (
-        <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40">
+        <div className="fixed inset-0 flex bg-gray-800/50 items-center justify-center z-40 dark:bg-gray-950/50">
           <div className="z-50">
-            <div className="w-100 p-4 rounded-xl bg-white ">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-xl">{selectedApplication.status}</div>
-                <button onClick={() => setIsModalOpen(false)} className="hover:bg-gray-100 p-2 rounded-full">
-                  <X size={14} className="text-gray-500"/>
+            <div className="w-100 p-4 rounded-xl bg-white dark:bg-[#1E293B]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-xl dark:bg-gray-700 dark:text-indigo-600">{selectedApplication.status}</div>
+                <button onClick={() => setIsModalOpen(false)} className="hover:bg-gray-100 p-2 rounded-full dark:hover:bg-gray-600">
+                  <X size={14} className="text-gray-500 dark:text-gray-300"/>
                 </button>
               </div>
               <div>
-                <span className="text-md font-semibold text-gray-900">Interview with {selectedApplication.companyName}</span>
-                <div className="flex flex-col gap-1.5 text-gray-500 text-xs mt-2 ">
+                <span className="text-md font-semibold text-gray-900 dark:text-white">Interview with {selectedApplication.companyName}</span>
+                <div className="flex flex-col gap-1.5 text-gray-500 text-xs mt-2 dark:text-gray-400">
                   <span>Company: {selectedApplication.companyName}</span>
                   <span>Date: {formatDate(selectedApplication.interviewDate ?? "")}</span>
                   <span>Time: {selectedApplication.interviewTime}</span>
