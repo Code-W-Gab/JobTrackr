@@ -26,10 +26,10 @@ export default function Kanban() {
   };
 
   return (
-    <main className="flex h-full w-full flex-col border-l border-indigo-100 bg-[#f5f7f7] p-6">
+    <main className="flex h-full w-full flex-col border-l border-indigo-100 bg-[#f5f7f7] p-6 dark:bg-[#161f2e] dark:border-gray-700">
       <div className="space-y-1">
-        <h1 className="text-xl font-bold text-gray-800">Kanban Board</h1>
-        <p className="text-xs text-gray-500">Drag and drop to update application status</p>
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white">Kanban Board</h1>
+        <p className="text-xs text-gray-500 dark:text-gray-400">Drag and drop to update application status</p>
       </div>
 
       <div className="mt-6 flex-1 overflow-hidden">
@@ -40,32 +40,32 @@ export default function Kanban() {
             return (
               <div
                 key={index}
-                className="flex h-full w-60 shrink-0 flex-col rounded-lg border border-t-4 border-t-indigo-500 border-gray-200 bg-white"
+                className="flex h-full w-60 shrink-0 flex-col rounded-lg border border-t-4 border-t-indigo-500 border-gray-200 bg-white dark:bg-[#161f2e] dark:border-gray-700 dark:border-t"
               >
-                <div className="flex items-center justify-between border-b border-gray-200 p-3 text-xs font-semibold text-gray-700">
+                <div className="flex items-center justify-between border-b border-gray-200 p-3 text-xs font-semibold text-gray-700 dark:text-gray-300 dark:border-gray-700">
                   <h1>{item.type}</h1>
-                  <p className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-700">
+                  <p className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-700 dark:bg-gray-800 dark:text-gray-300">
                     {item.count}
                   </p>
                 </div>
 
-                <div className="flex-1 space-y-2 overflow-y-auto bg-gray-100 p-2.5">
+                <div className="flex-1 space-y-2 overflow-y-auto bg-gray-100 p-2.5 dark:bg-[#161f2e]">
                   {columnApplications.length > 0 ? (
                     columnApplications.map((app, index) => (
                       <div
                         key={app._id}
-                        className="space-y-3 rounded-lg border border-gray-200 bg-white p-2.5 shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-xl cursor-grab active:cursor-grabbing"
+                        className="space-y-3 rounded-lg border border-gray-200 bg-white p-2.5 shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-xl cursor-grab active:cursor-grabbing dark:bg-[#161f2e] dark:border-gray-700"
                       >
                         <div className="flex items-center gap-2">
                           <div className={`rounded-lg px-2 py-0.5 text-[13px] font-semibold text-white ${getAvatarColor(app.companyName, index)}`}>{getInitials(app.companyName)}</div>
-                          <span className="truncate text-sm font-semibold">
+                          <span className="truncate text-sm font-semibold dark:text-white">
                             {app.companyName}
                           </span>
                         </div>
 
-                        <p className="text-[11px] text-gray-500">{app.jobTitle}</p>
+                        <p className="text-[11px] text-gray-500 dark:text-gray-400">{app.jobTitle}</p>
 
-                        <div className="flex items-center justify-between gap-2 text-gray-500">
+                        <div className="flex items-center justify-between gap-2 text-gray-500 dark:text-gray-400">
                           <div className="flex items-center gap-1 text-[11px]">
                             <MapPin size={14} />
                             <p className="truncate">{app.locationType}</p>
