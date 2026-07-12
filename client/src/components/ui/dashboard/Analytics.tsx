@@ -24,10 +24,10 @@ export default function AnalyticsPage() {
   const responseData = getResponseRateData(applications);
   
   return (
-    <div className="p-6 lg:p-8 space-y-6 border-l border-indigo-100 bg-[#f5f7f7]">
+    <div className="p-6 lg:p-8 space-y-6 border-l border-indigo-100 bg-[#f5f7f7] dark:bg-[#161f2e] dark:border-gray-700">
       <div>
-        <h1 className="text-2xl font-bold text-[#0F172A]">Analytics</h1>
-        <p className="text-sm text-slate-500 mt-1">Insights into your job search performance</p>
+        <h1 className="text-2xl font-bold text-[#0F172A] dark:text-white">Analytics</h1>
+        <p className="text-sm text-slate-500 mt-1 dark:text-gray-400">Insights into your job search performance</p>
       </div>
 
       {/* Metric cards */}
@@ -35,12 +35,12 @@ export default function AnalyticsPage() {
         {metrics.map(m => {
           const Icon = m.icon;
           return (
-            <div key={m.label} className="bg-white rounded-2xl p-5 border border-slate-100">
+            <div key={m.label} className="bg-white rounded-2xl p-5 border border-slate-100 dark:bg-[#1E293B] dark:border-gray-700">
               <div className={`w-10 h-10 rounded-xl ${m.bg} flex items-center justify-center mb-3`}>
                 <Icon className={`w-5 h-5 ${m.color}`} />
               </div>
               <div className={`text-3xl font-bold ${m.color}`}>{m.value}</div>
-              <div className="text-sm text-slate-500 mt-1">{m.label}</div>
+              <div className="text-sm text-slate-500 mt-1 dark:text-gray-400">{m.label}</div>
             </div>
           );
         })}
@@ -48,8 +48,8 @@ export default function AnalyticsPage() {
 
       {/* Charts row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-slate-100">
-          <h3 className="font-semibold text-[#0F172A]  mb-1">Applications Per Month</h3>
+        <div className="bg-white rounded-2xl p-6 border border-slate-100 dark:bg-[#1E293B] dark:border-gray-700">
+          <h3 className="font-semibold text-[#0F172A] mb-1 dark:text-white">Applications Per Month</h3>
           <p className="text-xs text-slate-400 mb-6">Monthly application volume</p>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
@@ -63,8 +63,8 @@ export default function AnalyticsPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-100">
-          <h3 className="font-semibold text-[#0F172A] mb-1">Application Status Breakdown</h3>
+        <div className="bg-white rounded-2xl p-6 border border-slate-100 dark:bg-[#1E293B]  dark:border-gray-700">
+          <h3 className="font-semibold text-[#0F172A] mb-1 dark:text-white">Application Status Breakdown</h3>
           <p className="text-xs text-slate-400 mb-6">Current pipeline distribution</p>
           <div className="flex items-center gap-4">
             <ResponsiveContainer width="50%" height={200}>
@@ -80,9 +80,9 @@ export default function AnalyticsPage() {
                 <div key={item.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: item.color }} />
-                    <span className="text-xs text-slate-600">{item.name}</span>
+                    <span className="text-xs text-slate-600 dark:text-gray-400">{item.name}</span>
                   </div>
-                  <span className="text-xs font-semibold text-[#0F172A]">{item.value}</span>
+                  <span className="text-xs font-semibold text-[#0F172A] dark:text-white">{item.value}</span>
                 </div>
               ))}
             </div>
@@ -92,8 +92,8 @@ export default function AnalyticsPage() {
 
       {/* Charts row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white  rounded-2xl p-6 border border-slate-100">
-          <h3 className="font-semibold text-[#0F172A] mb-1">Interview Conversion Funnel</h3>
+        <div className="lg:col-span-2 bg-white  rounded-2xl p-6 border border-slate-100 dark:bg-[#1E293B] dark:border-gray-700">
+          <h3 className="font-semibold text-[#0F172A] mb-1 dark:text-white">Interview Conversion Funnel</h3>
           <p className="text-xs text-slate-400 mb-6">Progression through hiring stages</p>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={conversationData} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
@@ -108,8 +108,8 @@ export default function AnalyticsPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-100">
-          <h3 className="font-semibold text-[#0F172A]  mb-1">Top Platforms</h3>
+        <div className="bg-white rounded-2xl p-6 border border-slate-100 dark:bg-[#1E293B] dark:border-gray-700">
+          <h3 className="font-semibold text-[#0F172A]  mb-1 dark:text-white">Top Platforms</h3>
           <p className="text-xs text-slate-400 mb-6">Where you apply most</p>
           <div className="space-y-3">
             {platformData.map((item, i) => {
@@ -119,8 +119,8 @@ export default function AnalyticsPage() {
               return (
                 <div key={item.platform}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm text-[#0F172A]">{item.platform}</span>
-                    <span className="text-sm font-semibold text-[#0F172A]">{item.count}</span>
+                    <span className="text-sm text-[#0F172A] dark:text-gray-300">{item.platform}</span>
+                    <span className="text-sm font-semibold text-[#0F172A] dark:text-white">{item.count}</span>
                   </div>
                   <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                     <div className={`h-full ${colors[i]} rounded-full transition-all`} style={{ width: `${pct}%` }} />
@@ -133,8 +133,8 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Response rate */}
-      <div className="bg-white  rounded-2xl p-6 border border-slate-100">
-        <h3 className="font-semibold text-[#0F172A] mb-1">Response Rate Over Time</h3>
+      <div className="bg-white  rounded-2xl p-6 border border-slate-100 dark:bg-[#1E293B] dark:border-gray-700">
+        <h3 className="font-semibold text-[#0F172A] mb-1 dark:text-white">Response Rate Over Time</h3>
         <p className="text-xs text-slate-400 mb-6">Percentage of applications receiving responses</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={responseData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>

@@ -164,10 +164,10 @@ export const getChartsData = (applications: IApplication[]) => {
   ];
 
   const metrics = [
-    { label: 'Applications Sent', value: applications.length, icon: Briefcase, color: 'text-indigo-600', bg: 'bg-indigo-50 ' },
-    { label: 'Interviews', value: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50 d' },
-    { label: 'Offers', value: applications.filter(app => app.status === "Offer").length, icon: Award, color: 'text-emerald-600', bg: 'bg-emerald-50 ' },
-    { label: 'Acceptance Rate', value: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0, icon: TrendingUp, color: 'text-violet-600', bg: 'bg-violet-50' },
+    { label: 'Applications Sent', value: applications.length, icon: Briefcase, color: 'text-indigo-600', bg: 'bg-indigo-50 dark:bg-indigo-900/50' },
+    { label: 'Interviews', value: applications.filter(app => app.status === "Interview" || app.status === "Final Interview").length, icon: MessageSquare, color: 'text-amber-600 adr', bg: 'bg-amber-50 dark:bg-amber-900/50' },
+    { label: 'Offers', value: applications.filter(app => app.status === "Offer").length, icon: Award, color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/50'},
+    { label: 'Acceptance Rate', value: applications.length > 0 ? Math.round((applications.filter(app => app.status === "Accepted").length / applications.length) * 100) : 0, icon: TrendingUp, color: 'text-violet-600', bg: 'bg-violet-50 dark:bg-violet-900/50' },
   ];
 
   return { platformData, conversationData, metrics }
