@@ -66,7 +66,7 @@ export default function Login() {
   };
 
   return (
-    <main className="bg-white flex items-center justify-center p-8">
+    <main className="bg-white flex items-center justify-center p-6 sm:p-8 w-full">
       <div className="w-full max-w-sm">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>

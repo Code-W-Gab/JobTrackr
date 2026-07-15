@@ -12,7 +12,7 @@ export default function HomeLayout() {
   return(
     <main>
       <Header/>
-      <div className="min-h-screen bg-gray-100 mt-10">
+      <div className="min-h-screen bg-gray-100">
         <HeroSection/>
         <div className="mt-12 bg-indigo-600">
           <StatsSection/>

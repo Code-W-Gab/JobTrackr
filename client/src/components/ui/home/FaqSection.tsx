@@ -18,7 +18,7 @@ export default function FaqSection() {
   ]
 
   return(
-    <main className="py-16 px-4">
+    <main className="py-16 px-10">
       <div className="space-y-3 text-center pb-16 px-4">
         <h2 className="font-semibold text-indigo-500 text-xs uppercase tracking-wider">FAQ</h2>
         <h1 className="text-3xl font-bold">Frequently Asked Questions</h1>

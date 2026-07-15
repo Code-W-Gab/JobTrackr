@@ -34,7 +34,7 @@ export default function Testimonials(){
   ]
 
   return(
-  <main className="py-16 px-30 grid grid-cols-3 gap-6">
+  <main className="px-10 lg:px-30 pt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
       {testimonials.map((testimonial, index) => (
         <div key={index} className="space-y-4 py-4 px-5 rounded-lg bg-white border border-gray-200">
           <div className="flex items-center gap-1 text-yellow-500">

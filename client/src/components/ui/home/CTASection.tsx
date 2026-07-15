@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 export default function CTASection() {
   return(
     <main>
-      <div className="space-y-3 text-center py-14 px-4 bg-indigo-600 w-full">
+      <div className="space-y-3 text-center py-14 px-10 bg-indigo-600 w-full">
         <h1 className="text-3xl font-bold text-white">Ready to land your dream job?</h1>
         <div className="max-w-lg mx-auto mb-6">
           <p className="text-gray-300">Join 1,000+ job seekers who are already tracking smarter with JobTrackr.</p>
         </div>
-        <Link to="/auth/register" className="bg-white text-indigo-600 font-semibold px-6 py-2.5 text-sm rounded-xl hover:bg-gray-100 transition">Start Tracking Free - No Credit Card Required</Link>
+        <Link to="/auth/register" className="bg-white text-indigo-600 font-semibold px-6 py-3 text-xs rounded-xl hover:bg-gray-100 transition">Start Tracking Free - No Credit Card Required</Link>
       </div>
     </main>
   )

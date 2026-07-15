@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Pricing(){
   return(
-    <main className="pb-16 px-50 grid grid-cols-3 items-start gap-6">
+    <main className="px-10 lg:px-30 grid grid-cols-1 lg:grid-cols-3 items-start gap-6">
       <div className="space-y-3 py-4 px-5 rounded-xl bg-white border border-gray-200">
         <div className="space-y-0.5">
           <p className="text-sm font-medium text-gray-500">Starter</p>

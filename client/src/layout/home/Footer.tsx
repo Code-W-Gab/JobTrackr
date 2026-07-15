@@ -6,8 +6,8 @@ export default function Footer(){
   const legal: string[] = ["Privacy", "Terms", "Security", "Cookies"];
 
   return(
-    <footer className="bg-[#0F172A] text-slate-400 py-12 px-4 sm:px-6 lg:px-8 ">
-      <div className="flex justify-center gap-12 max-w-6xl mx-auto">
+    <footer className="bg-[#0F172A] text-slate-400 py-12 px-10">
+      <div className="flex flex-col justify-center gap-12 max-w-6xl mx-auto">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <div className="bg-indigo-600 text-white rounded-lg p-1.5">
@@ -17,7 +17,7 @@ export default function Footer(){
           </div>
           <p className="text-gray-500 text-sm w-70">The smarter way to track your job applications and land your dream career.</p>
         </div>
-        <div className="grid grid-cols-3 items-start gap-50">
+        <div className="grid grid-cols-2 text-center sm:grid-cols-3 items-start gap-10 sm:gap-50">
           <div>
             <h3 className="text-sm font-semibold text-white mb-2">Product</h3>
             <ul className="space-y-1">
@@ -45,9 +45,9 @@ export default function Footer(){
         </div>
       </div>
 
-      <div className="border-b bg-gray-300 w-full my-6 max-w-5xl mx-auto"></div>
+      <div className="border-b bg-gray-300 w-full my-6 max-w-6xl mx-auto"></div>
 
-      <div className="max-w-5xl mx-auto flex items-center justify-between text-xs text-gray-500">
+      <div className="max-w-6xl mx-auto flex max-sm:flex-col gap-3 items-center justify-between text-xs text-gray-500">
         <p>&copy; 2024 JobTrackr. All rights reserved.</p>
         <p>SOC 2 Type II Certified</p>
       </div>

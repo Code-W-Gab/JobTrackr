@@ -4,7 +4,7 @@ import BackToMenuBtn from "../../common/BackToMenuBtn";
 export default function LoginInfo() {
 
   return(
-    <main className="bg-indigo-700 p-10 flex flex-col justify-between">
+    <main className="hidden bg-indigo-700 p-10 sm:flex flex-col justify-between">
       <div>
         <BackToMenuBtn name="Back to home" to="/home" color="text-gray-300" hoverColor="text-gray-100"/>
         <div className="flex items-center gap-2 my-10">
