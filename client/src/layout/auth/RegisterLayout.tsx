@@ -3,7 +3,7 @@ import Register from "../../components/ui/auth/Register";
 
 export default function RegisterLayout() {
   return(
-    <main className="grid grid-cols-2 min-h-screen">
+    <main className="grid justify-center lg:grid-cols-2 min-h-screen">
       <RegisterInfo/>
       <Register/>
     </main>

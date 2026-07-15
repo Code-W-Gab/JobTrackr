@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { useAuth, useAuthContext } from "../../../hook/useAuth";
 import Input from "../../common/Input";
 import InputPassword from "../../common/InputPassword";
@@ -67,10 +68,14 @@ export default function Login() {
 
   return (
     <main className="bg-white flex items-center justify-center p-6 sm:p-8 w-full">
-      <div className="w-full max-w-sm">
+      <div className="w-80 md:w-100">
+        <Link to={'/home'} className="lg:hidden flex items-center gap-2 text-sm text-gray-500 transition-colors duration-300 mb-4">
+          <ArrowLeft size={14}/>
+          <span>Back</span>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Welcome Back</h1>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1">
             Sign in to your JobTrackr account
           </p>
         </div>
@@ -78,7 +83,7 @@ export default function Login() {
         <button
           type="button"
           onClick={handleGoogleLogin}
-          className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white py-3 px-4 text-sm font-medium text-gray-700 transition duration-300 hover:bg-gray-50 cursor-pointer"
+          className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white py-2.5 sm:py-3 px-4 text-sm font-medium text-gray-700 transition duration-300 hover:bg-gray-50 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

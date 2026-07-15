@@ -4,7 +4,7 @@ import BackToMenuBtn from "../../common/BackToMenuBtn";
 export default function LoginInfo() {
 
   return(
-    <main className="hidden bg-indigo-700 p-10 sm:flex flex-col justify-between">
+    <main className="hidden bg-indigo-700 p-10 lg:flex flex-col justify-between">
       <div>
         <BackToMenuBtn name="Back to home" to="/home" color="text-gray-300" hoverColor="text-gray-100"/>
         <div className="flex items-center gap-2 my-10">
@@ -14,7 +14,7 @@ export default function LoginInfo() {
           <h1 className="font-bold text-lg text-white">JobTrackr</h1>
         </div>
 
-        <div className="text-white">
+        <div className="teoioixt-white">
           <h1 className="text-3xl font-bold">Your career journey,</h1>
           <h1 className="text-3xl font-bold">organized beautifully.</h1>
           <p className="text-gray-300 mt-4">Track applications, schedule interviews, and land your job - all in one place.</p>

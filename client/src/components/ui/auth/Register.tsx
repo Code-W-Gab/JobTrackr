@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../hook/useAuth";
 import Input from "../../common/Input";
 import InputPassword from "../../common/InputPassword";
@@ -19,11 +20,15 @@ export default function Register(){
   }
 
   return(
-    <main className="bg-white flex items-center justify-center p-8">
-      <div className="w-full max-w-sm">
+    <main className="bg-white flex items-center justify-center p-6 sm:p-8 w-full">
+      <div className="w-80 md:w-100">
+        <Link to={'/home'} className="lg:hidden flex items-center gap-2 text-sm text-gray-500 transition-colors duration-300 mb-4">
+          <ArrowLeft size={14}/>
+          <span>Back</span>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Create Account</h1>
-          <p className="text-sm text-gray-600 mt-1">Start tracking smarter, for free</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Create Account</h1>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1">Start tracking smarter, for free</p>
         </div>
         <div className="flex items-center justify-center text-sm font-semibold text-gray-600 mt-6 cursor-pointer border border-gray-300 rounded-xl px-4 py-2 hover:bg-gray-100 transition-colors duration-300">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="Google Logo" className="size-5 mr-2"/>
